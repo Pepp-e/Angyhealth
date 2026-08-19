@@ -7,7 +7,7 @@ const clouds: { to: string; label: string; color: CloudColor; align: string; del
   { to: "/nuvola-1", label: "Rabbia", color: "red", align: "self-start", delay: "0s" },
   { to: "/nuvola-2", label: "Panico", color: "green", align: "self-end", delay: "0.9s" },
   { to: "/nuvola-3", label: "Tristezza", color: "blue", align: "self-start", delay: "1.8s" },
-  { to: "/nuvola-4", label: "Testo 4", color: "orange", align: "self-end", delay: "2.7s" },
+  { to: "/nuvola-4", label: "Ansia", color: "orange", align: "self-end", delay: "2.7s" },
 ];
 
 
