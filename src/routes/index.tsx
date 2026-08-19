@@ -18,7 +18,7 @@ export const Route = createFileRoute("/")({
 function Index() {
   return (
     <ScreenLayout>
-      <GlassPanel className="mt-6 px-6 py-5">
+      <GlassPanel className="animate-soft-bounce mt-[1.65rem] px-6 py-5">
         <h1 className="text-center text-2xl font-semibold tracking-tight text-foreground">
           Stai avendo un attacco?
         </h1>
