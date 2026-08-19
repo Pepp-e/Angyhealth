@@ -2,13 +2,14 @@ import { createFileRoute } from "@tanstack/react-router";
 import { ScreenLayout } from "@/components/ScreenLayout";
 import { ColorCloud, type CloudColor } from "@/components/ColorCloud";
 
-/** Testi e destinazioni facilmente sostituibili in futuro. */
-const clouds: { to: string; label: string; color: CloudColor; align: string }[] = [
-  { to: "/nuvola-1", label: "Testo 1", color: "green", align: "self-start" },
-  { to: "/nuvola-2", label: "Testo 2", color: "red", align: "self-end" },
-  { to: "/nuvola-3", label: "Testo 3", color: "blue", align: "self-start" },
-  { to: "/nuvola-4", label: "Testo 4", color: "orange", align: "self-end" },
+/** Testi, colori e ritardi di oscillazione delle nuvole. */
+const clouds: { to: string; label: string; color: CloudColor; align: string; delay: string }[] = [
+  { to: "/nuvola-1", label: "Rabbia", color: "red", align: "self-start", delay: "0s" },
+  { to: "/nuvola-2", label: "Panico", color: "green", align: "self-end", delay: "0.9s" },
+  { to: "/nuvola-3", label: "Tristezza", color: "blue", align: "self-start", delay: "1.8s" },
+  { to: "/nuvola-4", label: "Testo 4", color: "orange", align: "self-end", delay: "2.7s" },
 ];
+
 
 export const Route = createFileRoute("/schermata-1")({
   head: () => ({
@@ -24,9 +25,10 @@ export const Route = createFileRoute("/schermata-1")({
       <div className="flex flex-1 flex-col justify-between gap-4 py-2">
         {clouds.map((c, i) => (
           <div key={c.to} className={`${c.align} ${i === 1 || i === 2 ? "-mt-2" : ""}`}>
-            <ColorCloud to={c.to} label={c.label} color={c.color} />
+            <ColorCloud to={c.to} label={c.label} color={c.color} delay={c.delay} />
           </div>
         ))}
+
       </div>
     </ScreenLayout>
   ),

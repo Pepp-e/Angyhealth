@@ -7,8 +7,9 @@ const items = [
   { to: "/schermata-2", icon: Heart, label: "Schermata 2" },
   { to: "/", icon: Cloud, label: "Schermata principale", center: true },
   { to: "/schermata-4", icon: User, label: "Schermata 4" },
-  { to: "/schermata-5", icon: Settings, label: "Schermata 5 (impostazioni)" },
+  { to: "/schermata-6", icon: Settings, label: "Schermata 6" },
 ] as const;
+
 
 export function BottomNav() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });

@@ -193,3 +193,19 @@
   backdrop-filter: blur(18px) saturate(170%);
 }
 
+/* --- Animazioni nuvole --- */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(1deg);
+  }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+  will-change: transform;
+}
+
+

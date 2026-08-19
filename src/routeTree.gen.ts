@@ -19,6 +19,7 @@ import { Route as Schermata2RouteImport } from './routes/schermata-2'
 import { Route as Schermata3RouteImport } from './routes/schermata-3'
 import { Route as Schermata4RouteImport } from './routes/schermata-4'
 import { Route as Schermata5RouteImport } from './routes/schermata-5'
+import { Route as Schermata6RouteImport } from './routes/schermata-6'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -70,6 +71,11 @@ const Schermata5Route = Schermata5RouteImport.update({
   path: '/schermata-5',
   getParentRoute: () => rootRouteImport,
 } as any)
+const Schermata6Route = Schermata6RouteImport.update({
+  id: '/schermata-6',
+  path: '/schermata-6',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -82,6 +88,7 @@ export interface FileRoutesByFullPath {
   '/schermata-3': typeof Schermata3Route
   '/schermata-4': typeof Schermata4Route
   '/schermata-5': typeof Schermata5Route
+  '/schermata-6': typeof Schermata6Route
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -94,6 +101,7 @@ export interface FileRoutesByTo {
   '/schermata-3': typeof Schermata3Route
   '/schermata-4': typeof Schermata4Route
   '/schermata-5': typeof Schermata5Route
+  '/schermata-6': typeof Schermata6Route
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -107,6 +115,7 @@ export interface FileRoutesById {
   '/schermata-3': typeof Schermata3Route
   '/schermata-4': typeof Schermata4Route
   '/schermata-5': typeof Schermata5Route
+  '/schermata-6': typeof Schermata6Route
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -121,6 +130,7 @@ export interface FileRouteTypes {
     | '/schermata-3'
     | '/schermata-4'
     | '/schermata-5'
+    | '/schermata-6'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -133,6 +143,7 @@ export interface FileRouteTypes {
     | '/schermata-3'
     | '/schermata-4'
     | '/schermata-5'
+    | '/schermata-6'
   id:
     | '__root__'
     | '/'
@@ -145,6 +156,7 @@ export interface FileRouteTypes {
     | '/schermata-3'
     | '/schermata-4'
     | '/schermata-5'
+    | '/schermata-6'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -158,6 +170,7 @@ export interface RootRouteChildren {
   Schermata3Route: typeof Schermata3Route
   Schermata4Route: typeof Schermata4Route
   Schermata5Route: typeof Schermata5Route
+  Schermata6Route: typeof Schermata6Route
 }
 
 declare module '@tanstack/react-router' {
@@ -232,6 +245,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof Schermata5RouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/schermata-6': {
+      id: '/schermata-6'
+      path: '/schermata-6'
+      fullPath: '/schermata-6'
+      preLoaderRoute: typeof Schermata6RouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -246,6 +266,7 @@ const rootRouteChildren: RootRouteChildren = {
   Schermata3Route: Schermata3Route,
   Schermata4Route: Schermata4Route,
   Schermata5Route: Schermata5Route,
+  Schermata6Route: Schermata6Route,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
