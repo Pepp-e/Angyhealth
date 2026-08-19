@@ -25,10 +25,10 @@ export function ColorCloud({
     <Link
       to={to}
       aria-label={label}
-      className="relative block w-52 transition-transform active:scale-[0.96]"
+      className="block w-52 transition-transform active:scale-[0.96]"
     >
       <span
-        className="animate-float inline-block"
+        className="animate-float relative inline-block w-full"
         style={{ animationDelay: delay }}
       >
         <svg viewBox="0 0 200 130" className="h-auto w-full drop-shadow-[0_16px_26px_rgba(30,80,140,0.25)]">
@@ -42,9 +42,9 @@ export function ColorCloud({
           </g>
           <ellipse cx="88" cy="38" rx="24" ry="9" fill="oklch(1 0 0 / 0.45)" />
         </svg>
-      </span>
-      <span className="pointer-events-none absolute inset-0 flex items-center justify-center pt-2 text-center text-base font-semibold text-foreground">
-        {label}
+        <span className="pointer-events-none absolute inset-0 flex items-center justify-center pt-2 text-center text-base font-semibold text-foreground">
+          {label}
+        </span>
       </span>
     </Link>
   );
