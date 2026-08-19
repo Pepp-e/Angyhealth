@@ -11,6 +11,8 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { SkyBackground } from "@/components/SkyBackground";
+import { BottomNav } from "@/components/BottomNav";
 
 function NotFoundComponent() {
   return (
@@ -119,8 +121,10 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
+      <SkyBackground />
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <Outlet />
+      <BottomNav />
     </QueryClientProvider>
   );
 }
