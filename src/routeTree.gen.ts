@@ -10,14 +10,39 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as Nuvola1RouteImport } from './routes/nuvola-1'
+import { Route as Nuvola2RouteImport } from './routes/nuvola-2'
+import { Route as Nuvola3RouteImport } from './routes/nuvola-3'
+import { Route as Nuvola4RouteImport } from './routes/nuvola-4'
 import { Route as Schermata1RouteImport } from './routes/schermata-1'
 import { Route as Schermata2RouteImport } from './routes/schermata-2'
 import { Route as Schermata3RouteImport } from './routes/schermata-3'
 import { Route as Schermata4RouteImport } from './routes/schermata-4'
+import { Route as Schermata5RouteImport } from './routes/schermata-5'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const Nuvola1Route = Nuvola1RouteImport.update({
+  id: '/nuvola-1',
+  path: '/nuvola-1',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const Nuvola2Route = Nuvola2RouteImport.update({
+  id: '/nuvola-2',
+  path: '/nuvola-2',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const Nuvola3Route = Nuvola3RouteImport.update({
+  id: '/nuvola-3',
+  path: '/nuvola-3',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const Nuvola4Route = Nuvola4RouteImport.update({
+  id: '/nuvola-4',
+  path: '/nuvola-4',
   getParentRoute: () => rootRouteImport,
 } as any)
 const Schermata1Route = Schermata1RouteImport.update({
@@ -40,50 +65,99 @@ const Schermata4Route = Schermata4RouteImport.update({
   path: '/schermata-4',
   getParentRoute: () => rootRouteImport,
 } as any)
+const Schermata5Route = Schermata5RouteImport.update({
+  id: '/schermata-5',
+  path: '/schermata-5',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/nuvola-1': typeof Nuvola1Route
+  '/nuvola-2': typeof Nuvola2Route
+  '/nuvola-3': typeof Nuvola3Route
+  '/nuvola-4': typeof Nuvola4Route
   '/schermata-1': typeof Schermata1Route
   '/schermata-2': typeof Schermata2Route
   '/schermata-3': typeof Schermata3Route
   '/schermata-4': typeof Schermata4Route
+  '/schermata-5': typeof Schermata5Route
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/nuvola-1': typeof Nuvola1Route
+  '/nuvola-2': typeof Nuvola2Route
+  '/nuvola-3': typeof Nuvola3Route
+  '/nuvola-4': typeof Nuvola4Route
   '/schermata-1': typeof Schermata1Route
   '/schermata-2': typeof Schermata2Route
   '/schermata-3': typeof Schermata3Route
   '/schermata-4': typeof Schermata4Route
+  '/schermata-5': typeof Schermata5Route
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/nuvola-1': typeof Nuvola1Route
+  '/nuvola-2': typeof Nuvola2Route
+  '/nuvola-3': typeof Nuvola3Route
+  '/nuvola-4': typeof Nuvola4Route
   '/schermata-1': typeof Schermata1Route
   '/schermata-2': typeof Schermata2Route
   '/schermata-3': typeof Schermata3Route
   '/schermata-4': typeof Schermata4Route
+  '/schermata-5': typeof Schermata5Route
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/schermata-1' | '/schermata-2' | '/schermata-3' | '/schermata-4'
-  fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/schermata-1' | '/schermata-2' | '/schermata-3' | '/schermata-4'
-  id:
-    | '__root__'
     | '/'
+    | '/nuvola-1'
+    | '/nuvola-2'
+    | '/nuvola-3'
+    | '/nuvola-4'
     | '/schermata-1'
     | '/schermata-2'
     | '/schermata-3'
     | '/schermata-4'
+    | '/schermata-5'
+  fileRoutesByTo: FileRoutesByTo
+  to:
+    | '/'
+    | '/nuvola-1'
+    | '/nuvola-2'
+    | '/nuvola-3'
+    | '/nuvola-4'
+    | '/schermata-1'
+    | '/schermata-2'
+    | '/schermata-3'
+    | '/schermata-4'
+    | '/schermata-5'
+  id:
+    | '__root__'
+    | '/'
+    | '/nuvola-1'
+    | '/nuvola-2'
+    | '/nuvola-3'
+    | '/nuvola-4'
+    | '/schermata-1'
+    | '/schermata-2'
+    | '/schermata-3'
+    | '/schermata-4'
+    | '/schermata-5'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  Nuvola1Route: typeof Nuvola1Route
+  Nuvola2Route: typeof Nuvola2Route
+  Nuvola3Route: typeof Nuvola3Route
+  Nuvola4Route: typeof Nuvola4Route
   Schermata1Route: typeof Schermata1Route
   Schermata2Route: typeof Schermata2Route
   Schermata3Route: typeof Schermata3Route
   Schermata4Route: typeof Schermata4Route
+  Schermata5Route: typeof Schermata5Route
 }
 
 declare module '@tanstack/react-router' {
@@ -93,6 +167,34 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/nuvola-1': {
+      id: '/nuvola-1'
+      path: '/nuvola-1'
+      fullPath: '/nuvola-1'
+      preLoaderRoute: typeof Nuvola1RouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/nuvola-2': {
+      id: '/nuvola-2'
+      path: '/nuvola-2'
+      fullPath: '/nuvola-2'
+      preLoaderRoute: typeof Nuvola2RouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/nuvola-3': {
+      id: '/nuvola-3'
+      path: '/nuvola-3'
+      fullPath: '/nuvola-3'
+      preLoaderRoute: typeof Nuvola3RouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/nuvola-4': {
+      id: '/nuvola-4'
+      path: '/nuvola-4'
+      fullPath: '/nuvola-4'
+      preLoaderRoute: typeof Nuvola4RouteImport
       parentRoute: typeof rootRouteImport
     }
     '/schermata-1': {
@@ -123,15 +225,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof Schermata4RouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/schermata-5': {
+      id: '/schermata-5'
+      path: '/schermata-5'
+      fullPath: '/schermata-5'
+      preLoaderRoute: typeof Schermata5RouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  Nuvola1Route: Nuvola1Route,
+  Nuvola2Route: Nuvola2Route,
+  Nuvola3Route: Nuvola3Route,
+  Nuvola4Route: Nuvola4Route,
   Schermata1Route: Schermata1Route,
   Schermata2Route: Schermata2Route,
   Schermata3Route: Schermata3Route,
   Schermata4Route: Schermata4Route,
+  Schermata5Route: Schermata5Route,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
