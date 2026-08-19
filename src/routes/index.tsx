@@ -18,11 +18,12 @@ export const Route = createFileRoute("/")({
 function Index() {
   return (
     <ScreenLayout>
-      <GlassPanel className="px-6 py-5">
+      <GlassPanel className="mt-6 px-6 py-5">
         <h1 className="text-center text-2xl font-semibold tracking-tight text-foreground">
           Stai avendo un attacco?
         </h1>
       </GlassPanel>
+
       <div className="flex flex-1 items-center justify-center">
         <CloudButton to="/schermata-1" label="Vai alla seconda schermata" />
       </div>
