@@ -5,9 +5,10 @@ export type CloudColor = "green" | "red" | "blue" | "orange";
 const tints: Record<CloudColor, string> = {
   green: "oklch(0.9 0.10 150 / 0.75)",
   red: "oklch(0.9 0.09 30 / 0.75)",
-  blue: "oklch(0.9 0.08 240 / 0.75)",
+  blue: "oklch(0.78 0.12 245 / 0.8)",
   orange: "oklch(0.88 0.11 70 / 0.75)",
 };
+
 
 /** Sagoma condivisa delle nuvole del progetto (stessa forma, dimensioni diverse). */
 const CLOUD_PATH =
