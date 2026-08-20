@@ -1,4 +1,5 @@
 import { Link } from "@tanstack/react-router";
+import { vibrate } from "@/lib/vibration";
 
 export type CloudColor = "green" | "red" | "blue" | "orange";
 
@@ -39,14 +40,20 @@ export function ColorCloud({
       <Link
         to={to}
         aria-label={label}
+        onClick={() => vibrate(20)}
         className="block w-full transition-transform active:scale-[0.96]"
       >
         <span
           className="animate-float relative inline-block w-full"
           style={{ animationDelay: delay }}
         >
-          <svg viewBox="0 0 200 130" className="h-auto w-full drop-shadow-[0_16px_26px_rgba(30,80,140,0.25)]">
-            <path d={CLOUD_PATH} fill={tints[color]} />
+          <svg viewBox="0 0 200 130" className="cloud-glow-sm h-auto w-full">
+            <path
+              d={CLOUD_PATH}
+              fill={tints[color]}
+              stroke="oklch(1 0 0 / 0.8)"
+              strokeWidth="2"
+            />
             <ellipse cx="88" cy="52" rx="24" ry="9" fill="oklch(1 0 0 / 0.45)" />
           </svg>
           <span className="pointer-events-none absolute inset-0 flex items-center justify-center pt-2 text-center text-base font-semibold text-white">
@@ -57,4 +64,3 @@ export function ColorCloud({
     </span>
   );
 }
-
