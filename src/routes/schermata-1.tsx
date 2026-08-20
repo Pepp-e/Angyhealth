@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { ScreenLayout } from "@/components/ScreenLayout";
 import { ColorCloud, type CloudColor } from "@/components/ColorCloud";
-import { CurvedArrow } from "@/components/CurvedArrow";
+import { CurvedArrow, type ArrowGlow } from "@/components/CurvedArrow";
 
 /** Testi, colori, ritardi di oscillazione e lato di ingresso delle nuvole. */
 const clouds: {
@@ -37,7 +37,15 @@ export const Route = createFileRoute("/schermata-1")({
             key={c.to}
             className={`${c.align} ${i === 1 || i === 2 ? "-mt-2" : ""} flex items-center gap-1`}
           >
-            {c.align === "self-end" && <CurvedArrow direction="right" delay={`${i * 0.25}s`} />}
+            {c.align === "self-end" && (
+              <CurvedArrow
+                direction="right"
+                delay={`${i * 0.25}s`}
+                glow={c.color as ArrowGlow}
+                enterFrom={c.enterFrom === "right" ? "left" : "right"}
+                enterDelay={c.enterDelay}
+              />
+            )}
             <ColorCloud
               to={c.to}
               label={c.label}
@@ -46,7 +54,15 @@ export const Route = createFileRoute("/schermata-1")({
               enterFrom={c.enterFrom}
               enterDelay={c.enterDelay}
             />
-            {c.align === "self-start" && <CurvedArrow direction="left" delay={`${i * 0.25}s`} />}
+            {c.align === "self-start" && (
+              <CurvedArrow
+                direction="left"
+                delay={`${i * 0.25}s`}
+                glow={c.color as ArrowGlow}
+                enterFrom={c.enterFrom === "left" ? "right" : "left"}
+                enterDelay={c.enterDelay}
+              />
+            )}
           </div>
         ))}
 
@@ -54,4 +70,3 @@ export const Route = createFileRoute("/schermata-1")({
     </ScreenLayout>
   ),
 });
-
