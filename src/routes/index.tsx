@@ -27,6 +27,11 @@ function Index() {
       <div className="flex flex-1 items-center justify-center">
         <CloudButton to="/schermata-1" label="Vai alla seconda schermata" />
       </div>
+
+      <p className="animate-quick-bounce mb-[12svh] text-center text-base font-medium text-foreground">
+        Non ti preoccupare, clicca la tua nuvoletta!
+      </p>
+
     </ScreenLayout>
   );
 }
