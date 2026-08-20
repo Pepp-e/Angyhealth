@@ -1,4 +1,5 @@
 import { Link } from "@tanstack/react-router";
+import { vibrate } from "@/lib/vibration";
 
 /** Grande pulsante a forma di nuvola: morbido, riconoscibile, con ombre e liquid glass. */
 export function CloudButton({ to, label }: { to: string; label: string }) {
@@ -6,12 +7,13 @@ export function CloudButton({ to, label }: { to: string; label: string }) {
     <Link
       to={to}
       aria-label={label}
+      onClick={() => vibrate([60, 30, 60])}
       className="block transition-transform active:scale-[0.96]"
     >
       <span className="animate-float inline-block">
         <svg
           viewBox="0 0 200 130"
-          className="h-auto w-72 drop-shadow-[0_20px_30px_rgba(30,80,140,0.30)]"
+          className="cloud-glow-lg h-auto w-72"
           role="img"
           aria-hidden
         >
@@ -35,6 +37,8 @@ export function CloudButton({ to, label }: { to: string; label: string }) {
                C176 96 165 104 150 104
                Z"
             fill="url(#cloudFillMain)"
+            stroke="oklch(1 0 0 / 0.85)"
+            strokeWidth="2"
           />
           <ellipse cx="92" cy="52" rx="28" ry="11" fill="oklch(1 0 0 / 0.7)" />
         </svg>
