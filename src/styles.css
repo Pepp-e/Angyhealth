@@ -222,4 +222,67 @@
   will-change: transform;
 }
 
+/* Bounce leggermente più veloce per la frase della home */
+.animate-quick-bounce {
+  animation: soft-bounce 2.4s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* Ingresso delle nuvolette colorate nella seconda schermata */
+@keyframes cloud-in-left {
+  0% {
+    opacity: 0;
+    transform: translateX(-130%);
+  }
+  70% {
+    opacity: 1;
+    transform: translateX(6%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes cloud-in-right {
+  0% {
+    opacity: 0;
+    transform: translateX(130%);
+  }
+  70% {
+    opacity: 1;
+    transform: translateX(-6%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-cloud-in-left {
+  animation: cloud-in-left 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+  will-change: transform;
+}
+
+.animate-cloud-in-right {
+  animation: cloud-in-right 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+  will-change: transform;
+}
+
+/* Rimbalzo discreto delle frecce curve */
+@keyframes arrow-bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+.animate-arrow-bounce {
+  animation: arrow-bounce 2s ease-in-out infinite;
+  will-change: transform;
+}
+
+
 
