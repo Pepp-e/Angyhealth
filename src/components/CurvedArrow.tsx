@@ -15,16 +15,17 @@ export function CurvedArrow({
     >
       <svg
         viewBox="0 0 60 40"
-        className={`h-8 w-12 opacity-60 ${direction === "left" ? "-scale-x-100" : ""}`}
+        className={`h-9 w-14 opacity-80 ${direction === "left" ? "-scale-x-100" : ""}`}
         fill="none"
-        stroke="oklch(1 0 0 / 0.85)"
-        strokeWidth="3"
+        stroke="oklch(1 0 0 / 0.95)"
+        strokeWidth="3.5"
         strokeLinecap="round"
         strokeLinejoin="round"
       >
-        <path d="M8 30 C18 8 38 6 50 16" />
-        <path d="M50 16 L40 15" />
-        <path d="M50 16 L48 26" />
+        <path d="M6 32 C16 8 38 4 52 15" />
+        <path d="M52 15 L39 14" />
+        <path d="M52 15 L49 27" />
+
       </svg>
     </span>
   );

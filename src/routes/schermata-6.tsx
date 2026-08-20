@@ -14,8 +14,13 @@ export const Route = createFileRoute("/schermata-6")({
   component: () => (
     <ScreenLayout>
       <GlassPanel className="px-6 py-8">
-        <h1 className="text-xl font-semibold tracking-tight text-foreground">Schermata 6</h1>
+        <h1 className="text-xl font-semibold tracking-tight text-foreground">Impostazioni</h1>
       </GlassPanel>
+
+      <div className="flex flex-1 items-end justify-center">
+        <p className="text-center text-xs text-muted-foreground">By Giuseppe Miranda</p>
+      </div>
     </ScreenLayout>
   ),
 });
+
