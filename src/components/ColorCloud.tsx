@@ -20,30 +20,41 @@ export function ColorCloud({
   label,
   color,
   delay = "0s",
+  enterFrom,
+  enterDelay = "0s",
 }: {
   to: string;
   label: string;
   color: CloudColor;
   delay?: string;
+  /** Lato da cui la nuvola entra all'apertura della schermata. */
+  enterFrom?: "left" | "right";
+  enterDelay?: string;
 }) {
   return (
-    <Link
-      to={to}
-      aria-label={label}
-      className="block w-52 transition-transform active:scale-[0.96]"
+    <span
+      className={`block w-52 ${enterFrom === "left" ? "animate-cloud-in-left" : enterFrom === "right" ? "animate-cloud-in-right" : ""}`}
+      style={enterFrom ? { animationDelay: enterDelay } : undefined}
     >
-      <span
-        className="animate-float relative inline-block w-full"
-        style={{ animationDelay: delay }}
+      <Link
+        to={to}
+        aria-label={label}
+        className="block w-full transition-transform active:scale-[0.96]"
       >
-        <svg viewBox="0 0 200 130" className="h-auto w-full drop-shadow-[0_16px_26px_rgba(30,80,140,0.25)]">
-          <path d={CLOUD_PATH} fill={tints[color]} />
-          <ellipse cx="88" cy="52" rx="24" ry="9" fill="oklch(1 0 0 / 0.45)" />
-        </svg>
-        <span className="pointer-events-none absolute inset-0 flex items-center justify-center pt-2 text-center text-base font-semibold text-foreground">
-          {label}
+        <span
+          className="animate-float relative inline-block w-full"
+          style={{ animationDelay: delay }}
+        >
+          <svg viewBox="0 0 200 130" className="h-auto w-full drop-shadow-[0_16px_26px_rgba(30,80,140,0.25)]">
+            <path d={CLOUD_PATH} fill={tints[color]} />
+            <ellipse cx="88" cy="52" rx="24" ry="9" fill="oklch(1 0 0 / 0.45)" />
+          </svg>
+          <span className="pointer-events-none absolute inset-0 flex items-center justify-center pt-2 text-center text-base font-semibold text-white">
+            {label}
+          </span>
         </span>
-      </span>
-    </Link>
+      </Link>
+    </span>
   );
 }
+
