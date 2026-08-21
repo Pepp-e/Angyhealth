@@ -13,7 +13,7 @@ export const Route = createFileRoute("/schermata-4")({
   }),
   component: () => (
     <ScreenLayout>
-      <h1 className="px-2 text-center text-xl font-bold tracking-tight text-foreground">
+      <h1 className="px-2 text-center text-2xl font-bold tracking-tight text-foreground">
         A chi posso chiedere aiuto?
       </h1>
 
