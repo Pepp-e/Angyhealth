@@ -193,6 +193,19 @@
   backdrop-filter: blur(18px) saturate(170%);
 }
 
+/* Contorno bianco con glow leggero e uniforme per tutte le nuvole */
+@utility cloud-glow-lg {
+  filter: drop-shadow(0 20px 30px rgba(30, 80, 140, 0.3))
+    drop-shadow(0 0 6px oklch(1 0 0 / 0.55));
+}
+
+@utility cloud-glow-sm {
+  filter: drop-shadow(0 16px 26px rgba(30, 80, 140, 0.25))
+    drop-shadow(0 0 5px oklch(1 0 0 / 0.55));
+}
+
+
+
 /* --- Animazioni nuvole --- */
 @keyframes float {
   0%, 100% {

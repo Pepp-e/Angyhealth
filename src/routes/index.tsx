@@ -19,7 +19,7 @@ function Index() {
   return (
     <ScreenLayout>
       <GlassPanel className="animate-soft-bounce mt-[1.65rem] px-6 py-5">
-        <h1 className="text-center text-2xl font-semibold tracking-tight text-foreground">
+        <h1 className="text-center text-2xl font-bold tracking-tight text-foreground">
           Stai avendo un attacco?
         </h1>
       </GlassPanel>
