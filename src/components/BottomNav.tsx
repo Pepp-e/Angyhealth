@@ -1,5 +1,6 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { Cloud, Compass, Heart, Settings, User } from "lucide-react";
+import { vibrate } from "@/lib/vibration";
 
 /** Barra di navigazione inferiore con 5 pulsanti (icone provvisorie). */
 const items = [
@@ -26,6 +27,7 @@ export function BottomNav() {
                 to={to}
                 aria-label={label}
                 aria-current={active ? "page" : undefined}
+                onClick={() => vibrate(10)}
                 activeOptions={{ exact: true }}
                 className={`flex flex-col items-center justify-center rounded-2xl py-2 transition-colors ${
                   active ? "text-foreground" : "text-muted-foreground"

@@ -26,11 +26,9 @@ function VibrationToggle() {
         aria-checked={enabled}
         aria-label="Vibrazione"
         onClick={toggle}
-        className={`glass-center relative h-8 w-14 rounded-full transition-colors ${enabled ? "bg-white/60" : "bg-white/20"}`}
+        className={`glass-center box-border flex h-8 w-14 shrink-0 items-center rounded-full p-[3px] transition-colors ${enabled ? "justify-end bg-white/60" : "justify-start bg-white/20"}`}
       >
-        <span
-          className={`absolute top-1 h-6 w-6 rounded-full bg-white shadow-md transition-transform ${enabled ? "translate-x-7" : "translate-x-1"}`}
-        />
+        <span className="block size-6 shrink-0 rounded-full bg-white shadow-md transition-all" />
       </button>
     </GlassPanel>
   );
