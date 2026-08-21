@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { ImagePlus, RotateCcw } from "lucide-react";
+import { RotateCcw } from "lucide-react";
 import { GlassPanel } from "@/components/GlassPanel";
 import { vibrate } from "@/lib/vibration";
 
@@ -211,9 +211,9 @@ export function ScratchCard() {
             vibrate(10);
             pickPhoto();
           }}
-          className="glass-center grid size-12 place-items-center rounded-full text-2xl font-light text-foreground"
+          className="glass-center grid size-12 place-items-center rounded-full text-2xl font-light leading-none text-foreground"
         >
-          <ImagePlus className="size-5" strokeWidth={1.9} />
+          +
         </button>
       </div>
     </div>
