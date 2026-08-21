@@ -38,20 +38,20 @@ export function CurvedArrow({
           viewBox="0 0 60 40"
           className={`h-9 w-14 opacity-90 ${direction === "left" ? "-scale-x-100" : ""}`}
           fill="none"
-          stroke="oklch(1 0 0 / 0.95)"
-          strokeWidth="4"
-          strokeLinecap="round"
-          strokeLinejoin="round"
           style={{
             filter: glow
               ? `drop-shadow(0 0 5px ${glows[glow]}) drop-shadow(0 0 2px oklch(1 0 0 / 0.6))`
               : "drop-shadow(0 0 3px oklch(1 0 0 / 0.6))",
           }}
         >
-          {/* Sagoma a freccia curva con punta a chevron */}
-          <path d="M5 30 C14 12 32 5 50 12" />
-          <path d="M50 12 L38 10" />
-          <path d="M50 12 L46 24" />
+          {/* Arco morbido con punta triangolare piena (forma di riferimento) */}
+          <path
+            d="M6 24 C10 9 30 4 41 17"
+            stroke="oklch(1 0 0 / 0.95)"
+            strokeWidth="4.5"
+            strokeLinecap="round"
+          />
+          <path d="M45 12 L34 17 L48 25 Z" fill="oklch(1 0 0 / 0.95)" />
         </svg>
       </span>
     </span>
