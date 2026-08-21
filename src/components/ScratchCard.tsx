@@ -75,7 +75,7 @@ export function ScratchCard() {
     let total = 0;
     for (let i = 3; i < data.length; i += 4 * 16) {
       total++;
-      if (data[i] < 40) clear++;
+      if ((data[i] ?? 255) < 40) clear++;
     }
     return total ? Math.round((clear / total) * 100) : 0;
   };
