@@ -14,7 +14,7 @@ export const Route = createFileRoute("/nuvola-1")({
   component: () => (
     <ScreenLayout>
       <h1 className="px-2 text-center text-2xl font-bold tracking-tight text-foreground">
-        Rabbia
+        Sei arrabbiata? Gratta via la tua rabbia!
       </h1>
       <ScratchCard />
     </ScreenLayout>

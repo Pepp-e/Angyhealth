@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { ScreenLayout } from "@/components/ScreenLayout";
 import { GlassPanel } from "@/components/GlassPanel";
+import { ContactsSection } from "@/components/ContactsSection";
 
 export const Route = createFileRoute("/schermata-4")({
   head: () => ({
@@ -26,6 +27,8 @@ export const Route = createFileRoute("/schermata-4")({
           aria-hidden
           className="h-px w-2/3 rounded-full bg-white/70"
         />
+
+        <ContactsSection />
       </div>
     </ScreenLayout>
   ),

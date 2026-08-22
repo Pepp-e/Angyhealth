@@ -34,7 +34,7 @@ export function ColorCloud({
 }) {
   return (
     <span
-      className={`block w-52 ${enterFrom === "left" ? "animate-cloud-in-left" : enterFrom === "right" ? "animate-cloud-in-right" : ""}`}
+      className={`block w-[44vw] min-w-[9.5rem] max-w-52 shrink-0 ${enterFrom === "left" ? "animate-cloud-in-left" : enterFrom === "right" ? "animate-cloud-in-right" : ""}`}
       style={enterFrom ? { animationDelay: enterDelay } : undefined}
     >
       <Link
