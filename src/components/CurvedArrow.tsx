@@ -26,7 +26,7 @@ export function CurvedArrow({
 }) {
   return (
     <span
-      className={`inline-block ${enterFrom === "left" ? "animate-cloud-in-left" : enterFrom === "right" ? "animate-cloud-in-right" : ""}`}
+      className={`inline-block shrink-0 ${enterFrom === "left" ? "animate-cloud-in-left" : enterFrom === "right" ? "animate-cloud-in-right" : ""}`}
       style={enterFrom ? { animationDelay: enterDelay } : undefined}
     >
       <span
