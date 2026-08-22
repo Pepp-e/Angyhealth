@@ -3,7 +3,7 @@ import { RotateCcw } from "lucide-react";
 import { GlassPanel } from "@/components/GlassPanel";
 import { vibrate } from "@/lib/vibration";
 
-const THRESHOLD = 60;
+const THRESHOLD = 100;
 
 /** Disegna la patina: cielo scuro stellato con stelline morbide e arrotondate. */
 function paintPatina(ctx: CanvasRenderingContext2D, w: number, h: number) {
@@ -181,9 +181,9 @@ export function ScratchCard() {
       </GlassPanel>
 
       <div className="mt-4 flex items-center gap-3">
-        <div className="h-4 flex-1 overflow-hidden rounded-full bg-white/30">
+        <div className="h-4 flex-1 overflow-hidden rounded-full border border-white/60 bg-white/20 backdrop-blur-md">
           <div
-            className="h-full rounded-full bg-white transition-[width] duration-150"
+            className="h-full rounded-full bg-white shadow-[0_0_10px_rgba(255,255,255,0.9)] transition-[width] duration-150"
             style={{ width: `${percent}%` }}
           />
         </div>

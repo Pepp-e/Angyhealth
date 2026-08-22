@@ -31,11 +31,11 @@ export const Route = createFileRoute("/schermata-1")({
   }),
   component: () => (
     <ScreenLayout>
-      <div className="flex flex-1 flex-col justify-between gap-4 py-2">
+      <div className="flex w-full max-w-full flex-1 flex-col justify-between gap-3 overflow-x-hidden py-2">
         {clouds.map((c, i) => (
           <div
             key={c.to}
-            className={`${c.align} ${i === 1 || i === 2 ? "-mt-2" : ""} flex items-center gap-1`}
+            className={`${c.align} ${i === 1 || i === 2 ? "-mt-1" : ""} flex max-w-full items-center gap-1`}
           >
             {c.align === "self-end" && (
               <CurvedArrow
