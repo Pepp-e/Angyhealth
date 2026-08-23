@@ -12,9 +12,9 @@ type Item = {
 /** Raccolta centrale dei minigiochi e contenuti delle nuvolette. */
 const items: Item[] = [
   { title: "Rabbia", description: "Minigioco scratchcard: gratta via la rabbia.", to: "/nuvola-1" },
-  { title: "Panico", description: "Contenuto in arrivo." },
+  { title: "Panico", description: "Respira con calma: respirazione guidata.", to: "/nuvola-2" },
   { title: "Tristezza", description: "Playlist Spotify per i momenti tristi.", to: "/nuvola-3" },
-  { title: "Ansia", description: "Contenuto in arrivo." },
+  { title: "Ansia", description: "Ritorna al presente: esercizio di grounding.", to: "/nuvola-4" },
 ];
 
 function Card({ item }: { item: Item }) {

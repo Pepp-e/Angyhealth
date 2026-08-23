@@ -34,7 +34,7 @@ export function BreathingGame() {
         setDone(true);
         vibrate([30, 40, 30]);
       }
-    }, PHASES[phase].ms);
+    }, PHASES[phase]!.ms);
     return () => {
       if (timer.current) clearTimeout(timer.current);
     };
@@ -47,7 +47,7 @@ export function BreathingGame() {
     setDone(false);
   };
 
-  const current = PHASES[phase];
+  const current = PHASES[phase]!;
 
   return (
     <GlassPanel className="mt-6 w-full px-5 py-8">
