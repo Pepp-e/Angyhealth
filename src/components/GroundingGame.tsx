@@ -38,7 +38,7 @@ export function GroundingGame() {
   const [selected, setSelected] = useState<string[]>([]);
   const [done, setDone] = useState(false);
 
-  const phase = PHASES[step];
+  const phase = PHASES[step]!;
 
   const pick = (item: string) => {
     if (selected.includes(item)) return;
