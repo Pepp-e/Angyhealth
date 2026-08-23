@@ -6,9 +6,9 @@ const CLOUD_PATH =
   "M40 104 C22 104 14 90 22 78 C27 70 36 68 43 70 C42 54 55 42 71 44 C79 30 100 26 113 36 C122 24 143 25 151 39 C154 45 155 51 154 56 C172 55 183 68 179 83 C176 96 165 104 150 104 Z";
 
 const PHASES = [
-  { key: "in", label: "Inspira", ms: 4000, scale: 1.25 },
-  { key: "hold", label: "Trattieni", ms: 2000, scale: 1.25 },
-  { key: "out", label: "Espira", ms: 6000, scale: 0.85 },
+  { key: "in", label: "Inspira", secs: 4, scale: 1.25 },
+  { key: "hold", label: "Trattieni", secs: 2, scale: 1.25 },
+  { key: "out", label: "Espira", secs: 6, scale: 0.85 },
 ] as const;
 
 const TOTAL_CYCLES = 5;
@@ -17,37 +17,47 @@ const TOTAL_CYCLES = 5;
 export function BreathingGame() {
   const [phase, setPhase] = useState(0);
   const [cycle, setCycle] = useState(1);
+  const [remaining, setRemaining] = useState(PHASES[0]!.secs);
+  const [paused, setPaused] = useState(false);
   const [done, setDone] = useState(false);
-  const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const timer = useRef<ReturnType<typeof setInterval> | null>(null);
 
   useEffect(() => {
-    if (done) return;
-    timer.current = setTimeout(() => {
-      if (phase < PHASES.length - 1) {
-        setPhase(phase + 1);
-        vibrate(15);
-      } else if (cycle < TOTAL_CYCLES) {
-        setCycle(cycle + 1);
-        setPhase(0);
-        vibrate(15);
-      } else {
+    if (done || paused) return;
+    timer.current = setInterval(() => {
+      setRemaining((r) => {
+        if (r > 1) return r - 1;
+        // fine fase
+        vibrate(10);
+        if (phase < PHASES.length - 1) {
+          setPhase(phase + 1);
+          return PHASES[phase + 1]!.secs;
+        }
+        if (cycle < TOTAL_CYCLES) {
+          setCycle(cycle + 1);
+          setPhase(0);
+          return PHASES[0]!.secs;
+        }
         setDone(true);
-        vibrate([30, 40, 30]);
-      }
-    }, PHASES[phase]!.ms);
+        return 0;
+      });
+    }, 1000);
     return () => {
-      if (timer.current) clearTimeout(timer.current);
+      if (timer.current) clearInterval(timer.current);
     };
-  }, [phase, cycle, done]);
+  }, [phase, cycle, done, paused]);
 
   const restart = () => {
     vibrate(15);
     setPhase(0);
     setCycle(1);
+    setRemaining(PHASES[0]!.secs);
+    setPaused(false);
     setDone(false);
   };
 
   const current = PHASES[phase]!;
+  const elapsed = current.secs - remaining;
 
   return (
     <GlassPanel className="mt-6 w-full px-5 py-8">
@@ -61,7 +71,9 @@ export function BreathingGame() {
               transform: `scale(${done ? 1 : current.scale})`,
               transition: done
                 ? "transform 800ms ease-in-out"
-                : `transform ${current.ms}ms cubic-bezier(0.37, 0, 0.63, 1)`,
+                : paused
+                  ? "none"
+                  : `transform ${remaining * 1000}ms linear`,
             }}
           >
             <path
@@ -92,9 +104,27 @@ export function BreathingGame() {
             <p className="text-center text-xl font-semibold text-foreground">
               {current.label}
             </p>
+            <p
+              key={`${phase}-${remaining}-${elapsed}`}
+              className="text-center text-4xl font-bold tabular-nums text-foreground"
+              aria-live="polite"
+            >
+              {remaining}
+            </p>
             <p className="text-sm text-muted-foreground">
               {cycle} / {TOTAL_CYCLES}
             </p>
+            <button
+              type="button"
+              onClick={() => {
+                vibrate(10);
+                setPaused((p) => !p);
+              }}
+              aria-label={paused ? "Riprendi" : "Pausa"}
+              className="glass min-h-12 rounded-full px-7 py-3 text-base font-semibold text-foreground transition-transform active:scale-[0.96]"
+            >
+              {paused ? "▶ Play" : "⏸ Pausa"}
+            </button>
           </>
         )}
       </div>
