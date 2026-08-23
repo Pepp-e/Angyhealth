@@ -1,21 +1,22 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { ScreenLayout } from "@/components/ScreenLayout";
-import { GlassPanel } from "@/components/GlassPanel";
+import { GroundingGame } from "@/components/GroundingGame";
 
 export const Route = createFileRoute("/nuvola-4")({
   head: () => ({
     meta: [
-      { title: "Nuvola 4 — Nuvola" },
-      { name: "description", content: "Schermata collegata alla nuvola 4." },
-      { property: "og:title", content: "Nuvola 4 — Nuvola" },
-      { property: "og:description", content: "Schermata collegata alla nuvola 4." },
+      { title: "Ritorna al presente — Nuvola" },
+      { name: "description", content: "Esercizio di grounding 5-4-3-2-1 per i momenti di ansia." },
+      { property: "og:title", content: "Ritorna al presente — Nuvola" },
+      { property: "og:description", content: "Esercizio di grounding 5-4-3-2-1 per i momenti di ansia." },
     ],
   }),
   component: () => (
     <ScreenLayout>
-      <GlassPanel className="px-6 py-8">
-        <h1 className="text-xl font-semibold tracking-tight text-foreground">Nuvola 4</h1>
-      </GlassPanel>
+      <h1 className="px-2 text-center text-2xl font-bold tracking-tight text-foreground">
+        Ritorna al presente
+      </h1>
+      <GroundingGame />
     </ScreenLayout>
   ),
 });
