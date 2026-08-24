@@ -164,19 +164,41 @@ export function ScratchCard() {
           )}
 
           {stars && (
-            <div className="pointer-events-none absolute inset-0">
-              {Array.from({ length: 18 }).map((_, i) => (
-                <span
-                  key={i}
-                  className="animate-star-fall absolute size-2 rounded-full bg-white shadow-[0_0_6px_rgba(255,255,255,0.9)]"
-                  style={{
-                    left: `${(i * 5.4 + 3) % 96}%`,
-                    animationDelay: `${(i % 6) * 0.08}s`,
-                  }}
-                />
-              ))}
+            <div className="pointer-events-none absolute inset-0 overflow-hidden">
+              {Array.from({ length: 46 }).map((_, i) => {
+                const size = 10 + ((i * 7) % 5) * 4 + (i % 3) * 3;
+                const round = 3 + (i % 4);
+                return (
+                  <svg
+                    key={i}
+                    viewBox="0 0 24 24"
+                    className="animate-star-fall absolute"
+                    style={{
+                      width: `${size}px`,
+                      height: `${size}px`,
+                      left: `${(i * 17.3 + (i % 5) * 4) % 96}%`,
+                      top: `${-6 - (i % 7) * 8}%`,
+                      ["--fall" as string]: `${320 + (i % 6) * 40}px`,
+                      ["--drift" as string]: `${((i % 7) - 3) * 14}px`,
+                      ["--spin" as string]: `${((i % 5) - 2) * 90}deg`,
+                      ["--dur" as string]: `${0.85 + (i % 4) * 0.08}s`,
+                      animationDelay: `${(i % 8) * 0.05}s`,
+                    }}
+                  >
+                    <path
+                      d="M12 3.2 L14.3 9 L20.4 9.4 L15.7 13.4 L17.2 19.3 L12 16 L6.8 19.3 L8.3 13.4 L3.6 9.4 L9.7 9 Z"
+                      fill="#FFD84D"
+                      stroke="#FFD84D"
+                      strokeWidth={round}
+                      strokeLinejoin="round"
+                      strokeLinecap="round"
+                    />
+                  </svg>
+                );
+              })}
             </div>
           )}
+
         </div>
       </GlassPanel>
 
