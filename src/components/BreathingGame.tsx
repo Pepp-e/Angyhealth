@@ -17,7 +17,7 @@ const TOTAL_CYCLES = 5;
 export function BreathingGame() {
   const [phase, setPhase] = useState(0);
   const [cycle, setCycle] = useState(1);
-  const [remaining, setRemaining] = useState(PHASES[0]!.secs);
+  const [remaining, setRemaining] = useState<number>(PHASES[0]!.secs);
   const [paused, setPaused] = useState(false);
   const [done, setDone] = useState(false);
   const timer = useRef<ReturnType<typeof setInterval> | null>(null);
