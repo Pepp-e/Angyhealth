@@ -46,7 +46,7 @@ export const Route = createFileRoute("/schermata-6")({
   component: () => (
     <ScreenLayout>
       <GlassPanel className="px-6 py-8">
-        <h1 className="text-[clamp(1.6rem,7.5vw,2.125rem)] font-semibold tracking-tight text-foreground">Impostazioni</h1>
+        <h1 className="text-[clamp(1.4rem,6.2vw,1.8rem)] font-semibold tracking-tight text-foreground">Impostazioni</h1>
       </GlassPanel>
 
       <VibrationToggle />
