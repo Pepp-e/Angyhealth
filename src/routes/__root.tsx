@@ -13,6 +13,7 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { SkyBackground } from "@/components/SkyBackground";
 import { BottomNav } from "@/components/BottomNav";
+import { PinGate } from "@/components/PinGate";
 
 function NotFoundComponent() {
   return (

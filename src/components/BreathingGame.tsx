@@ -72,6 +72,7 @@ export function BreathingGame() {
     setCycle(1);
     setRemaining(PHASES[0]!.secs);
     setPaused(false);
+    setFrozenScale(null);
     setDone(false);
   };
 
@@ -83,11 +84,12 @@ export function BreathingGame() {
       <div className="flex flex-col items-center gap-6">
         <div className="flex h-52 w-full items-center justify-center">
           <svg
+            ref={svgRef}
             viewBox="0 0 200 130"
             className="cloud-glow-lg h-auto w-56 max-w-full"
             aria-hidden
             style={{
-              transform: `scale(${done ? 1 : current.scale})`,
+              transform: `scale(${done ? 1 : paused && frozenScale !== null ? frozenScale : current.scale})`,
               transition: done
                 ? "transform 800ms ease-in-out"
                 : paused
@@ -135,10 +137,7 @@ export function BreathingGame() {
             </p>
             <button
               type="button"
-              onClick={() => {
-                vibrate(10);
-                setPaused((p) => !p);
-              }}
+              onClick={togglePause}
               aria-label={paused ? "Riprendi" : "Pausa"}
               className="glass min-h-12 rounded-full px-7 py-3 text-base font-semibold text-foreground transition-transform active:scale-[0.96]"
             >
