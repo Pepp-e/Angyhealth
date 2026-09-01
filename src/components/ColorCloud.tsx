@@ -40,7 +40,7 @@ export function ColorCloud({
       <Link
         to={to}
         aria-label={label}
-        onClick={() => vibrate(20)}
+        onClick={() => vibrate(45)}
         className="block w-full transition-transform active:scale-[0.96]"
       >
         <span
