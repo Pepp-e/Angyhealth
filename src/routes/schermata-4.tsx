@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { ScreenLayout } from "@/components/ScreenLayout";
+import { ScreenHeader } from "@/components/ScreenHeader";
 import { GlassPanel } from "@/components/GlassPanel";
 import { ContactsSection } from "@/components/ContactsSection";
 import { vibrate } from "@/lib/vibration";
@@ -15,9 +16,7 @@ export const Route = createFileRoute("/schermata-4")({
   }),
   component: () => (
     <ScreenLayout>
-      <h1 className="px-2 text-center text-[clamp(1.4rem,6.2vw,1.8rem)] font-bold tracking-tight text-foreground">
-        A chi posso chiedere aiuto?
-      </h1>
+      <ScreenHeader title="A chi posso chiedere aiuto?" back={false} />
 
       <div className="mt-6 flex flex-col items-center gap-4">
         <a

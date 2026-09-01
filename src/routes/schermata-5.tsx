@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ScreenLayout } from "@/components/ScreenLayout";
+import { ScreenHeader } from "@/components/ScreenHeader";
 import { GlassPanel } from "@/components/GlassPanel";
 import { vibrate } from "@/lib/vibration";
 
@@ -49,9 +50,7 @@ export const Route = createFileRoute("/schermata-5")({
   }),
   component: () => (
     <ScreenLayout>
-      <h1 className="px-2 text-center text-[clamp(1.4rem,6.2vw,1.8rem)] font-bold tracking-tight text-foreground">
-        Minigiochi
-      </h1>
+      <ScreenHeader title="Minigiochi" back={false} />
 
       <div className="mt-6 flex flex-col gap-4">
         {items.map((item) => (

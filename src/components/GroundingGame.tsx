@@ -27,14 +27,14 @@ const PHASES: Phase[] = [
   {
     prompt: "Trova 2 cose che ti piacciono",
     need: 2,
-    correct: ["🍫", "🐶"],
-    wrong: ["🧾", "🔩", "🧯", "🪠", "🧮", "🗜️"],
+    correct: ["🍫", "🐶", "🍕", "🎧", "📚", "🌻", "🍦", "🏖️"],
+    wrong: [],
   },
   {
     prompt: "Scegli una cosa che ti fa stare bene",
     need: 1,
-    correct: ["🤗"],
-    wrong: ["🧾", "🔩", "🧯", "🪠", "🧮", "🗜️", "📎"],
+    correct: ["🤗", "😴", "🛁", "🍵", "🎶", "🌅", "🐱", "💐"],
+    wrong: [],
   },
 ];
 
