@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { ScreenLayout } from "@/components/ScreenLayout";
-import { BackButton } from "@/components/BackButton";
+import { ScreenHeader } from "@/components/ScreenHeader";
 import { BreathingGame } from "@/components/BreathingGame";
 
 export const Route = createFileRoute("/nuvola-2")({
@@ -14,10 +14,7 @@ export const Route = createFileRoute("/nuvola-2")({
   }),
   component: () => (
     <ScreenLayout>
-      <BackButton />
-      <h1 className="px-2 text-center text-[clamp(1.4rem,6.2vw,1.8rem)] font-bold tracking-tight text-foreground">
-        Sei in panico? Respira con calma
-      </h1>
+      <ScreenHeader title="Sei in panico? Respira con calma" />
       <BreathingGame />
     </ScreenLayout>
   ),

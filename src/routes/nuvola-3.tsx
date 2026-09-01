@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { ScreenLayout } from "@/components/ScreenLayout";
-import { BackButton } from "@/components/BackButton";
+import { ScreenHeader } from "@/components/ScreenHeader";
 import { GlassPanel } from "@/components/GlassPanel";
 
 const PLAYLIST_URL =
@@ -17,10 +17,7 @@ export const Route = createFileRoute("/nuvola-3")({
   }),
   component: () => (
     <ScreenLayout>
-      <BackButton />
-      <h1 className="px-2 text-center text-[clamp(1.4rem,6.2vw,1.8rem)] font-bold tracking-tight text-foreground">
-        Sei triste? Ascolta un po di musica!
-      </h1>
+      <ScreenHeader title="Sei triste? Ascolta un po di musica!" />
 
       <GlassPanel className="mt-6 overflow-hidden rounded-[2rem] p-3">
         <iframe

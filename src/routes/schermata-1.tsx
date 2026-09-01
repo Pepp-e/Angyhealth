@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { ScreenLayout } from "@/components/ScreenLayout";
-import { BackButton } from "@/components/BackButton";
+import { ScreenHeader } from "@/components/ScreenHeader";
 import { ColorCloud, type CloudColor } from "@/components/ColorCloud";
 import { CurvedArrow, type ArrowGlow } from "@/components/CurvedArrow";
 
@@ -32,7 +32,7 @@ export const Route = createFileRoute("/schermata-1")({
   }),
   component: () => (
     <ScreenLayout>
-      <BackButton />
+      <ScreenHeader title="Scegli la tua nuvoletta" />
       <div className="flex w-full max-w-full flex-1 flex-col justify-between gap-3 overflow-x-hidden py-2">
         {clouds.map((c, i) => (
           <div

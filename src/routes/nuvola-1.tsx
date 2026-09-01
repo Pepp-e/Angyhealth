@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { ScreenLayout } from "@/components/ScreenLayout";
-import { BackButton } from "@/components/BackButton";
+import { ScreenHeader } from "@/components/ScreenHeader";
 import { ScratchCard } from "@/components/ScratchCard";
 
 export const Route = createFileRoute("/nuvola-1")({
@@ -14,10 +14,7 @@ export const Route = createFileRoute("/nuvola-1")({
   }),
   component: () => (
     <ScreenLayout>
-      <BackButton />
-      <h1 className="px-2 text-center text-[clamp(1.4rem,6.2vw,1.8rem)] font-bold tracking-tight text-foreground">
-        Sei arrabbiata? Gratta via la tua rabbia!
-      </h1>
+      <ScreenHeader title="Sei arrabbiata? Gratta via la tua rabbia!" />
       <ScratchCard />
     </ScreenLayout>
   ),
