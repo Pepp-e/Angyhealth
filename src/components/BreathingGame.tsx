@@ -20,7 +20,26 @@ export function BreathingGame() {
   const [remaining, setRemaining] = useState<number>(PHASES[0]!.secs);
   const [paused, setPaused] = useState(false);
   const [done, setDone] = useState(false);
+  // Scala congelata nel punto esatto in cui l'animazione è stata messa in pausa.
+  const [frozenScale, setFrozenScale] = useState<number | null>(null);
+  const svgRef = useRef<SVGSVGElement>(null);
   const timer = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  const togglePause = () => {
+    vibrate(10);
+    if (!paused) {
+      const el = svgRef.current;
+      if (el) {
+        const t = getComputedStyle(el).transform;
+        const m = t && t !== "none" ? new DOMMatrixReadOnly(t) : null;
+        setFrozenScale(m ? m.a : null);
+      }
+      setPaused(true);
+    } else {
+      setFrozenScale(null);
+      setPaused(false);
+    }
+  };
 
   useEffect(() => {
     if (done || paused) return;
