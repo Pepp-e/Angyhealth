@@ -20,7 +20,26 @@ export function BreathingGame() {
   const [remaining, setRemaining] = useState<number>(PHASES[0]!.secs);
   const [paused, setPaused] = useState(false);
   const [done, setDone] = useState(false);
+  // Scala congelata nel punto esatto in cui l'animazione è stata messa in pausa.
+  const [frozenScale, setFrozenScale] = useState<number | null>(null);
+  const svgRef = useRef<SVGSVGElement>(null);
   const timer = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  const togglePause = () => {
+    vibrate(10);
+    if (!paused) {
+      const el = svgRef.current;
+      if (el) {
+        const t = getComputedStyle(el).transform;
+        const m = t && t !== "none" ? new DOMMatrixReadOnly(t) : null;
+        setFrozenScale(m ? m.a : null);
+      }
+      setPaused(true);
+    } else {
+      setFrozenScale(null);
+      setPaused(false);
+    }
+  };
 
   useEffect(() => {
     if (done || paused) return;
@@ -53,6 +72,7 @@ export function BreathingGame() {
     setCycle(1);
     setRemaining(PHASES[0]!.secs);
     setPaused(false);
+    setFrozenScale(null);
     setDone(false);
   };
 
@@ -64,11 +84,12 @@ export function BreathingGame() {
       <div className="flex flex-col items-center gap-6">
         <div className="flex h-52 w-full items-center justify-center">
           <svg
+            ref={svgRef}
             viewBox="0 0 200 130"
             className="cloud-glow-lg h-auto w-56 max-w-full"
             aria-hidden
             style={{
-              transform: `scale(${done ? 1 : current.scale})`,
+              transform: `scale(${done ? 1 : paused && frozenScale !== null ? frozenScale : current.scale})`,
               transition: done
                 ? "transform 800ms ease-in-out"
                 : paused
@@ -116,10 +137,7 @@ export function BreathingGame() {
             </p>
             <button
               type="button"
-              onClick={() => {
-                vibrate(10);
-                setPaused((p) => !p);
-              }}
+              onClick={togglePause}
               aria-label={paused ? "Riprendi" : "Pausa"}
               className="glass min-h-12 rounded-full px-7 py-3 text-base font-semibold text-foreground transition-transform active:scale-[0.96]"
             >
