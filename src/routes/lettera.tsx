@@ -19,7 +19,9 @@ export const Route = createFileRoute("/lettera")({
     <ScreenLayout>
       <ScreenHeader title="Per quando non ti senti abbastanza" />
       {/* Spazio predisposto per la lettera futura */}
-      <GlassPanel className="mt-2 min-h-40 px-6 py-8" />
+      <GlassPanel className="mt-2 min-h-40 px-6 py-8">
+        <span className="sr-only">Spazio per la lettera</span>
+      </GlassPanel>
     </ScreenLayout>
   ),
 });
