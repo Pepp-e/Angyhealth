@@ -9,12 +9,15 @@ const KEYS = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "back", "0", "ok"] as
 export function PinGate({ children }: { children: ReactNode }) {
   const [unlocked, setUnlocked] = useState(false);
   const [ready, setReady] = useState(false);
+  const [intro, setIntro] = useState(true);
   const [pin, setPin] = useState("");
   const [error, setError] = useState(false);
 
   useEffect(() => {
     if (getAppVersion()) setUnlocked(true);
     setReady(true);
+    const t = setTimeout(() => setIntro(false), 2600);
+    return () => clearTimeout(t);
   }, []);
 
   const press = (k: (typeof KEYS)[number]) => {
