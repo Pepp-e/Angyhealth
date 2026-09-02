@@ -26,6 +26,12 @@ export function setAppVersion(v: AppVersion) {
   window.sessionStorage.setItem(KEY, v);
 }
 
+/** Esce dalla versione corrente e torna alla schermata PIN iniziale. */
+export function clearAppVersion() {
+  window.sessionStorage.removeItem(KEY);
+  window.location.href = "/";
+}
+
 /** Versione attualmente sbloccata (null durante SSR / prima del PIN). */
 export function useAppVersion(): AppVersion | null {
   const [version, setVersion] = useState<AppVersion | null>(null);

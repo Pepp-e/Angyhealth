@@ -9,12 +9,15 @@ const KEYS = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "back", "0", "ok"] as
 export function PinGate({ children }: { children: ReactNode }) {
   const [unlocked, setUnlocked] = useState(false);
   const [ready, setReady] = useState(false);
+  const [intro, setIntro] = useState(true);
   const [pin, setPin] = useState("");
   const [error, setError] = useState(false);
 
   useEffect(() => {
     if (getAppVersion()) setUnlocked(true);
     setReady(true);
+    const t = setTimeout(() => setIntro(false), 2600);
+    return () => clearTimeout(t);
   }, []);
 
   const press = (k: (typeof KEYS)[number]) => {
@@ -50,11 +53,45 @@ export function PinGate({ children }: { children: ReactNode }) {
     return <div className="animate-in fade-in zoom-in-95 duration-500 ease-out">{children}</div>;
   }
 
+  if (intro) {
+    return (
+      <main className="grid min-h-svh w-full place-items-center overflow-hidden">
+        <span className="animate-cloud-cross inline-block">
+          <svg viewBox="0 0 200 130" className="cloud-glow-lg h-auto w-56" role="img" aria-hidden>
+            <defs>
+              <radialGradient id="cloudFillIntro" cx="38%" cy="28%" r="90%">
+                <stop offset="0%" stopColor="oklch(1 0 0 / 0.96)" />
+                <stop offset="55%" stopColor="oklch(0.98 0.01 240 / 0.88)" />
+                <stop offset="100%" stopColor="oklch(0.9 0.03 240 / 0.82)" />
+              </radialGradient>
+            </defs>
+            <path
+              d="M40 104
+                 C22 104 14 90 22 78
+                 C27 70 36 68 43 70
+                 C42 54 55 42 71 44
+                 C79 30 100 26 113 36
+                 C122 24 143 25 151 39
+                 C154 45 155 51 154 56
+                 C172 55 183 68 179 83
+                 C176 96 165 104 150 104
+                 Z"
+              fill="url(#cloudFillIntro)"
+              stroke="oklch(1 0 0 / 0.85)"
+              strokeWidth="2"
+            />
+            <ellipse cx="92" cy="52" rx="28" ry="11" fill="oklch(1 0 0 / 0.7)" />
+          </svg>
+        </span>
+      </main>
+    );
+  }
+
   return (
-    <main className="mx-auto flex min-h-svh w-full max-w-md flex-col items-center justify-center px-5 pt-[calc(env(safe-area-inset-top)+1rem)] pb-[calc(env(safe-area-inset-bottom)+1rem)]">
+    <main className="mx-auto flex min-h-svh w-full max-w-md animate-in flex-col items-center justify-center px-5 pt-[calc(env(safe-area-inset-top)+1rem)] pb-[calc(env(safe-area-inset-bottom)+1rem)] fade-in zoom-in-95 duration-500 ease-out">
       <GlassPanel className={`w-full px-5 py-7 ${error ? "animate-quick-bounce" : ""}`}>
         <h1 className="text-center text-[clamp(1.25rem,5.6vw,1.6rem)] font-bold tracking-tight text-foreground">
-          Inserisci il codice
+          Inserisci il codice "0000".
         </h1>
 
         <div className="mt-5 flex items-center justify-center gap-4" aria-label="Cifre inserite">
