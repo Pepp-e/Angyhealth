@@ -2,7 +2,8 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { ScreenLayout } from "@/components/ScreenLayout";
 import { GlassPanel } from "@/components/GlassPanel";
-import { isVibrationEnabled, setVibrationEnabled } from "@/lib/vibration";
+import { isVibrationEnabled, setVibrationEnabled, vibrate } from "@/lib/vibration";
+import { clearAppVersion } from "@/lib/version";
 
 function VibrationToggle() {
   const [enabled, setEnabled] = useState(true);
@@ -50,6 +51,17 @@ export const Route = createFileRoute("/schermata-6")({
       </GlassPanel>
 
       <VibrationToggle />
+
+      <button
+        type="button"
+        onClick={() => {
+          vibrate(20);
+          clearAppVersion();
+        }}
+        className="glass mt-4 w-full rounded-3xl px-6 py-4 text-base font-semibold text-white shadow-[0_0_12px_rgba(255,255,255,0.35)] transition-transform active:scale-[0.97]"
+      >
+        Torna indietro
+      </button>
 
       <div className="flex flex-1 items-end justify-center">
         <p className="text-center text-xs text-muted-foreground">By Giuseppe Miranda</p>
