@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as LetteraRouteImport } from './routes/lettera'
 import { Route as Nuvola1RouteImport } from './routes/nuvola-1'
 import { Route as Nuvola2RouteImport } from './routes/nuvola-2'
 import { Route as Nuvola3RouteImport } from './routes/nuvola-3'
@@ -24,6 +25,11 @@ import { Route as Schermata6RouteImport } from './routes/schermata-6'
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LetteraRoute = LetteraRouteImport.update({
+  id: '/lettera',
+  path: '/lettera',
   getParentRoute: () => rootRouteImport,
 } as any)
 const Nuvola1Route = Nuvola1RouteImport.update({
@@ -79,6 +85,7 @@ const Schermata6Route = Schermata6RouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/lettera': typeof LetteraRoute
   '/nuvola-1': typeof Nuvola1Route
   '/nuvola-2': typeof Nuvola2Route
   '/nuvola-3': typeof Nuvola3Route
@@ -92,6 +99,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/lettera': typeof LetteraRoute
   '/nuvola-1': typeof Nuvola1Route
   '/nuvola-2': typeof Nuvola2Route
   '/nuvola-3': typeof Nuvola3Route
@@ -106,6 +114,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/lettera': typeof LetteraRoute
   '/nuvola-1': typeof Nuvola1Route
   '/nuvola-2': typeof Nuvola2Route
   '/nuvola-3': typeof Nuvola3Route
@@ -121,6 +130,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/lettera'
     | '/nuvola-1'
     | '/nuvola-2'
     | '/nuvola-3'
@@ -134,6 +144,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/lettera'
     | '/nuvola-1'
     | '/nuvola-2'
     | '/nuvola-3'
@@ -147,6 +158,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/lettera'
     | '/nuvola-1'
     | '/nuvola-2'
     | '/nuvola-3'
@@ -161,6 +173,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  LetteraRoute: typeof LetteraRoute
   Nuvola1Route: typeof Nuvola1Route
   Nuvola2Route: typeof Nuvola2Route
   Nuvola3Route: typeof Nuvola3Route
@@ -180,6 +193,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/lettera': {
+      id: '/lettera'
+      path: '/lettera'
+      fullPath: '/lettera'
+      preLoaderRoute: typeof LetteraRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/nuvola-1': {
@@ -257,6 +277,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  LetteraRoute: LetteraRoute,
   Nuvola1Route: Nuvola1Route,
   Nuvola2Route: Nuvola2Route,
   Nuvola3Route: Nuvola3Route,
