@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
+import { ArrowLeft } from "lucide-react";
 import { ScreenLayout } from "@/components/ScreenLayout";
 import { GlassPanel } from "@/components/GlassPanel";
 import { isVibrationEnabled, setVibrationEnabled, vibrate } from "@/lib/vibration";
