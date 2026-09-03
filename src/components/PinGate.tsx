@@ -30,12 +30,12 @@ export function PinGate({ children }: { children: ReactNode }) {
     if (k === "ok") {
       const version = PIN_TO_VERSION[pin];
       if (version) {
-        vibrate(30);
+        vibrate([90, 40, 140]);
         setAppVersion(version);
         setUnlocked(true);
       } else {
         setError(true);
-        vibrate(60);
+        vibrate([90, 40, 140]);
         setTimeout(() => {
           setPin("");
           setError(false);
@@ -88,7 +88,7 @@ export function PinGate({ children }: { children: ReactNode }) {
   }
 
   return (
-    <main className="mx-auto flex min-h-svh w-full max-w-md animate-in flex-col items-center justify-center px-5 pt-[calc(env(safe-area-inset-top)+1rem)] pb-[calc(env(safe-area-inset-bottom)+1rem)] fade-in zoom-in-95 duration-500 ease-out">
+    <main className="mx-auto flex min-h-svh w-full max-w-md animate-in flex-col items-center justify-center px-5 pt-[calc(env(safe-area-inset-top)+1rem)] pb-[calc(env(safe-area-inset-bottom)+1rem)] fade-in slide-in-from-bottom-2 zoom-in-[0.97] duration-700 ease-out">
       <GlassPanel className={`w-full px-5 py-7 ${error ? "animate-quick-bounce" : ""}`}>
         <h1 className="text-center text-[clamp(1.25rem,5.6vw,1.6rem)] font-bold tracking-tight text-foreground">
           Inserisci il codice "0000".

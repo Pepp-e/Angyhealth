@@ -66,7 +66,7 @@ export const Route = createFileRoute("/schermata-6")({
         className="glass mt-4 flex w-full items-center justify-center gap-2 rounded-3xl px-6 py-4 text-base font-semibold text-foreground shadow-[0_0_12px_rgba(255,255,255,0.35)] transition-transform active:scale-[0.97]"
       >
         <ArrowLeft className="size-5" />
-        Torna indietro
+        Torna al pin
       </button>
 
       <div className="flex flex-1 items-end justify-center">
