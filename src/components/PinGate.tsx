@@ -30,12 +30,12 @@ export function PinGate({ children }: { children: ReactNode }) {
     if (k === "ok") {
       const version = PIN_TO_VERSION[pin];
       if (version) {
-        vibrate(30);
+        vibrate([90, 40, 140]);
         setAppVersion(version);
         setUnlocked(true);
       } else {
         setError(true);
-        vibrate(60);
+        vibrate([90, 40, 140]);
         setTimeout(() => {
           setPin("");
           setError(false);
