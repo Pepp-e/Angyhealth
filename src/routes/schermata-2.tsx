@@ -1,57 +1,76 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ScreenLayout } from "@/components/ScreenLayout";
-import { GlassPanel } from "@/components/GlassPanel";
 import { PhotoCarousel } from "@/components/PhotoCarousel";
 import { useAppVersion } from "@/lib/version";
 import { vibrate } from "@/lib/vibration";
 
-/** Foto predefinite della versione 2202 (da inserire in futuro). */
-const PHOTOS_2202: string[] = [];
+/** Chiave locale: le foto restano solo sul dispositivo dell'utente. */
+const STORAGE_KEY = "ricordi-photos";
 
 function Ricordi() {
   const version = useAppVersion();
   const [photos, setPhotos] = useState<string[]>([]);
+  const [loaded, setLoaded] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const carouselPhotos = version === "2202" ? [...PHOTOS_2202, ...photos] : photos;
+  useEffect(() => {
+    try {
+      const raw = window.localStorage.getItem(STORAGE_KEY);
+      if (raw) setPhotos(JSON.parse(raw) as string[]);
+    } catch {
+      /* ignora */
+    }
+    setLoaded(true);
+  }, []);
+
+  useEffect(() => {
+    if (!loaded) return;
+    try {
+      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(photos));
+    } catch {
+      /* quota piena */
+    }
+  }, [photos, loaded]);
+
+  const readFiles = async (files: File[]) => {
+    const urls = await Promise.all(
+      files.map(
+        (f) =>
+          new Promise<string>((resolve) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(String(reader.result));
+            reader.readAsDataURL(f);
+          }),
+      ),
+    );
+    setPhotos((p) => [...p, ...urls]);
+  };
 
   return (
     <ScreenLayout>
-      <GlassPanel className="px-6 py-8">
-        <h1 className="text-[clamp(1.4rem,6.2vw,1.8rem)] font-semibold tracking-tight text-foreground">
-          Rivivi i tuoi ricordi!
-        </h1>
-      </GlassPanel>
+      <h1 className="text-center text-[clamp(1.4rem,6.2vw,1.8rem)] font-semibold tracking-tight text-foreground">
+        Rivivi i tuoi ricordi!
+      </h1>
 
-      {version === "0000" && (
-        <>
-          <input
-            ref={inputRef}
-            type="file"
-            accept="image/*"
-            multiple
-            className="hidden"
-            onChange={(e) => {
-              const files = Array.from(e.target.files ?? []);
-              if (files.length) setPhotos((p) => [...p, ...files.map((f) => URL.createObjectURL(f))]);
-              e.target.value = "";
-            }}
-          />
-          <button
-            type="button"
-            onClick={() => {
-              vibrate(20);
-              inputRef.current?.click();
-            }}
-            className="glass mt-4 w-full rounded-3xl px-6 py-4 text-base font-semibold text-white shadow-[0_0_12px_rgba(255,255,255,0.35)] transition-transform active:scale-[0.97]"
-          >
-            Aggiungi foto
-          </button>
-        </>
-      )}
+      <input
+        ref={inputRef}
+        type="file"
+        accept="image/*"
+        multiple
+        className="hidden"
+        onChange={(e) => {
+          const files = Array.from(e.target.files ?? []);
+          if (files.length) void readFiles(files);
+          e.target.value = "";
+        }}
+      />
 
-      <PhotoCarousel photos={carouselPhotos} />
+      <PhotoCarousel
+        photos={photos}
+        onAdd={() => inputRef.current?.click()}
+        onDelete={(i) => setPhotos((p) => p.filter((_, j) => j !== i))}
+      />
 
       {version === "2202" && (
         <Link
