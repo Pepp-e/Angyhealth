@@ -109,7 +109,7 @@ export function PhotoCarousel({
           onClick={() => {
             vibrate(20);
             onDelete?.(current);
-            setIndex(0);
+            setIndex(current >= count - 1 ? 0 : current);
           }}
           className="glass grid size-12 place-items-center rounded-full text-white shadow-[0_0_12px_rgba(255,255,255,0.35)] transition-transform active:scale-[0.95]"
         >
