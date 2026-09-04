@@ -84,6 +84,8 @@ export const Route = createFileRoute("/schermata-6")({
 
       <VibrationToggle />
 
+      <NightToggle />
+
       <div className="mt-6 flex justify-center">
         <div className="h-px w-2/3 rounded-full bg-white/70" />
       </div>
