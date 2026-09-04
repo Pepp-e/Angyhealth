@@ -5,6 +5,7 @@ import { ScreenLayout } from "@/components/ScreenLayout";
 import { GlassPanel } from "@/components/GlassPanel";
 import { isVibrationEnabled, setVibrationEnabled, vibrate } from "@/lib/vibration";
 import { clearAppVersion } from "@/lib/version";
+import { isNightMode, setNightMode } from "@/lib/theme";
 
 function VibrationToggle() {
   const [enabled, setEnabled] = useState(true);
@@ -27,6 +28,36 @@ function VibrationToggle() {
         role="switch"
         aria-checked={enabled}
         aria-label="Vibrazione"
+        onClick={toggle}
+        className={`glass-center box-border flex h-8 w-14 shrink-0 items-center rounded-full p-[3px] transition-colors ${enabled ? "justify-end bg-white/60" : "justify-start bg-white/20"}`}
+      >
+        <span className="block size-6 shrink-0 rounded-full bg-white shadow-md transition-all" />
+      </button>
+    </GlassPanel>
+  );
+}
+
+function NightToggle() {
+  const [enabled, setEnabled] = useState(false);
+
+  useEffect(() => {
+    setEnabled(isNightMode());
+  }, []);
+
+  const toggle = () => {
+    const next = !enabled;
+    setEnabled(next);
+    setNightMode(next);
+  };
+
+  return (
+    <GlassPanel className="mt-4 flex items-center justify-between px-5 py-4">
+      <span className="text-base font-medium text-foreground">Modalità notte</span>
+      <button
+        type="button"
+        role="switch"
+        aria-checked={enabled}
+        aria-label="Modalità notte"
         onClick={toggle}
         className={`glass-center box-border flex h-8 w-14 shrink-0 items-center rounded-full p-[3px] transition-colors ${enabled ? "justify-end bg-white/60" : "justify-start bg-white/20"}`}
       >

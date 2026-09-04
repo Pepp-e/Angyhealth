@@ -1,8 +1,15 @@
+import { useEffect } from "react";
+import { applyNightMode, isNightMode } from "@/lib/theme";
+
 /**
  * Sfondo dell'app: cielo azzurro con nuvolette bianche morbide.
  * Modificabile in un solo punto.
  */
 export function SkyBackground() {
+  useEffect(() => {
+    applyNightMode(isNightMode());
+  }, []);
+
   return (
     <div aria-hidden className="pointer-events-none fixed inset-0 -z-10 overflow-hidden bg-sky">
       <div className="cloud-blob left-[-10%] top-[8%] h-40 w-72" />
