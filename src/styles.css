@@ -168,6 +168,19 @@
   --glass-shadow: 0 12px 40px oklch(0.4 0.09 245 / 0.22);
 }
 
+/* Modalità notte: solo tonalità dello sfondo e testi scuri -> bianchi */
+.night {
+  --foreground: oklch(1 0 0);
+  --muted-foreground: oklch(0.93 0.02 250);
+  --sky-top: oklch(0.42 0.11 265);
+  --sky-bottom: oklch(0.55 0.09 255);
+}
+
+body,
+.bg-sky {
+  transition: background 400ms ease, color 400ms ease;
+}
+
 @utility bg-sky {
   background: linear-gradient(180deg, var(--sky-top), var(--sky-bottom));
 }
@@ -186,11 +199,36 @@
   backdrop-filter: blur(20px) saturate(160%);
 }
 
+/* Variante scura del Liquid Glass (pulsanti con icona bianca) */
+@utility glass-dark {
+  background: oklch(0.3 0.06 255 / 0.55);
+  border: 1px solid oklch(1 0 0 / 0.35);
+  box-shadow: 0 10px 24px oklch(0.25 0.07 255 / 0.35), inset 0 1px 0 oklch(1 0 0 / 0.25);
+  backdrop-filter: blur(18px) saturate(160%);
+  color: oklch(1 0 0);
+}
+
 @utility glass-center {
   background: oklch(1 0 0 / 0.55);
   border: 1px solid oklch(1 0 0 / 0.7);
   box-shadow: 0 10px 24px oklch(0.4 0.09 245 / 0.25), inset 0 1px 0 oklch(1 0 0 / 0.8);
   backdrop-filter: blur(18px) saturate(170%);
+}
+
+/* Comparsa semplice del contenitore PIN: zoom-in + leggero fade */
+@keyframes pin-zoom-in {
+  from {
+    opacity: 0;
+    transform: scale(0.93);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-pin-zoom-in {
+  animation: pin-zoom-in 400ms ease-out both;
 }
 
 /* Contorno bianco con glow leggero e uniforme per tutte le nuvole */

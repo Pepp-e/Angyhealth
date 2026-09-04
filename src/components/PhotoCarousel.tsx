@@ -87,7 +87,7 @@ export function PhotoCarousel({
             vibrate(20);
             onAdd?.();
           }}
-          className="glass grid size-12 place-items-center rounded-full text-white shadow-[0_0_12px_rgba(255,255,255,0.35)] transition-transform active:scale-[0.95]"
+          className="glass-dark grid size-12 place-items-center rounded-full text-white shadow-[0_0_12px_rgba(255,255,255,0.35)] transition-transform active:scale-[0.95]"
         >
           <Plus className="size-6" />
         </button>
@@ -111,7 +111,7 @@ export function PhotoCarousel({
             onDelete?.(current);
             setIndex(current >= count - 1 ? 0 : current);
           }}
-          className="glass grid size-12 place-items-center rounded-full text-white shadow-[0_0_12px_rgba(255,255,255,0.35)] transition-transform active:scale-[0.95]"
+          className="glass-dark grid size-12 place-items-center rounded-full text-white shadow-[0_0_12px_rgba(255,255,255,0.35)] transition-transform active:scale-[0.95]"
         >
           <Trash2 className="size-6" />
         </button>
