@@ -157,6 +157,18 @@
 }
 
 /* --- Tema cielo / Liquid Glass --- */
+@property --sky-top {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: oklch(0.85 0.09 235);
+}
+
+@property --sky-bottom {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: oklch(0.94 0.05 225);
+}
+
 :root {
   --foreground: oklch(0.3 0.05 250);
   --muted-foreground: oklch(0.52 0.05 250);
@@ -166,6 +178,8 @@
   --glass-bg: oklch(1 0 0 / 0.35);
   --glass-border: oklch(1 0 0 / 0.55);
   --glass-shadow: 0 12px 40px oklch(0.4 0.09 245 / 0.22);
+  --sky-transition: 1500ms cubic-bezier(0.4, 0, 0.2, 1);
+  --text-glow: none;
 }
 
 /* Modalità notte: solo tonalità dello sfondo e testi scuri -> bianchi */
@@ -174,16 +188,28 @@
   --muted-foreground: oklch(0.93 0.02 250);
   --sky-top: oklch(0.42 0.11 265);
   --sky-bottom: oklch(0.55 0.09 255);
+  /* Contrasto discreto per i testi bianchi */
+  --text-glow: 0 1px 2px oklch(0.18 0.05 265 / 0.55), 0 0 10px oklch(1 0 0 / 0.2);
 }
 
 body,
 .bg-sky {
-  transition: background 400ms ease, color 400ms ease;
+  transition:
+    --sky-top var(--sky-transition),
+    --sky-bottom var(--sky-transition),
+    background-color var(--sky-transition),
+    color var(--sky-transition),
+    text-shadow var(--sky-transition);
+}
+
+body {
+  text-shadow: var(--text-glow);
 }
 
 @utility bg-sky {
   background: linear-gradient(180deg, var(--sky-top), var(--sky-bottom));
 }
+
 
 @utility cloud-blob {
   position: absolute;
