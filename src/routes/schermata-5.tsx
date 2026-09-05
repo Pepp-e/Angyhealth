@@ -3,6 +3,7 @@ import { ScreenLayout } from "@/components/ScreenLayout";
 import { ScreenHeader } from "@/components/ScreenHeader";
 import { GlassPanel } from "@/components/GlassPanel";
 import { vibrate } from "@/lib/vibration";
+import { useAppVersion } from "@/lib/version";
 
 type Item = {
   title: string;
@@ -48,15 +49,26 @@ export const Route = createFileRoute("/schermata-5")({
       { property: "og:description", content: "Raccolta dei minigiochi e dei contenuti delle nuvolette." },
     ],
   }),
-  component: () => (
+  component: MinigiochiScreen,
+});
+
+function MinigiochiScreen() {
+  const version = useAppVersion();
+  const list = items.map((item) =>
+    version === "0000" && item.title === "Tristezza"
+      ? { ...item, description: "Ascolta un po' di musica nei momenti tristi." }
+      : item,
+  );
+
+  return (
     <ScreenLayout>
       <ScreenHeader title="Minigiochi" back={false} />
 
       <div className="mt-6 flex flex-col gap-4">
-        {items.map((item) => (
+        {list.map((item) => (
           <Card key={item.title} item={item} />
         ))}
       </div>
     </ScreenLayout>
-  ),
-});
+  );
+}

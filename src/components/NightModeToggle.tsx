@@ -11,7 +11,7 @@ function SunMoonIcon({ night }: { night: boolean }) {
       <svg
         viewBox="0 0 40 40"
         aria-hidden
-        className="absolute inset-0 size-9 transition-all duration-700 ease-out"
+        className="absolute inset-0 size-9 transition-all duration-[850ms] ease-out"
         style={{
           opacity: night ? 0 : 1,
           transform: night ? "rotate(-70deg) scale(0.6)" : "rotate(0deg) scale(1)",
@@ -19,18 +19,18 @@ function SunMoonIcon({ night }: { night: boolean }) {
       >
         <path
           d="M27.5 24.6A11 11 0 0 1 15.4 8.9a12 12 0 1 0 14.4 17 11 11 0 0 1-2.3-1.3Z"
-          fill="oklch(1 0 0 / 0.92)"
-          stroke="oklch(1 0 0)"
+          fill="oklch(0.3 0.05 250 / 0.95)"
+          stroke="oklch(0.3 0.05 250)"
           strokeWidth="1.2"
           strokeLinejoin="round"
-          style={{ filter: "drop-shadow(0 0 6px oklch(1 0 0 / 0.55))" }}
+          style={{ filter: "drop-shadow(0 0 5px oklch(0.3 0.05 250 / 0.35))" }}
         />
       </svg>
       {/* Sole */}
       <svg
         viewBox="0 0 40 40"
         aria-hidden
-        className="absolute inset-0 size-9 transition-all duration-700 ease-out"
+        className="absolute inset-0 size-9 transition-all duration-[850ms] ease-out"
         style={{
           opacity: night ? 1 : 0,
           transform: night ? "rotate(0deg) scale(1)" : "rotate(70deg) scale(0.6)",
