@@ -8,33 +8,32 @@ import { vibrate } from "@/lib/vibration";
 const PLAYLIST_URL = "https://open.spotify.com/playlist/4jZ6SzEt6iawYBYj2kohtL";
 const APPLE_MUSIC_URL = "https://music.apple.com/browse";
 
-/** Logo Spotify stilizzato (cerchio con onde). */
+/** Logo ufficiale Spotify (cerchio verde con le tre onde). */
 function SpotifyLogo() {
   return (
-    <svg viewBox="0 0 64 64" className="size-14" role="img" aria-label="Spotify">
-      <circle cx="32" cy="32" r="30" fill="#1DB954" />
-      <g stroke="#0b0b0b" strokeLinecap="round" fill="none">
-        <path d="M17 24c10-3 22-2 31 3" strokeWidth="5.5" />
-        <path d="M19.5 33c8.5-2.4 18.5-1.6 26 2.6" strokeWidth="4.5" />
-        <path d="M22 41.5c7-2 15-1.3 21 2.1" strokeWidth="3.5" />
-      </g>
+    <svg viewBox="0 0 168 168" className="size-12 shrink-0" role="img" aria-label="Spotify">
+      <circle cx="84" cy="84" r="84" fill="#1ED760" />
+      <path
+        fill="#000"
+        d="M120.9 120.3a5.2 5.2 0 0 1-7.2 1.7c-19.6-12-44.3-14.7-73.4-8.1a5.2 5.2 0 1 1-2.3-10.2c31.8-7.3 59.1-4.2 81.2 9.3a5.2 5.2 0 0 1 1.7 7.3Zm9.8-21.9a6.5 6.5 0 0 1-9 2.1c-22.4-13.8-56.6-17.8-83.1-9.7a6.5 6.5 0 1 1-3.8-12.5c30.3-9.2 68-4.7 93.7 11.1a6.5 6.5 0 0 1 2.2 9Zm.9-22.8c-26.9-16-71.300-17.4-97-9.6a7.8 7.8 0 1 1-4.5-15c29.5-9 78.4-7.3 109.3 11.1a7.8 7.8 0 1 1-8 13.4Z"
+      />
     </svg>
   );
 }
 
-/** Logo Apple Music stilizzato (nota musicale su sfondo sfumato). */
+/** Logo ufficiale Apple Music (nota doppia su gradiente rosa/rosso). */
 function AppleMusicLogo() {
   return (
-    <svg viewBox="0 0 64 64" className="size-14" role="img" aria-label="Apple Music">
+    <svg viewBox="0 0 64 64" className="size-12 shrink-0" role="img" aria-label="Apple Music">
       <defs>
         <linearGradient id="am-g" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#FA57C1" />
-          <stop offset="100%" stopColor="#FC3C44" />
+          <stop offset="0%" stopColor="#FA233B" />
+          <stop offset="100%" stopColor="#FB5C74" />
         </linearGradient>
       </defs>
       <rect x="2" y="2" width="60" height="60" rx="14" fill="url(#am-g)" />
       <path
-        d="M41 15.5 26 19.2v20.2a5.6 5.6 0 1 0 3.2 5v-16l11.8-2.9v11.6a5.6 5.6 0 1 0 3.2 5V15.5Z"
+        d="M44 14.2 27 18.1v22.5a6.2 6.2 0 1 0 3.5 5.6V25.4L44 22.2v13.1a6.2 6.2 0 1 0 3.5 5.6V14.2Z"
         fill="#fff"
       />
     </svg>
@@ -56,15 +55,16 @@ function MusicTile({
       target="_blank"
       rel="noopener noreferrer"
       onClick={() => vibrate(20)}
-      className="block flex-1 transition-transform active:scale-[0.97]"
+      className="block w-full transition-transform active:scale-[0.97]"
     >
-      <GlassPanel className="flex aspect-square w-full flex-col items-center justify-center gap-3 rounded-[2rem]">
+      <GlassPanel className="flex h-24 w-full items-center gap-4 rounded-[2rem] px-6">
         {children}
-        <span className="text-sm font-semibold text-foreground">{label}</span>
+        <span className="text-lg font-semibold text-foreground">{label}</span>
       </GlassPanel>
     </a>
   );
 }
+
 
 export const Route = createFileRoute("/nuvola-3")({
   head: () => ({
