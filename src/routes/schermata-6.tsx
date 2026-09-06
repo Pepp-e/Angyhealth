@@ -7,28 +7,26 @@ import { isVibrationEnabled, setVibrationEnabled, vibrate } from "@/lib/vibratio
 import { clearAppVersion } from "@/lib/version";
 import { NightModeToggle } from "@/components/NightModeToggle";
 
-function VibrationToggle() {
-  const [enabled, setEnabled] = useState(true);
-
-  useEffect(() => {
-    setEnabled(isVibrationEnabled());
-  }, []);
-
-  const toggle = () => {
-    const next = !enabled;
-    setEnabled(next);
-    setVibrationEnabled(next);
-  };
-
+function ToggleRow({
+  label,
+  enabled,
+  onToggle,
+  className,
+}: {
+  label: string;
+  enabled: boolean;
+  onToggle: () => void;
+  className?: string;
+}) {
   return (
-    <GlassPanel className="mt-6 flex items-center justify-between px-5 py-4">
-      <span className="text-base font-medium text-foreground">Vibrazione</span>
+    <GlassPanel className={`flex items-center justify-between px-5 py-4 ${className ?? ""}`}>
+      <span className="text-base font-medium text-foreground">{label}</span>
       <button
         type="button"
         role="switch"
         aria-checked={enabled}
-        aria-label="Vibrazione"
-        onClick={toggle}
+        aria-label={label}
+        onClick={onToggle}
         className={`glass-center box-border flex h-8 w-14 shrink-0 items-center rounded-full p-[3px] transition-colors ${enabled ? "justify-end bg-white/60" : "justify-start bg-white/20"}`}
       >
         <span className="block size-6 shrink-0 rounded-full bg-white shadow-md transition-all" />
@@ -36,6 +34,49 @@ function VibrationToggle() {
     </GlassPanel>
   );
 }
+
+function VibrationToggle() {
+  const [enabled, setEnabled] = useState(true);
+
+  useEffect(() => {
+    setEnabled(isVibrationEnabled());
+  }, []);
+
+  return (
+    <ToggleRow
+      label="Vibrazione"
+      enabled={enabled}
+      className="mt-6"
+      onToggle={() => {
+        const next = !enabled;
+        setEnabled(next);
+        setVibrationEnabled(next);
+      }}
+    />
+  );
+}
+
+function HapticsToggle() {
+  const [enabled, setEnabled] = useState(true);
+
+  useEffect(() => {
+    setEnabled(isHapticsEnabled());
+  }, []);
+
+  return (
+    <ToggleRow
+      label="Feedback tattile"
+      enabled={enabled}
+      className="mt-4"
+      onToggle={() => {
+        const next = !enabled;
+        setEnabled(next);
+        setHapticsEnabled(next);
+      }}
+    />
+  );
+}
+
 
 export const Route = createFileRoute("/schermata-6")({
   head: () => ({
