@@ -4,14 +4,14 @@ import { isNightMode, setNightMode } from "@/lib/theme";
 import { vibrate } from "@/lib/vibration";
 
 /** Icona luna/sole disegnata per l'app, con morph animato. */
-function SunMoonIcon({ night }: { night: boolean }) {
+function SunMoonIcon({ night, animated }: { night: boolean; animated: boolean }) {
   return (
     <span className="relative block size-9 shrink-0">
       {/* Luna */}
       <svg
         viewBox="0 0 40 40"
         aria-hidden
-        className="absolute inset-0 size-9 transition-all duration-[850ms] ease-out"
+        className={`absolute inset-0 size-9 ease-out ${animated ? "transition-all duration-[850ms]" : ""}`}
         style={{
           opacity: night ? 0 : 1,
           transform: night ? "rotate(-70deg) scale(0.6)" : "rotate(0deg) scale(1)",
@@ -31,7 +31,7 @@ function SunMoonIcon({ night }: { night: boolean }) {
       <svg
         viewBox="0 0 40 40"
         aria-hidden
-        className="absolute inset-0 size-9 transition-all duration-[850ms] ease-out"
+        className={`absolute inset-0 size-9 ease-out ${animated ? "transition-all duration-[850ms]" : ""}`}
         style={{
           opacity: night ? 1 : 0,
           transform: night ? "rotate(0deg) scale(1)" : "rotate(70deg) scale(0.6)",
@@ -88,7 +88,7 @@ export function NightModeToggle() {
         <span className="text-base font-medium text-foreground">
           {night ? "Modalità giorno" : "Modalità notte"}
         </span>
-        <SunMoonIcon night={night} />
+        <SunMoonIcon night={night} animated={animated} />
       </GlassPanel>
     </button>
   );
