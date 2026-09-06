@@ -3,7 +3,13 @@ import { useEffect, useState } from "react";
 import { ArrowLeft } from "lucide-react";
 import { ScreenLayout } from "@/components/ScreenLayout";
 import { GlassPanel } from "@/components/GlassPanel";
-import { isVibrationEnabled, setVibrationEnabled, vibrate } from "@/lib/vibration";
+import {
+  isVibrationEnabled,
+  setVibrationEnabled,
+  isHapticsEnabled,
+  setHapticsEnabled,
+  vibrate,
+} from "@/lib/vibration";
 import { clearAppVersion } from "@/lib/version";
 import { NightModeToggle } from "@/components/NightModeToggle";
 
@@ -94,6 +100,8 @@ export const Route = createFileRoute("/schermata-6")({
       </GlassPanel>
 
       <VibrationToggle />
+
+      <HapticsToggle />
 
       <NightModeToggle />
 
