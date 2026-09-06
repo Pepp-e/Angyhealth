@@ -4,6 +4,8 @@ import { ScreenHeader } from "@/components/ScreenHeader";
 import { GlassPanel } from "@/components/GlassPanel";
 import { useAppVersion } from "@/lib/version";
 import { vibrate } from "@/lib/vibration";
+import spotifyAsset from "@/assets/spotify.png.asset.json";
+import appleMusicAsset from "@/assets/apple-music.png.asset.json";
 
 const PLAYLIST_URL = "https://open.spotify.com/playlist/4jZ6SzEt6iawYBYj2kohtL";
 const APPLE_MUSIC_URL = "https://music.apple.com/browse";
