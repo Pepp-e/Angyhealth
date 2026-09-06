@@ -87,7 +87,7 @@ function TristezzaScreen() {
       <ScreenHeader title="Sei triste? Ascolta un po di musica!" />
 
       {version === "0000" ? (
-        <div className="mt-6 flex w-full gap-4">
+        <div className="mt-6 flex w-full flex-col gap-4">
           <MusicTile href={PLAYLIST_URL} label="Spotify">
             <SpotifyLogo />
           </MusicTile>
