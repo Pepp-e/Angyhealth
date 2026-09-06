@@ -4,14 +4,14 @@ import { isNightMode, setNightMode } from "@/lib/theme";
 import { vibrate } from "@/lib/vibration";
 
 /** Icona luna/sole disegnata per l'app, con morph animato. */
-function SunMoonIcon({ night }: { night: boolean }) {
+function SunMoonIcon({ night, animated }: { night: boolean; animated: boolean }) {
   return (
     <span className="relative block size-9 shrink-0">
       {/* Luna */}
       <svg
         viewBox="0 0 40 40"
         aria-hidden
-        className="absolute inset-0 size-9 transition-all duration-[850ms] ease-out"
+        className={`absolute inset-0 size-9 ease-out ${animated ? "transition-all duration-[850ms]" : ""}`}
         style={{
           opacity: night ? 0 : 1,
           transform: night ? "rotate(-70deg) scale(0.6)" : "rotate(0deg) scale(1)",
@@ -19,18 +19,19 @@ function SunMoonIcon({ night }: { night: boolean }) {
       >
         <path
           d="M27.5 24.6A11 11 0 0 1 15.4 8.9a12 12 0 1 0 14.4 17 11 11 0 0 1-2.3-1.3Z"
-          fill="oklch(0.3 0.05 250 / 0.95)"
-          stroke="oklch(0.3 0.05 250)"
+          fill="oklch(0.78 0.012 250 / 0.95)"
+          stroke="oklch(0.68 0.015 250)"
           strokeWidth="1.2"
           strokeLinejoin="round"
-          style={{ filter: "drop-shadow(0 0 5px oklch(0.3 0.05 250 / 0.35))" }}
+          style={{ filter: "drop-shadow(0 0 5px oklch(0.85 0.01 250 / 0.45))" }}
         />
+
       </svg>
       {/* Sole */}
       <svg
         viewBox="0 0 40 40"
         aria-hidden
-        className="absolute inset-0 size-9 transition-all duration-[850ms] ease-out"
+        className={`absolute inset-0 size-9 ease-out ${animated ? "transition-all duration-[850ms]" : ""}`}
         style={{
           opacity: night ? 1 : 0,
           transform: night ? "rotate(0deg) scale(1)" : "rotate(70deg) scale(0.6)",
@@ -60,7 +61,13 @@ function SunMoonIcon({ night }: { night: boolean }) {
 
 /** Contenitore Liquid Glass cliccabile per la modalità giorno/notte. */
 export function NightModeToggle() {
-  const [night, setNight] = useState(false);
+  // Stato iniziale letto in modo sincrono: nessuno sfarfallio al rimontaggio.
+  const [night, setNight] = useState(() =>
+    typeof document === "undefined"
+      ? false
+      : document.documentElement.classList.contains("night"),
+  );
+  const [animated, setAnimated] = useState(false);
 
   useEffect(() => {
     setNight(isNightMode());
@@ -68,10 +75,12 @@ export function NightModeToggle() {
 
   const toggle = () => {
     const next = !night;
+    setAnimated(true);
     setNight(next);
     setNightMode(next);
     vibrate(20);
   };
+
 
   return (
     <button type="button" onClick={toggle} aria-pressed={night} className="mt-4 block w-full">
@@ -79,7 +88,7 @@ export function NightModeToggle() {
         <span className="text-base font-medium text-foreground">
           {night ? "Modalità giorno" : "Modalità notte"}
         </span>
-        <SunMoonIcon night={night} />
+        <SunMoonIcon night={night} animated={animated} />
       </GlassPanel>
     </button>
   );
