@@ -4,42 +4,34 @@ import { ScreenHeader } from "@/components/ScreenHeader";
 import { GlassPanel } from "@/components/GlassPanel";
 import { useAppVersion } from "@/lib/version";
 import { vibrate } from "@/lib/vibration";
+import spotifyAsset from "@/assets/spotify.png.asset.json";
+import appleMusicAsset from "@/assets/apple-music.png.asset.json";
 
 const PLAYLIST_URL = "https://open.spotify.com/playlist/4jZ6SzEt6iawYBYj2kohtL";
 const APPLE_MUSIC_URL = "https://music.apple.com/browse";
 
-/** Logo ufficiale Spotify (cerchio verde con le tre onde). */
+/** Logo ufficiale Spotify. */
 function SpotifyLogo() {
   return (
-    <svg viewBox="0 0 168 168" className="size-12 shrink-0" role="img" aria-label="Spotify">
-      <circle cx="84" cy="84" r="84" fill="#1ED760" />
-      <g stroke="#000" fill="none" strokeLinecap="round">
-        <path d="M38 62c30-9 62-6 88 9" strokeWidth="15" />
-        <path d="M45 88c24-7 50-4 70 8" strokeWidth="12" />
-        <path d="M52 112c18-5 38-3 54 6" strokeWidth="10" />
-      </g>
-    </svg>
+    <img
+      src={spotifyAsset.url}
+      alt="Spotify"
+      className="size-12 shrink-0 object-contain"
+    />
   );
 }
 
-/** Logo ufficiale Apple Music (nota doppia su gradiente rosa/rosso). */
+/** Logo ufficiale Apple Music. */
 function AppleMusicLogo() {
   return (
-    <svg viewBox="0 0 64 64" className="size-12 shrink-0" role="img" aria-label="Apple Music">
-      <defs>
-        <linearGradient id="am-g" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#FA233B" />
-          <stop offset="100%" stopColor="#FB5C74" />
-        </linearGradient>
-      </defs>
-      <rect x="2" y="2" width="60" height="60" rx="14" fill="url(#am-g)" />
-      <path
-        d="M44 14.2 27 18.1v22.5a6.2 6.2 0 1 0 3.5 5.6V25.4L44 22.2v13.1a6.2 6.2 0 1 0 3.5 5.6V14.2Z"
-        fill="#fff"
-      />
-    </svg>
+    <img
+      src={appleMusicAsset.url}
+      alt="Apple Music"
+      className="size-12 shrink-0 object-contain"
+    />
   );
 }
+
 
 function MusicTile({
   href,
