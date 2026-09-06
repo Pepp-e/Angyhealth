@@ -14,6 +14,7 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { SkyBackground } from "@/components/SkyBackground";
 import { BottomNav } from "@/components/BottomNav";
 import { PinGate } from "@/components/PinGate";
+import { haptic } from "@/lib/vibration";
 
 function NotFoundComponent() {
   return (
@@ -103,6 +104,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "apple-touch-icon", href: "/favicon.png" },
       { rel: "manifest", href: "/manifest.webmanifest" },
     ],
+    scripts: [
+      {
+        children:
+          "try{if(localStorage.getItem('nuvola:night')==='on'){document.documentElement.classList.add('night')}}catch(e){}",
+      },
+    ],
   }),
   shellComponent: RootShell,
   component: RootComponent,
@@ -126,6 +133,18 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+
+  // Feedback tattile generale su ogni elemento interattivo.
+  useEffect(() => {
+    const onClick = (e: MouseEvent) => {
+      const target = e.target as HTMLElement | null;
+      if (!target?.closest?.('button, a, [role="button"], [role="switch"], input, label'))
+        return;
+      haptic();
+    };
+    document.addEventListener("click", onClick);
+    return () => document.removeEventListener("click", onClick);
+  }, []);
 
   return (
     <QueryClientProvider client={queryClient}>
