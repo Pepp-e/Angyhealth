@@ -61,7 +61,13 @@ function SunMoonIcon({ night }: { night: boolean }) {
 
 /** Contenitore Liquid Glass cliccabile per la modalità giorno/notte. */
 export function NightModeToggle() {
-  const [night, setNight] = useState(false);
+  // Stato iniziale letto in modo sincrono: nessuno sfarfallio al rimontaggio.
+  const [night, setNight] = useState(() =>
+    typeof document === "undefined"
+      ? false
+      : document.documentElement.classList.contains("night"),
+  );
+  const [animated, setAnimated] = useState(false);
 
   useEffect(() => {
     setNight(isNightMode());
@@ -69,10 +75,12 @@ export function NightModeToggle() {
 
   const toggle = () => {
     const next = !night;
+    setAnimated(true);
     setNight(next);
     setNightMode(next);
     vibrate(20);
   };
+
 
   return (
     <button type="button" onClick={toggle} aria-pressed={night} className="mt-4 block w-full">
