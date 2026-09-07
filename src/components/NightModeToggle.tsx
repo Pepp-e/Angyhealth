@@ -42,10 +42,10 @@ function SunMoonIcon({ night, animated }: { night: boolean; animated: boolean })
           cx="20"
           cy="20"
           r="7.5"
-          fill="oklch(1 0 0 / 0.95)"
-          style={{ filter: "drop-shadow(0 0 6px oklch(1 0 0 / 0.6))" }}
+          fill="#FFF1A8"
+          style={{ filter: "drop-shadow(0 0 6px rgba(255, 241, 168, 0.6))" }}
         />
-        <g stroke="oklch(1 0 0 / 0.9)" strokeWidth="2" strokeLinecap="round">
+        <g stroke="#FFF1A8" strokeWidth="2" strokeLinecap="round">
           <line x1="20" y1="3.5" x2="20" y2="8" />
           <line x1="20" y1="32" x2="20" y2="36.5" />
           <line x1="3.5" y1="20" x2="8" y2="20" />
