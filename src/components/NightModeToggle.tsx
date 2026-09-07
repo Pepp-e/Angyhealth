@@ -19,12 +19,13 @@ function SunMoonIcon({ night, animated }: { night: boolean; animated: boolean })
       >
         <path
           d="M27.5 24.6A11 11 0 0 1 15.4 8.9a12 12 0 1 0 14.4 17 11 11 0 0 1-2.3-1.3Z"
-          fill="oklch(0.78 0.012 250 / 0.95)"
-          stroke="oklch(0.68 0.015 250)"
+          fill="#FFF1A8"
+          stroke="#F2DF8E"
           strokeWidth="1.2"
           strokeLinejoin="round"
-          style={{ filter: "drop-shadow(0 0 5px oklch(0.85 0.01 250 / 0.45))" }}
+          style={{ filter: "drop-shadow(0 0 5px rgba(255, 241, 168, 0.5))" }}
         />
+
 
       </svg>
       {/* Sole */}
