@@ -92,15 +92,28 @@ export function PhotoCarousel({
           <Plus className="size-6" />
         </button>
 
-        <div className="flex justify-center gap-2">
-          {photos.map((_, i) => (
-            <span
-              key={i}
-              className={`size-2 rounded-full transition-all ${
-                i === current ? "bg-white shadow-[0_0_8px_rgba(255,255,255,0.9)]" : "bg-white/40"
-              }`}
-            />
-          ))}
+        <div className="flex h-3 items-center justify-center gap-2">
+          {(() => {
+            const max = 14;
+            let start = 0;
+            if (count > max) {
+              start = Math.min(Math.max(current - Math.floor(max / 2), 0), count - max);
+            }
+            const end = count > max ? start + max : count;
+            return photos.slice(start, end).map((_, i) => {
+              const idx = start + i;
+              return (
+                <span
+                  key={idx}
+                  className={`size-2 shrink-0 rounded-full transition-all ${
+                    idx === current
+                      ? "bg-white shadow-[0_0_8px_rgba(255,255,255,0.9)]"
+                      : "bg-white/40"
+                  }`}
+                />
+              );
+            });
+          })()}
         </div>
 
         <button
