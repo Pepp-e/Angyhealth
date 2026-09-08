@@ -28,7 +28,7 @@ const FONTS = [
 
 const COLORS = ["#112942", "#1f6feb", "#e0245e", "#0f9d58", "#f2a33c", "#7b4bd8"];
 
-const empty = (): Sheet => ({ text: "", font: FONTS[0].value, color: COLORS[0], drawing: null });
+const empty = (): Sheet => ({ text: "", font: FONTS[0]!.value, color: COLORS[0]!, drawing: null });
 
 function ToolButton({
   label,
