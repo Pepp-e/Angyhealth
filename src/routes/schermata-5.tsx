@@ -82,10 +82,3 @@ function MinigiochiScreen() {
     </ScreenLayout>
   );
 }
-
-function Unused() {
-  return (
-    <ScreenLayout>
-    </ScreenLayout>
-  );
-}
