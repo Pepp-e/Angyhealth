@@ -69,6 +69,16 @@ function MinigiochiScreen() {
           <Card key={item.title} item={item} />
         ))}
       </div>
+
+      <div className="mx-auto my-6 h-px w-2/3 rounded-full bg-white/70" />
+
+      <Card
+        item={{
+          title: "Le note della tua giornata",
+          description: "Scrivi cosa ti passa per la mente.",
+          to: "/note",
+        }}
+      />
     </ScreenLayout>
   );
 }
