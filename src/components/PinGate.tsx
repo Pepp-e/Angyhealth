@@ -2,6 +2,7 @@ import { useEffect, useState, type ReactNode } from "react";
 import { GlassPanel } from "@/components/GlassPanel";
 import { vibrate } from "@/lib/vibration";
 import { getAppVersion, setAppVersion, PIN_TO_VERSION } from "@/lib/version";
+import { useT } from "@/lib/i18n";
 
 const KEYS = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "back", "0", "ok"] as const;
 
@@ -12,6 +13,7 @@ export function PinGate({ children }: { children: ReactNode }) {
   const [intro, setIntro] = useState(true);
   const [pin, setPin] = useState("");
   const [error, setError] = useState(false);
+  const t = useT();
 
   useEffect(() => {
     if (getAppVersion()) setUnlocked(true);
@@ -91,10 +93,10 @@ export function PinGate({ children }: { children: ReactNode }) {
     <main className="mx-auto flex min-h-svh w-full max-w-md flex-col items-center justify-center px-5 pt-[calc(env(safe-area-inset-top)+1rem)] pb-[calc(env(safe-area-inset-bottom)+1rem)]">
       <GlassPanel className={`animate-pin-zoom-in w-full px-5 py-7 ${error ? "animate-quick-bounce" : ""}`}>
         <h1 className="text-center text-[clamp(1.25rem,5.6vw,1.6rem)] font-bold tracking-tight text-foreground">
-          Inserisci il codice "0000".
+          {t('Inserisci il codice "0000".')}
         </h1>
 
-        <div className="mt-5 flex items-center justify-center gap-4" aria-label="Cifre inserite">
+        <div className="mt-5 flex items-center justify-center gap-4" aria-label={t("Cifre inserite")}>
           {[0, 1, 2, 3].map((i) => (
             <span
               key={i}
@@ -113,7 +115,7 @@ export function PinGate({ children }: { children: ReactNode }) {
           className="mt-3 h-5 text-center text-sm font-medium text-foreground/80"
           aria-live="polite"
         >
-          {error ? "Codice errato" : ""}
+          {error ? t("Codice errato") : ""}
         </p>
 
         <div className="mt-3 grid grid-cols-3 gap-3">
@@ -122,7 +124,7 @@ export function PinGate({ children }: { children: ReactNode }) {
               key={k}
               type="button"
               onClick={() => press(k)}
-              aria-label={k === "back" ? "Cancella" : k === "ok" ? "Conferma" : k}
+              aria-label={k === "back" ? t("Cancella") : k === "ok" ? t("Conferma") : k}
               className="glass grid min-h-14 place-items-center rounded-2xl text-xl font-semibold text-foreground shadow-[0_0_10px_rgba(255,255,255,0.25)] transition-transform active:scale-[0.94]"
             >
               {k === "back" ? "⌫" : k === "ok" ? "✓" : k}

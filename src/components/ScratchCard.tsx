@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { RotateCcw } from "lucide-react";
 import { GlassPanel } from "@/components/GlassPanel";
 import { vibrate } from "@/lib/vibration";
+import { useT } from "@/lib/i18n";
 
 const THRESHOLD = 100;
 
@@ -45,6 +46,7 @@ export function ScratchCard() {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const drawing = useRef(false);
   const lastVibe = useRef(0);
+  const t = useT();
 
   const reset = useCallback(() => {
     const canvas = canvasRef.current;
@@ -134,7 +136,7 @@ export function ScratchCard() {
             <>
               <img
                 src={photo}
-                alt="La tua foto da grattare"
+                alt={t("La tua foto da grattare")}
                 className="absolute inset-0 h-full w-full rounded-[1.5rem] object-cover"
               />
               <canvas
@@ -158,7 +160,7 @@ export function ScratchCard() {
             >
               <span className="text-6xl font-light leading-none text-foreground">+</span>
               <span className="text-center text-base font-medium text-foreground">
-                Aggiungi le tue foto, e gratta via la rabbia!
+                {t("Aggiungi le tue foto, e gratta via la rabbia!")}
               </span>
             </button>
           )}
@@ -217,7 +219,7 @@ export function ScratchCard() {
       <div className="mt-4 flex items-center justify-between">
         <button
           type="button"
-          aria-label="Ricarica il minigioco"
+          aria-label={t("Ricarica il minigioco")}
           onClick={() => {
             vibrate(10);
             reset();
@@ -228,7 +230,7 @@ export function ScratchCard() {
         </button>
         <button
           type="button"
-          aria-label="Scegli una nuova foto"
+          aria-label={t("Scegli una nuova foto")}
           onClick={() => {
             vibrate(10);
             pickPhoto();

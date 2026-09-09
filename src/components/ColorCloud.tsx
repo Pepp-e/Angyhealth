@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { vibrate } from "@/lib/vibration";
+import { useT } from "@/lib/i18n";
 
 export type CloudColor = "green" | "red" | "blue" | "orange";
 
@@ -32,6 +33,7 @@ export function ColorCloud({
   enterFrom?: "left" | "right";
   enterDelay?: string;
 }) {
+  const t = useT();
   return (
     <span
       className={`block w-[44vw] min-w-[9.5rem] max-w-52 shrink-0 ${enterFrom === "left" ? "animate-cloud-in-left" : enterFrom === "right" ? "animate-cloud-in-right" : ""}`}
@@ -39,7 +41,7 @@ export function ColorCloud({
     >
       <Link
         to={to}
-        aria-label={label}
+        aria-label={t(label)}
         onClick={() => vibrate(45)}
         className="block w-full transition-transform active:scale-[0.96]"
       >
@@ -57,7 +59,7 @@ export function ColorCloud({
             <ellipse cx="88" cy="52" rx="24" ry="9" fill="oklch(1 0 0 / 0.45)" />
           </svg>
           <span className="pointer-events-none absolute inset-0 flex items-center justify-center pt-2 text-center text-base font-semibold text-white">
-            {label}
+            {t(label)}
           </span>
         </span>
       </Link>

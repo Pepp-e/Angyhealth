@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { GlassPanel } from "@/components/GlassPanel";
 import { isNightMode, setNightMode } from "@/lib/theme";
 import { vibrate } from "@/lib/vibration";
+import { useT } from "@/lib/i18n";
 
 /** Icona luna/sole disegnata per l'app, con morph animato. */
 function SunMoonIcon({ night, animated }: { night: boolean; animated: boolean }) {
@@ -69,6 +70,7 @@ export function NightModeToggle() {
       : document.documentElement.classList.contains("night"),
   );
   const [animated, setAnimated] = useState(false);
+  const t = useT();
 
   useEffect(() => {
     setNight(isNightMode());
@@ -87,7 +89,7 @@ export function NightModeToggle() {
     <button type="button" onClick={toggle} aria-pressed={night} className="mt-4 block w-full">
       <GlassPanel className="flex items-center justify-between px-5 py-4 transition-all duration-200 active:scale-[0.98] active:shadow-[0_0_16px_rgba(255,255,255,0.45)]">
         <span className="text-base font-medium text-foreground">
-          {night ? "Modalità giorno" : "Modalità notte"}
+          {night ? t("Modalità giorno") : t("Modalità notte")}
         </span>
         <SunMoonIcon night={night} animated={animated} />
       </GlassPanel>

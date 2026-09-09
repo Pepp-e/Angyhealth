@@ -4,6 +4,7 @@ import { ScreenHeader } from "@/components/ScreenHeader";
 import { GlassPanel } from "@/components/GlassPanel";
 import { useAppVersion } from "@/lib/version";
 import { vibrate } from "@/lib/vibration";
+import { useT } from "@/lib/i18n";
 import spotifyAsset from "@/assets/spotify.png.asset.json";
 import appleMusicAsset from "@/assets/apple-music.png.asset.json";
 
@@ -73,6 +74,7 @@ export const Route = createFileRoute("/nuvola-3")({
 
 function TristezzaScreen() {
   const version = useAppVersion();
+  const t = useT();
 
   return (
     <ScreenLayout>
@@ -90,7 +92,7 @@ function TristezzaScreen() {
       ) : (
         <GlassPanel className="mt-6 overflow-hidden rounded-[2rem] p-3">
           <iframe
-            title="Playlist Spotify"
+            title={t("Playlist Spotify")}
             src="https://open.spotify.com/embed/playlist/4jZ6SzEt6iawYBYj2kohtL?utm_source=generator"
             className="h-[352px] w-full rounded-[1.5rem] border-0"
             loading="lazy"
@@ -102,7 +104,7 @@ function TristezzaScreen() {
             rel="noopener noreferrer"
             className="mt-3 block rounded-2xl px-4 py-2 text-center text-sm font-semibold text-foreground"
           >
-            Apri la playlist su Spotify
+            {t("Apri la playlist su Spotify")}
           </a>
         </GlassPanel>
       )}

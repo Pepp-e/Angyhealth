@@ -4,6 +4,7 @@ import { ScreenHeader } from "@/components/ScreenHeader";
 import { GlassPanel } from "@/components/GlassPanel";
 import { vibrate } from "@/lib/vibration";
 import { useAppVersion } from "@/lib/version";
+import { useT } from "@/lib/i18n";
 
 type Item = {
   title: string;
@@ -20,10 +21,11 @@ const items: Item[] = [
 ];
 
 function Card({ item }: { item: Item }) {
+  const t = useT();
   const inner = (
     <GlassPanel className="w-full rounded-3xl px-5 py-4">
-      <p className="text-base font-semibold text-foreground">{item.title}</p>
-      <p className="mt-1 text-sm text-muted-foreground">{item.description}</p>
+      <p className="text-base font-semibold text-foreground">{t(item.title)}</p>
+      <p className="mt-1 text-sm text-muted-foreground">{t(item.description)}</p>
     </GlassPanel>
   );
 

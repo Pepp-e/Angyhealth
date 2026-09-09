@@ -4,12 +4,14 @@ import { ScreenLayout } from "@/components/ScreenLayout";
 import { PhotoCarousel } from "@/components/PhotoCarousel";
 import { useAppVersion } from "@/lib/version";
 import { vibrate } from "@/lib/vibration";
+import { useT } from "@/lib/i18n";
 
 /** Chiave locale: le foto restano solo sul dispositivo dell'utente. */
 const STORAGE_KEY = "ricordi-photos";
 
 function Ricordi() {
   const version = useAppVersion();
+  const t = useT();
   const [photos, setPhotos] = useState<string[]>([]);
   const [loaded, setLoaded] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -50,7 +52,7 @@ function Ricordi() {
   return (
     <ScreenLayout>
       <h1 className="text-center text-[clamp(1.4rem,6.2vw,1.8rem)] font-semibold tracking-tight text-foreground">
-        Rivivi i tuoi ricordi!
+        {t("Rivivi i tuoi ricordi!")}
       </h1>
 
       <input
@@ -78,7 +80,7 @@ function Ricordi() {
           onClick={() => vibrate(20)}
           className="glass mt-4 block rounded-3xl px-6 py-4 text-center text-base font-semibold text-white shadow-[0_0_12px_rgba(255,255,255,0.35)] transition-transform active:scale-[0.97]"
         >
-          Per quando non ti senti abbastanza
+          {t("Per quando non ti senti abbastanza")}
         </Link>
       )}
     </ScreenLayout>

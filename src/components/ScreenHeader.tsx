@@ -1,4 +1,5 @@
 import { BackButton } from "@/components/BackButton";
+import { useT } from "@/lib/i18n";
 
 /**
  * Header delle schermate: freccia indietro in alto a sinistra e titolo
@@ -11,6 +12,7 @@ export function ScreenHeader({
   title: string;
   back?: boolean;
 }) {
+  const t = useT();
   return (
     <div className="relative mb-3 flex w-full items-center justify-center">
       {back && (
@@ -19,7 +21,7 @@ export function ScreenHeader({
         </div>
       )}
       <h1 className="w-full px-14 text-center text-2xl font-bold leading-tight tracking-tight text-balance text-foreground">
-        {title}
+        {t(title)}
       </h1>
     </div>
   );
