@@ -9,8 +9,8 @@ import { useEffect, useState } from "react";
  */
 export type AppVersion = "2202" | "0000";
 
+/** Solo i PIN non protetti restano nel client: il 2202 è verificato dal server. */
 export const PIN_TO_VERSION: Record<string, AppVersion> = {
-  "2202": "2202",
   "0000": "0000",
 };
 
@@ -28,8 +28,18 @@ export function setAppVersion(v: AppVersion) {
 
 /** Esce dalla versione corrente e torna alla schermata PIN iniziale. */
 export function clearAppVersion() {
+  const wasV2202 = getAppVersion() === "2202";
   window.sessionStorage.removeItem(KEY);
-  window.location.href = "/";
+  const go = () => {
+    window.location.href = "/";
+  };
+  if (wasV2202) {
+    void import("./access.functions")
+      .then((m) => m.endSession2202())
+      .finally(go);
+  } else {
+    go();
+  }
 }
 
 /** Versione attualmente sbloccata (null durante SSR / prima del PIN). */
