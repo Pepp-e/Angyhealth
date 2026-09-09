@@ -2,6 +2,7 @@ import { useEffect, useState, type ReactNode } from "react";
 import { GlassPanel } from "@/components/GlassPanel";
 import { vibrate } from "@/lib/vibration";
 import { getAppVersion, setAppVersion, PIN_TO_VERSION } from "@/lib/version";
+import { verifyPin2202, hasSession2202 } from "@/lib/access.functions";
 import { useT } from "@/lib/i18n";
 
 const KEYS = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "back", "0", "ok"] as const;
@@ -16,11 +17,36 @@ export function PinGate({ children }: { children: ReactNode }) {
   const t = useT();
 
   useEffect(() => {
-    if (getAppVersion()) setUnlocked(true);
-    setReady(true);
+    const v = getAppVersion();
+    if (v === "0000") {
+      setUnlocked(true);
+      setReady(true);
+    } else {
+      // La versione 2202 vale solo con una sessione server valida.
+      void hasSession2202()
+        .then((r) => {
+          if (r.ok) {
+            setAppVersion("2202");
+            setUnlocked(true);
+          } else if (v === "2202") {
+            window.sessionStorage.removeItem("app-version");
+          }
+        })
+        .catch(() => {})
+        .finally(() => setReady(true));
+    }
     const t = setTimeout(() => setIntro(false), 2600);
     return () => clearTimeout(t);
   }, []);
+
+  const fail = () => {
+    setError(true);
+    vibrate([90, 40, 140]);
+    setTimeout(() => {
+      setPin("");
+      setError(false);
+    }, 700);
+  };
 
   const press = (k: (typeof KEYS)[number]) => {
     vibrate(12);
@@ -35,14 +61,20 @@ export function PinGate({ children }: { children: ReactNode }) {
         vibrate([90, 40, 140]);
         setAppVersion(version);
         setUnlocked(true);
-      } else {
-        setError(true);
-        vibrate([90, 40, 140]);
-        setTimeout(() => {
-          setPin("");
-          setError(false);
-        }, 700);
+        return;
       }
+      const attempt = pin;
+      void verifyPin2202({ data: { pin: attempt } })
+        .then((r) => {
+          if (r.ok) {
+            vibrate([90, 40, 140]);
+            setAppVersion("2202");
+            setUnlocked(true);
+          } else {
+            fail();
+          }
+        })
+        .catch(() => fail());
       return;
     }
     setError(false);
