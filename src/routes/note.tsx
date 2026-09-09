@@ -21,6 +21,7 @@ import { ScreenLayout } from "@/components/ScreenLayout";
 import { ScreenHeader } from "@/components/ScreenHeader";
 import { vibrate } from "@/lib/vibration";
 import foglio from "@/assets/foglio.png.asset.json";
+import { useT } from "@/lib/i18n";
 
 const STORAGE_KEY = "note-fogli";
 
@@ -146,6 +147,7 @@ function Popup({ onClose, children }: { onClose: () => void; children: React.Rea
 const fullText = (s: Sheet) => s.segments.map((x) => x.text).join("");
 
 function Note() {
+  const t = useT();
   const [sheets, setSheets] = useState<Sheet[]>([empty()]);
   const [index, setIndex] = useState(0);
   const [loaded, setLoaded] = useState(false);
@@ -347,7 +349,7 @@ function Note() {
         <div className={`relative max-h-full ${animClass}`} style={{ willChange: "transform" }}>
           <img
             src={foglio.url}
-            alt="Foglio di carta"
+            alt={t("Foglio di carta")}
             draggable={false}
             className="block max-h-[62svh] w-auto max-w-full select-none"
           />
@@ -376,7 +378,7 @@ function Note() {
             <textarea
               value={text}
               onChange={(e) => onText(e.target.value)}
-              placeholder={text ? "" : "Scrivi cosa ti passa per la mente."}
+              placeholder={text ? "" : t("Scrivi cosa ti passa per la mente.")}
               spellCheck={false}
               style={{
                 fontFamily: style.font,
@@ -433,19 +435,19 @@ function Note() {
 
       {/* 6 pulsanti */}
       <div className="mt-3 flex items-center justify-between gap-1 overflow-x-auto pb-1">
-        <ToolButton label="Modalità" active={popup === "mode"} onClick={() => openPopup("mode")}>
+        <ToolButton label={t("Modalità")} active={popup === "mode"} onClick={() => openPopup("mode")}>
           <span className="animate-in fade-in zoom-in duration-200" key={mode}>
             {mode === "write" ? <Type className="size-5" /> : <PenLine className="size-5" />}
           </span>
         </ToolButton>
-        <ToolButton label="Dimensione" active={popup === "size"} onClick={() => openPopup("size")}>
+        <ToolButton label={t("Dimensione")} active={popup === "size"} onClick={() => openPopup("size")}>
           <Baseline className="size-5" />
         </ToolButton>
-        <ToolButton label="Colore" active={popup === "color"} onClick={() => openPopup("color")}>
+        <ToolButton label={t("Colore")} active={popup === "color"} onClick={() => openPopup("color")}>
           <Palette className="size-5" />
         </ToolButton>
         <ToolButton
-          label={mode === "write" ? "Font" : "Trasparenza"}
+          label={mode === "write" ? t("Font") : t("Trasparenza")}
           active={popup === "fourth"}
           onClick={() => openPopup("fourth")}
         >
@@ -453,10 +455,10 @@ function Note() {
             {mode === "write" ? <Layers className="size-5" /> : <Droplets className="size-5" />}
           </span>
         </ToolButton>
-        <ToolButton label="Azioni" active={popup === "actions"} onClick={() => openPopup("actions")}>
+        <ToolButton label={t("Azioni")} active={popup === "actions"} onClick={() => openPopup("actions")}>
           <Undo2 className="size-5" />
         </ToolButton>
-        <ToolButton label="Fogli" active={popup === "sheets"} onClick={() => openPopup("sheets")}>
+        <ToolButton label={t("Fogli")} active={popup === "sheets"} onClick={() => openPopup("sheets")}>
           <Files className="size-5" />
         </ToolButton>
       </div>
@@ -470,7 +472,7 @@ function Note() {
                 close();
               }}
             >
-              <Type className="size-5" /> Scrittura
+              <Type className="size-5" /> {t("Scrittura")}
               {mode === "write" && <Check className="ml-auto size-4" />}
             </PopupRow>
             <PopupRow
@@ -479,7 +481,7 @@ function Note() {
                 close();
               }}
             >
-              <PenLine className="size-5" /> Disegno
+              <PenLine className="size-5" /> {t("Disegno")}
               {mode === "draw" && <Check className="ml-auto size-4" />}
             </PopupRow>
           </div>
@@ -489,11 +491,11 @@ function Note() {
       {popup === "size" && (
         <Popup onClose={close}>
           <p className="mb-3 text-center text-base font-semibold text-foreground">
-            Dimensione: {style.size}%
+            {t("Dimensione")}: {style.size}%
           </p>
           <div className="flex items-center gap-3">
             <ToolButton
-              label="Riduci"
+              label={t("Riduci")}
               onClick={() => setStyle((s) => ({ ...s, size: Math.max(1, s.size - 5) }))}
             >
               <Minus className="size-5" />
@@ -508,14 +510,14 @@ function Note() {
               className="flex-1 accent-[color:var(--primary)]"
             />
             <ToolButton
-              label="Aumenta"
+              label={t("Aumenta")}
               onClick={() => setStyle((s) => ({ ...s, size: Math.min(100, s.size + 5) }))}
             >
               <Plus className="size-5" />
             </ToolButton>
           </div>
           <PopupRow onClick={close}>
-            <Check className="size-5" /> Conferma
+            <Check className="size-5" /> {t("Conferma")}
           </PopupRow>
         </Popup>
       )}
@@ -527,7 +529,7 @@ function Note() {
               <button
                 key={c}
                 type="button"
-                aria-label={`Colore ${c}`}
+                aria-label={`${t("Colore")} ${c}`}
                 onClick={() => {
                   vibrate(10);
                   setStyle((s) => ({ ...s, color: c }));
@@ -552,7 +554,7 @@ function Note() {
                   close();
                 }}
               >
-                <span style={{ fontFamily: f.value }}>{f.label}</span>
+                <span style={{ fontFamily: f.value }}>{t(f.label)}</span>
                 {style.font === f.value && <Check className="ml-auto size-4" />}
               </PopupRow>
             ))}
@@ -563,7 +565,7 @@ function Note() {
       {popup === "fourth" && mode === "draw" && (
         <Popup onClose={close}>
           <p className="mb-3 text-center text-base font-semibold text-foreground">
-            Trasparenza: {100 - style.alpha}%
+            {t("Trasparenza")}: {100 - style.alpha}%
           </p>
           <input
             type="range"
@@ -575,7 +577,7 @@ function Note() {
             className="w-full accent-[color:var(--primary)]"
           />
           <PopupRow onClick={close}>
-            <Check className="size-5" /> Conferma
+            <Check className="size-5" /> {t("Conferma")}
           </PopupRow>
         </Popup>
       )}
@@ -609,7 +611,7 @@ function Note() {
                 close();
               }}
             >
-              <Trash2 className="size-5" /> Elimina
+              <Trash2 className="size-5" /> {t("Elimina")}
             </PopupRow>
           </div>
         </Popup>
@@ -620,10 +622,10 @@ function Note() {
           {confirmDelete ? (
             <div className="flex flex-col gap-3">
               <p className="text-center text-base text-foreground">
-                Vuoi davvero eliminare questo foglio?
+                {t("Vuoi davvero eliminare questo foglio?")}
               </p>
               <div className="flex gap-2">
-                <PopupRow onClick={() => setConfirmDelete(false)}>Annulla</PopupRow>
+                <PopupRow onClick={() => setConfirmDelete(false)}>{t("Annulla")}</PopupRow>
                 <PopupRow
                   onClick={() => {
                     setSheets((s) => {
@@ -636,14 +638,14 @@ function Note() {
                     close();
                   }}
                 >
-                  <Trash2 className="size-5" /> Elimina
+                  <Trash2 className="size-5" /> {t("Elimina")}
                 </PopupRow>
               </div>
             </div>
           ) : (
             <div className="flex flex-col gap-2">
               <p className="text-center text-base font-semibold text-foreground">
-                Foglio {index + 1} di {sheets.length}
+                {t("Foglio")} {index + 1} {t("di")} {sheets.length}
               </p>
               <PopupRow
                 onClick={() => {
@@ -652,7 +654,7 @@ function Note() {
                   close();
                 }}
               >
-                <Plus className="size-5" /> Nuovo foglio
+                <Plus className="size-5" /> {t("Nuovo foglio")}
               </PopupRow>
               <PopupRow
                 disabled={index === 0}
@@ -661,7 +663,7 @@ function Note() {
                   close();
                 }}
               >
-                <ArrowLeft className="size-5" /> Foglio precedente
+                <ArrowLeft className="size-5" /> {t("Foglio precedente")}
               </PopupRow>
               <PopupRow
                 disabled={index >= sheets.length - 1}
@@ -670,10 +672,10 @@ function Note() {
                   close();
                 }}
               >
-                <ArrowRight className="size-5" /> Foglio successivo
+                <ArrowRight className="size-5" /> {t("Foglio successivo")}
               </PopupRow>
               <PopupRow onClick={() => setConfirmDelete(true)}>
-                <Trash2 className="size-5" /> Cancella foglio
+                <Trash2 className="size-5" /> {t("Cancella foglio")}
               </PopupRow>
             </div>
           )}
