@@ -4,6 +4,7 @@ import { ScreenHeader } from "@/components/ScreenHeader";
 import { GlassPanel } from "@/components/GlassPanel";
 import { ContactsSection } from "@/components/ContactsSection";
 import { vibrate } from "@/lib/vibration";
+import { useT } from "@/lib/i18n";
 
 export const Route = createFileRoute("/schermata-4")({
   head: () => ({
@@ -14,7 +15,12 @@ export const Route = createFileRoute("/schermata-4")({
       { property: "og:description", content: "Contatti utili di emergenza a portata di mano." },
     ],
   }),
-  component: () => (
+  component: AiutoScreen,
+});
+
+function AiutoScreen() {
+  const t = useT();
+  return (
     <ScreenLayout>
       <ScreenHeader title="A chi posso chiedere aiuto?" back={false} />
 
@@ -25,7 +31,7 @@ export const Route = createFileRoute("/schermata-4")({
           className="block w-full transition-transform active:scale-[0.98]"
         >
           <GlassPanel className="w-full rounded-3xl px-5 py-4">
-            <p className="text-center text-base font-semibold text-foreground">Emergenza 112</p>
+            <p className="text-center text-base font-semibold text-foreground">{t("Emergenza 112")}</p>
           </GlassPanel>
         </a>
 
@@ -37,5 +43,5 @@ export const Route = createFileRoute("/schermata-4")({
         <ContactsSection />
       </div>
     </ScreenLayout>
-  ),
-});
+  );
+}

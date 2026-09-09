@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { GlassPanel } from "@/components/GlassPanel";
 import { vibrate } from "@/lib/vibration";
+import { useT } from "@/lib/i18n";
 
 const STORAGE_KEY = "nuvola:contatti";
 
@@ -22,6 +23,7 @@ export function ContactsSection() {
   const [manual, setManual] = useState(false);
   const [name, setName] = useState("");
   const [tel, setTel] = useState("");
+  const t = useT();
 
   useEffect(() => {
     setContacts(load());
@@ -51,7 +53,7 @@ export function ContactsSection() {
         if (c) {
           save([
             ...contacts,
-            { name: c.name?.[0] ?? "Contatto", tel: c.tel?.[0] ?? "" },
+            { name: c.name?.[0] ?? t("Contatto"), tel: c.tel?.[0] ?? "" },
           ]);
           return;
         }
@@ -68,7 +70,7 @@ export function ContactsSection() {
       <button type="button" onClick={addContact} className="w-full text-left">
         <GlassPanel className="w-full rounded-3xl px-5 py-4">
           <p className="text-center text-base font-semibold text-foreground">
-            Aggiungi un contatto
+            {t("Aggiungi un contatto")}
           </p>
         </GlassPanel>
       </button>
@@ -79,14 +81,14 @@ export function ContactsSection() {
             <input
               value={name}
               onChange={(e) => setName(e.target.value)}
-              placeholder="Nome"
+              placeholder={t("Nome")}
               className="w-full rounded-2xl bg-white/40 px-4 py-2 text-base text-foreground outline-none placeholder:text-muted-foreground"
             />
             <input
               value={tel}
               onChange={(e) => setTel(e.target.value)}
               inputMode="tel"
-              placeholder="Numero di telefono"
+              placeholder={t("Numero di telefono")}
               className="w-full rounded-2xl bg-white/40 px-4 py-2 text-base text-foreground outline-none placeholder:text-muted-foreground"
             />
             <button
@@ -94,14 +96,14 @@ export function ContactsSection() {
               onClick={() => {
                 if (!name.trim() && !tel.trim()) return;
                 vibrate(15);
-                save([...contacts, { name: name.trim() || "Contatto", tel: tel.trim() }]);
+                save([...contacts, { name: name.trim() || t("Contatto"), tel: tel.trim() }]);
                 setName("");
                 setTel("");
                 setManual(false);
               }}
               className="glass-center rounded-2xl px-4 py-2 text-base font-semibold text-foreground"
             >
-              Salva
+              {t("Salva")}
             </button>
           </div>
         </GlassPanel>
