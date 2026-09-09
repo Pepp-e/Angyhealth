@@ -2,6 +2,7 @@ import { useRef, useState } from "react";
 import { Plus, Trash2 } from "lucide-react";
 import { GlassPanel } from "@/components/GlassPanel";
 import { vibrate } from "@/lib/vibration";
+import { useT } from "@/lib/i18n";
 
 /**
  * Carosello foto touch riutilizzabile (versione 0000 e 2202).
@@ -21,6 +22,7 @@ export function PhotoCarousel({
   const [index, setIndex] = useState(0);
   const [drag, setDrag] = useState(0);
   const startX = useRef<number | null>(null);
+  const t = useT();
 
   const count = photos.length;
   const current = count ? ((index % count) + count) % count : 0;
@@ -35,7 +37,7 @@ export function PhotoCarousel({
         }}
         className="glass mx-auto mt-4 grid aspect-[3/4] w-full max-w-[19rem] place-items-center rounded-[1.6rem] px-6 shadow-[0_12px_34px_rgba(30,80,140,0.25)] transition-transform active:scale-[0.98]"
       >
-        <span className="text-base font-medium text-foreground">Aggiungi le foto!</span>
+        <span className="text-base font-medium text-foreground">{t("Aggiungi le foto!")}</span>
       </button>
     );
   }
@@ -70,7 +72,7 @@ export function PhotoCarousel({
             <div className="aspect-[4/5] w-full overflow-hidden rounded-[1.1rem] ring-1 ring-white/60">
               <img
                 src={photos[current]}
-                alt={`Ricordo ${current + 1}`}
+                alt={`${t("Ricordo")} ${current + 1}`}
                 loading="lazy"
                 className="size-full object-cover"
               />
@@ -82,7 +84,7 @@ export function PhotoCarousel({
       <div className="mt-3 flex items-center justify-between">
         <button
           type="button"
-          aria-label="Aggiungi foto"
+          aria-label={t("Aggiungi foto")}
           onClick={() => {
             vibrate(20);
             onAdd?.();
@@ -118,7 +120,7 @@ export function PhotoCarousel({
 
         <button
           type="button"
-          aria-label="Elimina foto"
+          aria-label={t("Elimina foto")}
           onClick={() => {
             vibrate(20);
             onDelete?.(current);
