@@ -415,3 +415,39 @@ body {
   animation: cloud-cross 2.6s cubic-bezier(0.45, 0, 0.55, 1) both;
   will-change: transform, opacity;
 }
+
+/* Animazioni della schermata Note (solo foglio) */
+@keyframes note-open {
+  0% { transform: scale(0.82) rotate(-6deg) skewX(6deg); filter: contrast(1.25) brightness(0.94); opacity: 0; }
+  45% { transform: scale(1.03) rotate(2deg) skewX(-2deg); filter: contrast(1.08); opacity: 1; }
+  75% { transform: scale(0.995) rotate(-0.6deg) skewX(0.6deg); filter: none; }
+  100% { transform: none; filter: none; opacity: 1; }
+}
+@keyframes note-undo {
+  0% { transform: none; }
+  45% { transform: translateX(-10px) rotate(-1.2deg) scale(0.985); opacity: 0.85; }
+  100% { transform: none; opacity: 1; }
+}
+@keyframes note-redo {
+  0% { transform: none; }
+  45% { transform: translateX(10px) rotate(1.2deg) scale(0.985); opacity: 0.85; }
+  100% { transform: none; opacity: 1; }
+}
+@keyframes note-next {
+  0% { transform: translateX(38%) rotateY(-16deg); opacity: 0.35; }
+  100% { transform: none; opacity: 1; }
+}
+@keyframes note-prev {
+  0% { transform: translateX(-38%) rotateY(16deg); opacity: 0.35; }
+  100% { transform: none; opacity: 1; }
+}
+@keyframes note-new {
+  0% { transform: translateY(-14%) scale(0.94) rotate(-2deg); opacity: 0; }
+  100% { transform: none; opacity: 1; }
+}
+.animate-note-open { animation: note-open 0.85s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.animate-note-undo { animation: note-undo 0.38s ease-in-out both; }
+.animate-note-redo { animation: note-redo 0.38s ease-in-out both; }
+.animate-note-next { animation: note-next 0.38s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.animate-note-prev { animation: note-prev 0.38s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.animate-note-new { animation: note-new 0.4s cubic-bezier(0.22, 1, 0.36, 1) both; }
