@@ -20,15 +20,19 @@ import {
 import { ScreenLayout } from "@/components/ScreenLayout";
 import { ScreenHeader } from "@/components/ScreenHeader";
 import { vibrate } from "@/lib/vibration";
+import foglio from "@/assets/foglio.png.asset.json";
 
 const STORAGE_KEY = "note-fogli";
 
-type Sheet = {
+type Seg = {
   text: string;
   font: string;
   color: string;
   size: number;
-  alpha: number;
+};
+
+type Sheet = {
+  segments: Seg[];
   drawing: string | null;
 };
 
@@ -65,16 +69,14 @@ const COLORS: string[] = [
   "#5b3a21",
 ];
 
-const empty = (): Sheet => ({
-  text: "",
-  font: FONTS[0]!.value,
-  color: "#112942",
-  size: 100,
-  alpha: 100,
-  drawing: null,
-});
+const empty = (): Sheet => ({ segments: [], drawing: null });
+
+/** 1% → 100% mappati su una progressione morbida di dimensioni. */
+const fontRem = (size: number) => 0.6 + (size / 100) * 1.4;
+const strokePx = (size: number) => 1 + (size / 100) * 5;
 
 type Popup = "mode" | "size" | "color" | "fourth" | "actions" | "sheets" | null;
+type Anim = "open" | "undo" | "redo" | "next" | "prev" | "new" | null;
 
 function ToolButton({
   label,
@@ -141,6 +143,8 @@ function Popup({ onClose, children }: { onClose: () => void; children: React.Rea
   );
 }
 
+const fullText = (s: Sheet) => s.segments.map((x) => x.text).join("");
+
 function Note() {
   const [sheets, setSheets] = useState<Sheet[]>([empty()]);
   const [index, setIndex] = useState(0);
@@ -148,24 +152,47 @@ function Note() {
   const [popup, setPopup] = useState<Popup>(null);
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [mode, setMode] = useState<"write" | "draw">("write");
+  const [anim, setAnim] = useState<Anim>("open");
+  // Stile applicato SOLO al testo scritto da ora in poi.
+  const [style, setStyle] = useState({
+    font: FONTS[0]!.value,
+    color: "#112942",
+    size: 50,
+    alpha: 100,
+  });
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const drawing = useRef(false);
-  const history = useRef<Sheet[]>([]);
-  const future = useRef<Sheet[]>([]);
+  // Cronologia indipendente per ogni foglio.
+  const history = useRef<Record<number, Sheet[]>>({});
+  const future = useRef<Record<number, Sheet[]>>({});
+  const [, force] = useState(0);
 
   const sheet = sheets[index] ?? empty();
+  const text = fullText(sheet);
+
+  const play = (a: Anim, ms = 420) => {
+    setAnim(a);
+    window.setTimeout(() => setAnim(null), ms);
+  };
 
   useEffect(() => {
     try {
       const raw = window.localStorage.getItem(STORAGE_KEY);
       if (raw) {
         const parsed = JSON.parse(raw) as Sheet[];
-        if (parsed.length) setSheets(parsed.map((s) => ({ ...empty(), ...s })));
+        if (parsed.length)
+          setSheets(
+            parsed.map((s) => ({
+              drawing: s.drawing ?? null,
+              segments: Array.isArray(s.segments) ? s.segments : [],
+            })),
+          );
       }
     } catch {
       /* ignora */
     }
     setLoaded(true);
+    window.setTimeout(() => setAnim(null), 900);
   }, []);
 
   useEffect(() => {
@@ -184,13 +211,12 @@ function Note() {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
     const rect = canvas.getBoundingClientRect();
+    if (!rect.width) return;
     const dpr = window.devicePixelRatio || 1;
     canvas.width = rect.width * dpr;
     canvas.height = rect.height * dpr;
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     ctx.clearRect(0, 0, rect.width, rect.height);
-    history.current = [];
-    future.current = [];
     const data = sheets[index]?.drawing;
     if (data) {
       const img = new Image();
@@ -199,13 +225,13 @@ function Note() {
     }
   }, [index, loaded]);
 
-  const update = (patch: Partial<Sheet>) =>
-    setSheets((s) => s.map((x, i) => (i === index ? { ...x, ...patch } : x)));
+  const setSheet = (next: Sheet) => setSheets((all) => all.map((x, i) => (i === index ? next : x)));
 
   const snapshot = () => {
-    history.current.push({ ...sheet });
-    if (history.current.length > 30) history.current.shift();
-    future.current = [];
+    const h = (history.current[index] ??= []);
+    h.push({ segments: sheet.segments.map((s) => ({ ...s })), drawing: sheet.drawing });
+    if (h.length > 30) h.shift();
+    future.current[index] = [];
   };
 
   const paint = (data: string | null) => {
@@ -222,22 +248,63 @@ function Note() {
   };
 
   const applySheet = (s: Sheet) => {
-    setSheets((all) => all.map((x, i) => (i === index ? s : x)));
+    setSheet(s);
     paint(s.drawing);
   };
 
   const undo = () => {
-    const prev = history.current.pop();
+    const prev = (history.current[index] ??= []).pop();
     if (!prev) return;
-    future.current.push({ ...sheet });
+    (future.current[index] ??= []).push({ segments: sheet.segments, drawing: sheet.drawing });
+    play("undo", 380);
     applySheet(prev);
+    force((n) => n + 1);
   };
 
   const redo = () => {
-    const next = future.current.pop();
+    const next = (future.current[index] ??= []).pop();
     if (!next) return;
-    history.current.push({ ...sheet });
+    (history.current[index] ??= []).push({ segments: sheet.segments, drawing: sheet.drawing });
+    play("redo", 380);
     applySheet(next);
+    force((n) => n + 1);
+  };
+
+  /** Aggiunge il testo nuovo con lo stile corrente, lasciando invariato quello già scritto. */
+  const onText = (value: string) => {
+    if (value === text) return;
+    if (!history.current[index]?.length || value.length % 8 === 0) snapshot();
+
+    if (value.length > text.length && value.startsWith(text)) {
+      const added = value.slice(text.length);
+      const segs = sheet.segments.map((s) => ({ ...s }));
+      const last = segs[segs.length - 1];
+      if (last && last.font === style.font && last.color === style.color && last.size === style.size)
+        last.text += added;
+      else segs.push({ text: added, font: style.font, color: style.color, size: style.size });
+      setSheet({ ...sheet, segments: segs });
+      return;
+    }
+
+    // Prefisso comune: conserva stili, il resto prende lo stile corrente.
+    let common = 0;
+    while (common < value.length && common < text.length && value[common] === text[common]) common++;
+    const segs: Seg[] = [];
+    let used = 0;
+    for (const s of sheet.segments) {
+      if (used >= common) break;
+      const take = Math.min(s.text.length, common - used);
+      if (take > 0) segs.push({ ...s, text: s.text.slice(0, take) });
+      used += take;
+    }
+    const rest = value.slice(common);
+    if (rest) {
+      const last = segs[segs.length - 1];
+      if (last && last.font === style.font && last.color === style.color && last.size === style.size)
+        last.text += rest;
+      else segs.push({ text: rest, font: style.font, color: style.color, size: style.size });
+    }
+    setSheet({ ...sheet, segments: segs });
   };
 
   const pos = (e: React.PointerEvent<HTMLCanvasElement>) => {
@@ -251,68 +318,117 @@ function Note() {
     setConfirmDelete(false);
   };
 
+  const goTo = (i: number, a: Anim) => {
+    play(a, 380);
+    setIndex(i);
+  };
+
+  const animClass =
+    anim === "open"
+      ? "animate-note-open"
+      : anim === "undo"
+        ? "animate-note-undo"
+        : anim === "redo"
+          ? "animate-note-redo"
+          : anim === "next"
+            ? "animate-note-next"
+            : anim === "prev"
+              ? "animate-note-prev"
+              : anim === "new"
+                ? "animate-note-new"
+                : "";
+
   return (
     <ScreenLayout>
       <ScreenHeader title="Le note della tua giornata" />
 
-      {/* Foglio di carta realistico */}
-      <div className="relative mt-2 flex-1 overflow-hidden rounded-[0.9rem] rounded-tr-[2.2rem] bg-[linear-gradient(150deg,#ffffff_0%,#fbfaf6_45%,#f3f1ea_100%)] p-4 shadow-[0_18px_45px_rgba(30,80,140,0.32),0_2px_0_rgba(255,255,255,0.9)_inset,-6px_0_14px_-10px_rgba(0,0,0,0.25)_inset] ring-1 ring-black/5">
-        <div className="pointer-events-none absolute inset-y-0 left-7 w-px bg-red-300/40" />
-        <textarea
-          value={sheet.text}
-          onChange={(e) => {
-            if (!history.current.length || history.current[history.current.length - 1]!.text !== sheet.text)
-              snapshot();
-            update({ text: e.target.value });
-          }}
-          placeholder="Scrivi cosa ti passa per la mente."
-          style={{
-            fontFamily: sheet.font,
-            color: sheet.color,
-            fontSize: `${sheet.size / 100}rem`,
-            lineHeight: 1.6,
-          }}
-          className="relative size-full resize-none bg-transparent pl-5 outline-none placeholder:opacity-40"
-        />
-        <canvas
-          ref={canvasRef}
-          className="absolute inset-0 size-full touch-none"
-          style={{ pointerEvents: mode === "draw" && !popup ? "auto" : "none" }}
-          onPointerDown={(e) => {
-            const ctx = canvasRef.current?.getContext("2d");
-            if (!ctx) return;
-            e.currentTarget.setPointerCapture(e.pointerId);
-            snapshot();
-            drawing.current = true;
-            const p = pos(e);
-            ctx.globalAlpha = sheet.alpha / 100;
-            ctx.strokeStyle = sheet.color;
-            ctx.lineWidth = Math.max(1, (sheet.size / 100) * 2.5);
-            ctx.lineCap = "round";
-            ctx.lineJoin = "round";
-            ctx.beginPath();
-            ctx.moveTo(p.x, p.y);
-            ctx.lineTo(p.x + 0.01, p.y);
-            ctx.stroke();
-          }}
-          onPointerMove={(e) => {
-            if (!drawing.current) return;
-            const ctx = canvasRef.current?.getContext("2d");
-            if (!ctx) return;
-            const events = e.nativeEvent.getCoalescedEvents?.() ?? [];
-            const rect = e.currentTarget.getBoundingClientRect();
-            const points = events.length
-              ? events.map((ev) => ({ x: ev.clientX - rect.left, y: ev.clientY - rect.top }))
-              : [pos(e)];
-            for (const p of points) ctx.lineTo(p.x, p.y);
-            ctx.stroke();
-          }}
-          onPointerUp={() => {
-            if (!drawing.current) return;
-            drawing.current = false;
-            update({ drawing: canvasRef.current?.toDataURL() ?? null });
-          }}
-        />
+      {/* Foglio: PNG originale, senza cornici né deformazioni permanenti */}
+      <div className="mt-2 flex min-h-0 flex-1 items-center justify-center [perspective:1200px]">
+        <div className={`relative max-h-full ${animClass}`} style={{ willChange: "transform" }}>
+          <img
+            src={foglio.url}
+            alt="Foglio di carta"
+            draggable={false}
+            className="block max-h-[62svh] w-auto max-w-full select-none"
+          />
+
+          <div className="absolute inset-[7%]">
+            {/* Testo renderizzato (segmenti con stile indipendente) */}
+            <div
+              aria-hidden
+              className="pointer-events-none absolute inset-0 overflow-hidden whitespace-pre-wrap break-words text-left"
+              style={{ lineHeight: 1.6 }}
+            >
+              {sheet.segments.map((s, i) => (
+                <span
+                  key={i}
+                  style={{
+                    fontFamily: s.font,
+                    color: s.color,
+                    fontSize: `${fontRem(s.size)}rem`,
+                  }}
+                >
+                  {s.text}
+                </span>
+              ))}
+            </div>
+
+            <textarea
+              value={text}
+              onChange={(e) => onText(e.target.value)}
+              placeholder={text ? "" : "Scrivi cosa ti passa per la mente."}
+              spellCheck={false}
+              style={{
+                fontFamily: style.font,
+                fontSize: `${fontRem(style.size)}rem`,
+                lineHeight: 1.6,
+                caretColor: style.color,
+                color: "transparent",
+              }}
+              className="absolute inset-0 size-full resize-none bg-transparent outline-none placeholder:text-[#112942]/40"
+            />
+
+            <canvas
+              ref={canvasRef}
+              className="absolute inset-0 size-full touch-none"
+              style={{ pointerEvents: mode === "draw" && !popup ? "auto" : "none" }}
+              onPointerDown={(e) => {
+                const ctx = canvasRef.current?.getContext("2d");
+                if (!ctx) return;
+                e.currentTarget.setPointerCapture(e.pointerId);
+                snapshot();
+                drawing.current = true;
+                const p = pos(e);
+                ctx.globalAlpha = style.alpha / 100;
+                ctx.strokeStyle = style.color;
+                ctx.lineWidth = strokePx(style.size);
+                ctx.lineCap = "round";
+                ctx.lineJoin = "round";
+                ctx.beginPath();
+                ctx.moveTo(p.x, p.y);
+                ctx.lineTo(p.x + 0.01, p.y);
+                ctx.stroke();
+              }}
+              onPointerMove={(e) => {
+                if (!drawing.current) return;
+                const ctx = canvasRef.current?.getContext("2d");
+                if (!ctx) return;
+                const events = e.nativeEvent.getCoalescedEvents?.() ?? [];
+                const rect = e.currentTarget.getBoundingClientRect();
+                const points = events.length
+                  ? events.map((ev) => ({ x: ev.clientX - rect.left, y: ev.clientY - rect.top }))
+                  : [pos(e)];
+                for (const p of points) ctx.lineTo(p.x, p.y);
+                ctx.stroke();
+              }}
+              onPointerUp={() => {
+                if (!drawing.current) return;
+                drawing.current = false;
+                setSheet({ ...sheet, drawing: canvasRef.current?.toDataURL() ?? null });
+              }}
+            />
+          </div>
+        </div>
       </div>
 
       {/* 6 pulsanti */}
@@ -373,27 +489,27 @@ function Note() {
       {popup === "size" && (
         <Popup onClose={close}>
           <p className="mb-3 text-center text-base font-semibold text-foreground">
-            Dimensione: {sheet.size}%
+            Dimensione: {style.size}%
           </p>
           <div className="flex items-center gap-3">
             <ToolButton
               label="Riduci"
-              onClick={() => update({ size: Math.max(50, sheet.size - 10) })}
+              onClick={() => setStyle((s) => ({ ...s, size: Math.max(1, s.size - 5) }))}
             >
               <Minus className="size-5" />
             </ToolButton>
             <input
               type="range"
-              min={50}
-              max={300}
-              step={5}
-              value={sheet.size}
-              onChange={(e) => update({ size: Number(e.target.value) })}
+              min={1}
+              max={100}
+              step={1}
+              value={style.size}
+              onChange={(e) => setStyle((s) => ({ ...s, size: Number(e.target.value) }))}
               className="flex-1 accent-[color:var(--primary)]"
             />
             <ToolButton
               label="Aumenta"
-              onClick={() => update({ size: Math.min(300, sheet.size + 10) })}
+              onClick={() => setStyle((s) => ({ ...s, size: Math.min(100, s.size + 5) }))}
             >
               <Plus className="size-5" />
             </ToolButton>
@@ -414,7 +530,7 @@ function Note() {
                 aria-label={`Colore ${c}`}
                 onClick={() => {
                   vibrate(10);
-                  update({ color: c });
+                  setStyle((s) => ({ ...s, color: c }));
                   close();
                 }}
                 style={{ backgroundColor: c }}
@@ -432,12 +548,12 @@ function Note() {
               <PopupRow
                 key={f.label}
                 onClick={() => {
-                  update({ font: f.value });
+                  setStyle((s) => ({ ...s, font: f.value }));
                   close();
                 }}
               >
                 <span style={{ fontFamily: f.value }}>{f.label}</span>
-                {sheet.font === f.value && <Check className="ml-auto size-4" />}
+                {style.font === f.value && <Check className="ml-auto size-4" />}
               </PopupRow>
             ))}
           </div>
@@ -447,15 +563,15 @@ function Note() {
       {popup === "fourth" && mode === "draw" && (
         <Popup onClose={close}>
           <p className="mb-3 text-center text-base font-semibold text-foreground">
-            Trasparenza: {100 - sheet.alpha}%
+            Trasparenza: {100 - style.alpha}%
           </p>
           <input
             type="range"
-            min={10}
+            min={1}
             max={100}
-            step={5}
-            value={sheet.alpha}
-            onChange={(e) => update({ alpha: Number(e.target.value) })}
+            step={1}
+            value={style.alpha}
+            onChange={(e) => setStyle((s) => ({ ...s, alpha: Number(e.target.value) }))}
             className="w-full accent-[color:var(--primary)]"
           />
           <PopupRow onClick={close}>
@@ -468,19 +584,19 @@ function Note() {
         <Popup onClose={close}>
           <div className="flex flex-col gap-2">
             <PopupRow
-              disabled={!history.current.length}
+              disabled={!history.current[index]?.length}
               onClick={() => {
-                undo();
                 close();
+                undo();
               }}
             >
               <Undo2 className="size-5" /> Undo
             </PopupRow>
             <PopupRow
-              disabled={!future.current.length}
+              disabled={!future.current[index]?.length}
               onClick={() => {
-                redo();
                 close();
+                redo();
               }}
             >
               <Redo2 className="size-5" /> Redo
@@ -488,7 +604,7 @@ function Note() {
             <PopupRow
               onClick={() => {
                 snapshot();
-                update({ text: "", drawing: null });
+                setSheet({ segments: [], drawing: null });
                 paint(null);
                 close();
               }}
@@ -514,6 +630,8 @@ function Note() {
                       const next = s.filter((_, i) => i !== index);
                       return next.length ? next : [empty()];
                     });
+                    history.current = {};
+                    future.current = {};
                     setIndex((i) => Math.max(0, i - 1));
                     close();
                   }}
@@ -530,7 +648,7 @@ function Note() {
               <PopupRow
                 onClick={() => {
                   setSheets((s) => [...s, empty()]);
-                  setIndex(sheets.length);
+                  goTo(sheets.length, "new");
                   close();
                 }}
               >
@@ -539,7 +657,7 @@ function Note() {
               <PopupRow
                 disabled={index === 0}
                 onClick={() => {
-                  setIndex((i) => i - 1);
+                  goTo(index - 1, "prev");
                   close();
                 }}
               >
@@ -548,7 +666,7 @@ function Note() {
               <PopupRow
                 disabled={index >= sheets.length - 1}
                 onClick={() => {
-                  setIndex((i) => i + 1);
+                  goTo(index + 1, "next");
                   close();
                 }}
               >
