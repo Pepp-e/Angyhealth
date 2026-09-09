@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { GlassPanel } from "@/components/GlassPanel";
 import { vibrate } from "@/lib/vibration";
+import { useT } from "@/lib/i18n";
 
 type Phase = { prompt: string; need: number; correct: string[]; wrong: string[] };
 
@@ -57,6 +58,8 @@ export function GroundingGame() {
   const [selected, setSelected] = useState<string[]>([]);
   const [wrongPick, setWrongPick] = useState<string | null>(null);
   const [done, setDone] = useState(false);
+  const t = useT();
+
 
   const phase = PHASES[step]!;
   const items = useMemo(
@@ -107,23 +110,23 @@ export function GroundingGame() {
       {done ? (
         <div className="animate-fade-in flex flex-col items-center gap-3 text-center">
           <p className="text-lg font-semibold text-foreground">
-            Brava! Hai completato l'esercizio.
+            {t("Brava! Hai completato l'esercizio.")}
           </p>
           <p className="text-sm text-muted-foreground">
-            Prenditi un momento e continua con calma.
+            {t("Prenditi un momento e continua con calma.")}
           </p>
           <button
             type="button"
             onClick={restart}
             className="glass mt-1 rounded-full px-6 py-3 text-base font-semibold text-foreground transition-transform active:scale-[0.96]"
           >
-            Ricomincia
+            {t("Ricomincia")}
           </button>
         </div>
       ) : (
         <div key={`${step}-${round}`} className="animate-fade-in flex flex-col items-center gap-3">
           <p className="text-center text-lg font-semibold text-foreground">
-            {phase.prompt}
+            {t(phase.prompt)}
           </p>
           <p className="text-sm text-muted-foreground">
             {selected.length} / {phase.need}

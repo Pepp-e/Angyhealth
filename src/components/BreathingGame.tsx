@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { GlassPanel } from "@/components/GlassPanel";
 import { vibrate } from "@/lib/vibration";
+import { useT } from "@/lib/i18n";
 
 const CLOUD_PATH =
   "M40 104 C22 104 14 90 22 78 C27 70 36 68 43 70 C42 54 55 42 71 44 C79 30 100 26 113 36 C122 24 143 25 151 39 C154 45 155 51 154 56 C172 55 183 68 179 83 C176 96 165 104 150 104 Z";
@@ -24,6 +25,7 @@ export function BreathingGame() {
   const [frozenScale, setFrozenScale] = useState<number | null>(null);
   const svgRef = useRef<SVGSVGElement>(null);
   const timer = useRef<ReturnType<typeof setInterval> | null>(null);
+  const t = useT();
 
   const togglePause = () => {
     vibrate(10);
@@ -110,20 +112,20 @@ export function BreathingGame() {
         {done ? (
           <>
             <p className="text-center text-lg font-semibold text-foreground">
-              Hai completato l'esercizio!
+              {t("Hai completato l'esercizio!")}
             </p>
             <button
               type="button"
               onClick={restart}
               className="glass rounded-full px-6 py-3 text-base font-semibold text-foreground transition-transform active:scale-[0.96]"
             >
-              Ricomincia
+              {t("Ricomincia")}
             </button>
           </>
         ) : (
           <>
             <p className="text-center text-xl font-semibold text-foreground">
-              {current.label}
+              {t(current.label)}
             </p>
             <p
               key={`${phase}-${remaining}-${elapsed}`}
@@ -138,10 +140,10 @@ export function BreathingGame() {
             <button
               type="button"
               onClick={togglePause}
-              aria-label={paused ? "Riprendi" : "Pausa"}
+              aria-label={paused ? t("Riprendi") : t("Pausa")}
               className="glass min-h-12 rounded-full px-7 py-3 text-base font-semibold text-foreground transition-transform active:scale-[0.96]"
             >
-              {paused ? "▶ Play" : "⏸ Pausa"}
+              {paused ? `▶ ${t("Play")}` : `⏸ ${t("Pausa")}`}
             </button>
           </>
         )}
