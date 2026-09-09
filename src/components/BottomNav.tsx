@@ -1,6 +1,7 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { Cloud, Compass, Heart, Settings, User } from "lucide-react";
 import { vibrate } from "@/lib/vibration";
+import { useT } from "@/lib/i18n";
 
 /** Barra di navigazione inferiore con 5 pulsanti (icone provvisorie). */
 const items = [
@@ -14,6 +15,7 @@ const items = [
 
 export function BottomNav() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const t = useT();
 
   return (
     <nav className="fixed inset-x-0 bottom-0 z-50 px-4 pb-[calc(env(safe-area-inset-bottom)+1rem)]">
@@ -25,7 +27,7 @@ export function BottomNav() {
             <li key={label} className="flex-1">
               <Link
                 to={to}
-                aria-label={label}
+                aria-label={t(label)}
                 aria-current={active ? "page" : undefined}
                 onClick={() => vibrate(10)}
                 activeOptions={{ exact: true }}

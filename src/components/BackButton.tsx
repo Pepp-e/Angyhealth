@@ -1,14 +1,16 @@
 import { useRouter } from "@tanstack/react-router";
 import { vibrate } from "@/lib/vibration";
+import { useT } from "@/lib/i18n";
 
 /** Pulsante "Indietro" Liquid Glass, torna alla schermata precedente. */
 export function BackButton() {
   const router = useRouter();
+  const t = useT();
 
   return (
     <button
       type="button"
-      aria-label="Torna indietro"
+      aria-label={t("Torna indietro")}
       onClick={() => {
         vibrate(10);
         router.history.back();
