@@ -422,10 +422,11 @@ function Note() {
                 const ctx = canvasRef.current?.getContext("2d");
                 if (!ctx) return;
                 const events = e.nativeEvent.getCoalescedEvents?.() ?? [];
-                const rect = e.currentTarget.getBoundingClientRect();
+                const canvas = e.currentTarget;
                 const points = events.length
-                  ? events.map((ev) => ({ x: ev.clientX - rect.left, y: ev.clientY - rect.top }))
+                  ? events.map((ev) => toPos(canvas, ev.clientX, ev.clientY))
                   : [pos(e)];
+
                 for (const p of points) ctx.lineTo(p.x, p.y);
                 ctx.stroke();
               }}
