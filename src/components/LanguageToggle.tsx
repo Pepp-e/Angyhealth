@@ -31,6 +31,8 @@ function ItFlag() {
 export function LanguageToggle() {
   const lang = useLang();
   const [pulse, setPulse] = useState(false);
+  // L'animazione delle bandiere parte solo al click, non al re-render/cambio schermata.
+  const [animKey, setAnimKey] = useState(0);
 
   return (
     <button
@@ -38,6 +40,7 @@ export function LanguageToggle() {
       onClick={() => {
         vibrate(20);
         setPulse(true);
+        setAnimKey((k) => k + 1);
         window.setTimeout(() => setPulse(false), 260);
         toggleLang();
       }}
@@ -51,7 +54,10 @@ export function LanguageToggle() {
         <span className="text-base font-medium text-foreground">
           {lang === "it" ? "Traduci in inglese" : "Translate in italian"}
         </span>
-        <span className="animate-in fade-in zoom-in duration-200" key={lang}>
+        <span
+          className={animKey > 0 ? "animate-in fade-in zoom-in duration-200" : undefined}
+          key={animKey}
+        >
           {lang === "it" ? <UkFlag /> : <ItFlag />}
         </span>
       </GlassPanel>
