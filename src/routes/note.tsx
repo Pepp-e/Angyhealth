@@ -242,13 +242,15 @@ function Note() {
     const canvas = canvasRef.current;
     const ctx = canvas?.getContext("2d");
     if (!canvas || !ctx) return;
-    const rect = canvas.getBoundingClientRect();
-    ctx.clearRect(0, 0, rect.width, rect.height);
+    const w = canvas.clientWidth;
+    const h = canvas.clientHeight;
+    ctx.clearRect(0, 0, w, h);
     if (data) {
       const img = new Image();
-      img.onload = () => ctx.drawImage(img, 0, 0, rect.width, rect.height);
+      img.onload = () => ctx.drawImage(img, 0, 0, w, h);
       img.src = data;
     }
+
   };
 
   const applySheet = (s: Sheet) => {
