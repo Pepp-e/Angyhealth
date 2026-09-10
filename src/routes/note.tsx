@@ -212,19 +212,21 @@ function Note() {
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
-    const rect = canvas.getBoundingClientRect();
-    if (!rect.width) return;
+    const w = canvas.clientWidth;
+    const h = canvas.clientHeight;
+    if (!w) return;
     const dpr = window.devicePixelRatio || 1;
-    canvas.width = rect.width * dpr;
-    canvas.height = rect.height * dpr;
+    canvas.width = w * dpr;
+    canvas.height = h * dpr;
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    ctx.clearRect(0, 0, rect.width, rect.height);
+    ctx.clearRect(0, 0, w, h);
     const data = sheets[index]?.drawing;
     if (data) {
       const img = new Image();
-      img.onload = () => ctx.drawImage(img, 0, 0, rect.width, rect.height);
+      img.onload = () => ctx.drawImage(img, 0, 0, w, h);
       img.src = data;
     }
+
   }, [index, loaded]);
 
   const setSheet = (next: Sheet) => setSheets((all) => all.map((x, i) => (i === index ? next : x)));
@@ -240,13 +242,15 @@ function Note() {
     const canvas = canvasRef.current;
     const ctx = canvas?.getContext("2d");
     if (!canvas || !ctx) return;
-    const rect = canvas.getBoundingClientRect();
-    ctx.clearRect(0, 0, rect.width, rect.height);
+    const w = canvas.clientWidth;
+    const h = canvas.clientHeight;
+    ctx.clearRect(0, 0, w, h);
     if (data) {
       const img = new Image();
-      img.onload = () => ctx.drawImage(img, 0, 0, rect.width, rect.height);
+      img.onload = () => ctx.drawImage(img, 0, 0, w, h);
       img.src = data;
     }
+
   };
 
   const applySheet = (s: Sheet) => {
@@ -309,10 +313,16 @@ function Note() {
     setSheet({ ...sheet, segments: segs });
   };
 
-  const pos = (e: React.PointerEvent<HTMLCanvasElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    return { x: e.clientX - rect.left, y: e.clientY - rect.top };
+  /** Converte le coordinate del puntatore in coordinate canvas, tenendo conto di eventuali scale/transform. */
+  const toPos = (canvas: HTMLCanvasElement, clientX: number, clientY: number) => {
+    const rect = canvas.getBoundingClientRect();
+    const sx = rect.width ? canvas.clientWidth / rect.width : 1;
+    const sy = rect.height ? canvas.clientHeight / rect.height : 1;
+    return { x: (clientX - rect.left) * sx, y: (clientY - rect.top) * sy };
   };
+
+  const pos = (e: React.PointerEvent<HTMLCanvasElement>) => toPos(e.currentTarget, e.clientX, e.clientY);
+
 
   const openPopup = (p: Popup) => setPopup((cur) => (cur === p ? null : p));
   const close = () => {
@@ -416,10 +426,11 @@ function Note() {
                 const ctx = canvasRef.current?.getContext("2d");
                 if (!ctx) return;
                 const events = e.nativeEvent.getCoalescedEvents?.() ?? [];
-                const rect = e.currentTarget.getBoundingClientRect();
+                const canvas = e.currentTarget;
                 const points = events.length
-                  ? events.map((ev) => ({ x: ev.clientX - rect.left, y: ev.clientY - rect.top }))
+                  ? events.map((ev) => toPos(canvas, ev.clientX, ev.clientY))
                   : [pos(e)];
+
                 for (const p of points) ctx.lineTo(p.x, p.y);
                 ctx.stroke();
               }}
