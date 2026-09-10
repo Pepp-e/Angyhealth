@@ -131,8 +131,11 @@ function Impostazioni() {
         {t("Torna al pin")}
       </button>
 
-      <div className="flex flex-1 items-end justify-center">
+      <div className="flex flex-1 flex-col items-center justify-end">
         <p className="text-center text-xs text-muted-foreground">By Giuseppe Miranda</p>
+        <p className="mt-1.5 text-center text-[0.65rem] text-muted-foreground/80">
+          © 2026 — AngyHealth. Tutti i diritti riservati.
+        </p>
       </div>
     </ScreenLayout>
   );
