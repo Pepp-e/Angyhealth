@@ -15,6 +15,7 @@ import { SkyBackground } from "@/components/SkyBackground";
 import { BottomNav } from "@/components/BottomNav";
 import { PinGate } from "@/components/PinGate";
 import { OfflineOverlay } from "@/components/OfflineOverlay";
+import { DocumentTitle } from "@/components/DocumentTitle";
 import { haptic } from "@/lib/vibration";
 
 function NotFoundComponent() {
@@ -149,6 +150,7 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
+      <DocumentTitle />
       <SkyBackground />
       <PinGate>
         {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
