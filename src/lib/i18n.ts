@@ -181,6 +181,9 @@ const EN: Record<string, string> = {
   Corsivo: "Cursive",
   Elegante: "Elegant",
   "Macchina da scrivere": "Typewriter",
+  "Sei offline": "You are offline",
+  "Controlla la tua connessione Internet e riprova.":
+    "Check your Internet connection and try again.",
 };
 
 /** Restituisce la funzione di traduzione per la lingua attiva. */

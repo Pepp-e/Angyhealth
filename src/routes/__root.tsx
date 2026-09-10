@@ -14,6 +14,7 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { SkyBackground } from "@/components/SkyBackground";
 import { BottomNav } from "@/components/BottomNav";
 import { PinGate } from "@/components/PinGate";
+import { OfflineOverlay } from "@/components/OfflineOverlay";
 import { haptic } from "@/lib/vibration";
 
 function NotFoundComponent() {
@@ -154,6 +155,8 @@ function RootComponent() {
         <Outlet />
         <BottomNav />
       </PinGate>
+      <OfflineOverlay />
     </QueryClientProvider>
+
   );
 }
