@@ -212,19 +212,21 @@ function Note() {
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
-    const rect = canvas.getBoundingClientRect();
-    if (!rect.width) return;
+    const w = canvas.clientWidth;
+    const h = canvas.clientHeight;
+    if (!w) return;
     const dpr = window.devicePixelRatio || 1;
-    canvas.width = rect.width * dpr;
-    canvas.height = rect.height * dpr;
+    canvas.width = w * dpr;
+    canvas.height = h * dpr;
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    ctx.clearRect(0, 0, rect.width, rect.height);
+    ctx.clearRect(0, 0, w, h);
     const data = sheets[index]?.drawing;
     if (data) {
       const img = new Image();
-      img.onload = () => ctx.drawImage(img, 0, 0, rect.width, rect.height);
+      img.onload = () => ctx.drawImage(img, 0, 0, w, h);
       img.src = data;
     }
+
   }, [index, loaded]);
 
   const setSheet = (next: Sheet) => setSheets((all) => all.map((x, i) => (i === index ? next : x)));
