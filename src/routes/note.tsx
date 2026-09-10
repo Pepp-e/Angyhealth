@@ -309,10 +309,16 @@ function Note() {
     setSheet({ ...sheet, segments: segs });
   };
 
-  const pos = (e: React.PointerEvent<HTMLCanvasElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    return { x: e.clientX - rect.left, y: e.clientY - rect.top };
+  /** Converte le coordinate del puntatore in coordinate canvas, tenendo conto di eventuali scale/transform. */
+  const toPos = (canvas: HTMLCanvasElement, clientX: number, clientY: number) => {
+    const rect = canvas.getBoundingClientRect();
+    const sx = rect.width ? canvas.clientWidth / rect.width : 1;
+    const sy = rect.height ? canvas.clientHeight / rect.height : 1;
+    return { x: (clientX - rect.left) * sx, y: (clientY - rect.top) * sy };
   };
+
+  const pos = (e: React.PointerEvent<HTMLCanvasElement>) => toPos(e.currentTarget, e.clientX, e.clientY);
+
 
   const openPopup = (p: Popup) => setPopup((cur) => (cur === p ? null : p));
   const close = () => {
