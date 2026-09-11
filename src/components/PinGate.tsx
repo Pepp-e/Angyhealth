@@ -86,7 +86,7 @@ export function PinGate({ children }: { children: ReactNode }) {
 
   if (!ready) return null;
 
-  if (unlocked) {
+  if (unlocked && !intro) {
     return <div className="animate-in fade-in zoom-in-95 duration-500 ease-out">{children}</div>;
   }
 
