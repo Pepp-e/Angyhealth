@@ -109,6 +109,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     ],
     scripts: [
       {
+        async: true,
+        src: "https://www.googletagmanager.com/gtag/js?id=G-CL70WKEY64",
+      },
+      {
+        children:
+          "window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}window.gtag=gtag;gtag('js', new Date());gtag('config', 'G-CL70WKEY64');",
+      },
+      {
         children:
           "try{if(localStorage.getItem('nuvola:night')==='on'){document.documentElement.classList.add('night')}}catch(e){}",
       },
