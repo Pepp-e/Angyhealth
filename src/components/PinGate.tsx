@@ -17,8 +17,9 @@ export function PinGate({ children }: { children: ReactNode }) {
   const t = useT();
 
   useEffect(() => {
-    const v = getAppVersion();
+    const v = getAppVersion() ?? getLastAppVersion();
     if (v === "0000") {
+      setAppVersion("0000");
       setUnlocked(true);
       setReady(true);
     } else {
