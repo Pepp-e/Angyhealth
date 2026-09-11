@@ -30,7 +30,9 @@ export function PinGate({ children }: { children: ReactNode }) {
             setAppVersion("2202");
             setUnlocked(true);
           } else if (v === "2202") {
-            window.sessionStorage.removeItem("app-version");
+            // Versione già autenticata su questo dispositivo: nessun PIN.
+            setAppVersion("2202");
+            setUnlocked(true);
           }
         })
         .catch(() => {})
