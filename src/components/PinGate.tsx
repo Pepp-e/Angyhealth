@@ -1,7 +1,7 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { GlassPanel } from "@/components/GlassPanel";
 import { vibrate } from "@/lib/vibration";
-import { getAppVersion, setAppVersion, PIN_TO_VERSION } from "@/lib/version";
+import { getAppVersion, getLastAppVersion, setAppVersion, PIN_TO_VERSION } from "@/lib/version";
 import { verifyPin2202, hasSession2202 } from "@/lib/access.functions";
 import { useT } from "@/lib/i18n";
 
