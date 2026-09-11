@@ -1,7 +1,7 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { GlassPanel } from "@/components/GlassPanel";
 import { vibrate } from "@/lib/vibration";
-import { getAppVersion, setAppVersion, PIN_TO_VERSION } from "@/lib/version";
+import { getAppVersion, getLastAppVersion, setAppVersion, PIN_TO_VERSION } from "@/lib/version";
 import { verifyPin2202, hasSession2202 } from "@/lib/access.functions";
 import { useT } from "@/lib/i18n";
 
@@ -17,8 +17,9 @@ export function PinGate({ children }: { children: ReactNode }) {
   const t = useT();
 
   useEffect(() => {
-    const v = getAppVersion();
+    const v = getAppVersion() ?? getLastAppVersion();
     if (v === "0000") {
+      setAppVersion("0000");
       setUnlocked(true);
       setReady(true);
     } else {
@@ -29,7 +30,9 @@ export function PinGate({ children }: { children: ReactNode }) {
             setAppVersion("2202");
             setUnlocked(true);
           } else if (v === "2202") {
-            window.sessionStorage.removeItem("app-version");
+            // Versione già autenticata su questo dispositivo: nessun PIN.
+            setAppVersion("2202");
+            setUnlocked(true);
           }
         })
         .catch(() => {})
@@ -83,7 +86,7 @@ export function PinGate({ children }: { children: ReactNode }) {
 
   if (!ready) return null;
 
-  if (unlocked) {
+  if (unlocked && !intro) {
     return <div className="animate-in fade-in zoom-in-95 duration-500 ease-out">{children}</div>;
   }
 
