@@ -1,6 +1,7 @@
 {
-  "name": "Nuvola",
-  "short_name": "Nuvola",
+  "name": "AngyHealth",
+  "short_name": "AngyHealth",
+  "description": "AngyHealth — Una nuvola per la tua salute.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
