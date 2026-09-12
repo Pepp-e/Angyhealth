@@ -84,19 +84,20 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { title: "AngyHealth" },
+      { name: "description", content: "AngyHealth — Una nuvola per la tua salute." },
+      { name: "author", content: "AngyHealth" },
+      { name: "robots", content: "index, follow" },
+      { property: "og:title", content: "AngyHealth" },
+      { property: "og:description", content: "AngyHealth — Una nuvola per la tua salute." },
       { property: "og:type", content: "website" },
+      { property: "og:site_name", content: "AngyHealth" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:site", content: "@Lovable" },
       { name: "theme-color", content: "#a8d5f2" },
       { name: "mobile-web-app-capable", content: "yes" },
       { name: "apple-mobile-web-app-capable", content: "yes" },
       { name: "apple-mobile-web-app-status-bar-style", content: "default" },
-      { name: "apple-mobile-web-app-title", content: "Nuvola" },
+      { name: "apple-mobile-web-app-title", content: "AngyHealth" },
     ],
     links: [
       {
@@ -134,7 +135,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="it">
       <head>
         <HeadContent />
       </head>

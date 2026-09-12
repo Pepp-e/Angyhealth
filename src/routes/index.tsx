@@ -7,11 +7,13 @@ import { useT } from "@/lib/i18n";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Nuvola — Schermata principale" },
-      { name: "description", content: "App mobile-first con sfondo cielo e interfaccia liquid glass." },
-      { property: "og:title", content: "Nuvola — Schermata principale" },
-      { property: "og:description", content: "App mobile-first con sfondo cielo e interfaccia liquid glass." },
+      { title: "AngyHealth" },
+      { name: "description", content: "AngyHealth — Una nuvola per la tua salute." },
+      { property: "og:title", content: "AngyHealth" },
+      { property: "og:description", content: "AngyHealth — Una nuvola per la tua salute." },
+      { property: "og:url", content: "https://angyhealth.lovable.app/" },
     ],
+    links: [{ rel: "canonical", href: "https://angyhealth.lovable.app/" }],
   }),
   component: Index,
 });
