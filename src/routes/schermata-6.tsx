@@ -14,6 +14,7 @@ import { clearAppVersion } from "@/lib/version";
 import { NightModeToggle } from "@/components/NightModeToggle";
 import { LanguageToggle } from "@/components/LanguageToggle";
 import { useT } from "@/lib/i18n";
+import { openPrivacySettings } from "@/lib/consent";
 
 function ToggleRow({
   label,
