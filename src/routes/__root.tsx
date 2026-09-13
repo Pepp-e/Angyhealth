@@ -184,6 +184,7 @@ function RootComponent() {
         <Outlet />
         <BottomNav />
       </PinGate>
+      <CookieConsent />
       <OfflineOverlay />
     </QueryClientProvider>
 
