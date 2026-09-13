@@ -7,9 +7,9 @@ import { useT } from "@/lib/i18n";
 export const Route = createFileRoute("/lettera")({
   head: () => ({
     meta: [
-      { title: "Per quando non ti senti abbastanza — Nuvola" },
+      { title: "Per quando non ti senti abbastanza — AngyHealth" },
       { name: "description", content: "Uno spazio dedicato a una lettera per i momenti difficili." },
-      { property: "og:title", content: "Per quando non ti senti abbastanza — Nuvola" },
+      { property: "og:title", content: "Per quando non ti senti abbastanza — AngyHealth" },
       {
         property: "og:description",
         content: "Uno spazio dedicato a una lettera per i momenti difficili.",

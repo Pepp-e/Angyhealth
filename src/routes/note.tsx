@@ -699,9 +699,9 @@ function Note() {
 export const Route = createFileRoute("/note")({
   head: () => ({
     meta: [
-      { title: "Le note della tua giornata — Nuvola" },
+      { title: "Le note della tua giornata — AngyHealth" },
       { name: "description", content: "Scrivi e disegna le note della tua giornata." },
-      { property: "og:title", content: "Le note della tua giornata — Nuvola" },
+      { property: "og:title", content: "Le note della tua giornata — AngyHealth" },
       {
         property: "og:description",
         content: "Scrivi e disegna le note della tua giornata.",

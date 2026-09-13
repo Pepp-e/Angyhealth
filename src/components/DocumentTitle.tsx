@@ -4,7 +4,10 @@ import { useLang } from "@/lib/i18n";
 
 /** Titoli della scheda del browser per percorso e lingua. */
 const TITLES: Record<string, { it: string; en: string }> = {
-  "/": { it: "AngyHealth", en: "AngyHealth" },
+  "/": {
+    it: "AngyHealth — Una nuvola per la tua salute",
+    en: "AngyHealth — A cloud for your health",
+  },
   "/schermata-1": { it: "Nuvole - AngyHealth", en: "Clouds - AngyHealth" },
   "/schermata-2": { it: "Ricordi - AngyHealth", en: "Memories - AngyHealth" },
   "/schermata-4": { it: "Contatti - AngyHealth", en: "Contacts - AngyHealth" },

@@ -85,12 +85,20 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "AngyHealth" },
-      { name: "description", content: "AngyHealth — Una nuvola per la tua salute." },
+      { title: "AngyHealth — Una nuvola per la tua salute" },
+      {
+        name: "description",
+        content:
+          "AngyHealth è una nuvola per la tua salute: uno spazio digitale pensato per aiutarti a gestire ansia, panico, rabbia e tristezza.",
+      },
       { name: "author", content: "AngyHealth" },
       { name: "robots", content: "index, follow" },
-      { property: "og:title", content: "AngyHealth" },
-      { property: "og:description", content: "AngyHealth — Una nuvola per la tua salute." },
+      { property: "og:title", content: "AngyHealth — Una nuvola per la tua salute" },
+      {
+        property: "og:description",
+        content:
+          "AngyHealth è una nuvola per la tua salute: uno spazio digitale pensato per aiutarti a gestire ansia, panico, rabbia e tristezza.",
+      },
       { property: "og:type", content: "website" },
       { property: "og:site_name", content: "AngyHealth" },
       { name: "twitter:card", content: "summary_large_image" },

@@ -24,9 +24,9 @@ const clouds: {
 export const Route = createFileRoute("/schermata-1")({
   head: () => ({
     meta: [
-      { title: "Schermata 1 — Nuvola" },
+      { title: "Schermata 1 — AngyHealth" },
       { name: "description", content: "Seconda schermata con quattro nuvole colorate." },
-      { property: "og:title", content: "Schermata 1 — Nuvola" },
+      { property: "og:title", content: "Schermata 1 — AngyHealth" },
       { property: "og:description", content: "Seconda schermata con quattro nuvole colorate." },
     ],
   }),

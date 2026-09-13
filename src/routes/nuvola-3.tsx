@@ -63,9 +63,9 @@ function MusicTile({
 export const Route = createFileRoute("/nuvola-3")({
   head: () => ({
     meta: [
-      { title: "Tristezza — Nuvola" },
+      { title: "Tristezza — AngyHealth" },
       { name: "description", content: "Ascolta un po' di musica nei momenti tristi." },
-      { property: "og:title", content: "Tristezza — Nuvola" },
+      { property: "og:title", content: "Tristezza — AngyHealth" },
       { property: "og:description", content: "Ascolta un po' di musica nei momenti tristi." },
     ],
   }),

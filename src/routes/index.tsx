@@ -7,13 +7,43 @@ import { useT } from "@/lib/i18n";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "AngyHealth" },
-      { name: "description", content: "AngyHealth — Una nuvola per la tua salute." },
-      { property: "og:title", content: "AngyHealth" },
-      { property: "og:description", content: "AngyHealth — Una nuvola per la tua salute." },
+      { title: "AngyHealth — Una nuvola per la tua salute" },
+      {
+        name: "description",
+        content:
+          "AngyHealth è una nuvola per la tua salute: uno spazio digitale pensato per aiutarti a gestire ansia, panico, rabbia e tristezza.",
+      },
+      { property: "og:title", content: "AngyHealth — Una nuvola per la tua salute" },
+      {
+        property: "og:description",
+        content:
+          "AngyHealth è una nuvola per la tua salute: uno spazio digitale pensato per aiutarti a gestire ansia, panico, rabbia e tristezza.",
+      },
+      { property: "og:type", content: "website" },
       { property: "og:url", content: "https://angyhealth.lovable.app/" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "AngyHealth — Una nuvola per la tua salute" },
+      {
+        name: "twitter:description",
+        content:
+          "AngyHealth è una nuvola per la tua salute: uno spazio digitale pensato per aiutarti a gestire ansia, panico, rabbia e tristezza.",
+      },
     ],
     links: [{ rel: "canonical", href: "https://angyhealth.lovable.app/" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "WebApplication",
+          name: "AngyHealth",
+          url: "https://angyhealth.lovable.app/",
+          description: "AngyHealth è una nuvola per la tua salute.",
+          applicationCategory: "HealthApplication",
+          operatingSystem: "Web",
+        }),
+      },
+    ],
   }),
   component: Index,
 });

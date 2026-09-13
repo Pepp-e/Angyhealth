@@ -45,9 +45,9 @@ function Card({ item }: { item: Item }) {
 export const Route = createFileRoute("/schermata-5")({
   head: () => ({
     meta: [
-      { title: "Minigiochi — Nuvola" },
+      { title: "Minigiochi — AngyHealth" },
       { name: "description", content: "Raccolta dei minigiochi e dei contenuti delle nuvolette." },
-      { property: "og:title", content: "Minigiochi — Nuvola" },
+      { property: "og:title", content: "Minigiochi — AngyHealth" },
       { property: "og:description", content: "Raccolta dei minigiochi e dei contenuti delle nuvolette." },
     ],
   }),

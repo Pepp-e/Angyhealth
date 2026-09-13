@@ -91,10 +91,10 @@ function HapticsToggle() {
 export const Route = createFileRoute("/schermata-6")({
   head: () => ({
     meta: [
-      { title: "Impostazioni — Nuvola" },
-      { name: "description", content: "Impostazioni dell'app Nuvola, incluso il controllo della vibrazione." },
-      { property: "og:title", content: "Impostazioni — Nuvola" },
-      { property: "og:description", content: "Impostazioni dell'app Nuvola, incluso il controllo della vibrazione." },
+      { title: "Impostazioni — AngyHealth" },
+      { name: "description", content: "Impostazioni dell'app AngyHealth, incluso il controllo della vibrazione." },
+      { property: "og:title", content: "Impostazioni — AngyHealth" },
+      { property: "og:description", content: "Impostazioni dell'app AngyHealth, incluso il controllo della vibrazione." },
     ],
   }),
   component: Impostazioni,
