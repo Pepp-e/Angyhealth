@@ -181,6 +181,20 @@ const EN: Record<string, string> = {
   Corsivo: "Cursive",
   Elegante: "Elegant",
   "Macchina da scrivere": "Typewriter",
+  // Privacy e cookie
+  "La tua privacy conta": "Your privacy matters",
+  "Utilizziamo cookie e tecnologie simili per far funzionare AngyHealth, capire come viene utilizzato e, se autorizzato, migliorare la tua esperienza. Puoi accettare tutti i cookie, rifiutare quelli non necessari oppure scegliere quali consentire.":
+    "We use cookies and similar technologies to run AngyHealth, understand how it is used and, if you allow it, improve your experience. You can accept all cookies, reject the non-essential ones or choose which ones to allow.",
+  "Accetta tutti": "Accept all",
+  "Rifiuta non necessari": "Reject non-essential",
+  Personalizza: "Customise",
+  "Impostazioni privacy": "Privacy settings",
+  "Cookie necessari": "Necessary cookies",
+  "Cookie analitici": "Analytics cookies",
+  "Cookie pubblicitari": "Advertising cookies",
+  "Salva preferenze": "Save preferences",
+  "Preferenze cookie": "Cookie preferences",
+
   "Sei offline": "You are offline",
   "Controlla la tua connessione Internet e riprova.":
     "Check your Internet connection and try again.",

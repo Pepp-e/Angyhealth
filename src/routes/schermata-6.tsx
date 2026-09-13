@@ -14,6 +14,7 @@ import { clearAppVersion } from "@/lib/version";
 import { NightModeToggle } from "@/components/NightModeToggle";
 import { LanguageToggle } from "@/components/LanguageToggle";
 import { useT } from "@/lib/i18n";
+import { openPrivacySettings } from "@/lib/consent";
 
 function ToggleRow({
   label,
@@ -136,6 +137,16 @@ function Impostazioni() {
         <p className="mt-1.5 text-center text-[0.65rem] text-muted-foreground/80">
           © 2026 — AngyHealth. Tutti i diritti riservati.
         </p>
+        <button
+          type="button"
+          onClick={() => {
+            vibrate(12);
+            openPrivacySettings();
+          }}
+          className="glass mt-3 rounded-2xl px-4 py-2 text-xs font-medium text-foreground transition-transform active:scale-[0.97]"
+        >
+          {t("Preferenze cookie")}
+        </button>
       </div>
     </ScreenLayout>
   );
