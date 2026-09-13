@@ -110,6 +110,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     ],
     scripts: [
       {
+        // Google Consent Mode v2: stato predefinito prima di qualsiasi tag Google.
+        children:
+          "window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}window.gtag=gtag;var c=null;try{c=JSON.parse(localStorage.getItem('nuvola:consent'))}catch(e){}gtag('consent','default',{analytics_storage:(c&&c.analytics)?'granted':'denied',ad_storage:(c&&c.ads)?'granted':'denied',ad_user_data:(c&&c.ads)?'granted':'denied',ad_personalization:(c&&c.ads)?'granted':'denied',functionality_storage:'granted',security_storage:'granted'});",
+      },
+      {
         children:
           "(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-NK8KQKS4');",
       },
