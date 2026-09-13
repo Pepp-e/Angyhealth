@@ -15,6 +15,7 @@ import { SkyBackground } from "@/components/SkyBackground";
 import { BottomNav } from "@/components/BottomNav";
 import { PinGate } from "@/components/PinGate";
 import { OfflineOverlay } from "@/components/OfflineOverlay";
+import { CookieConsent } from "@/components/CookieConsent";
 import { DocumentTitle } from "@/components/DocumentTitle";
 import { Analytics } from "@/components/Analytics";
 import { haptic } from "@/lib/vibration";
