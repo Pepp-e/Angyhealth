@@ -9,9 +9,9 @@ import { useT } from "@/lib/i18n";
 export const Route = createFileRoute("/schermata-4")({
   head: () => ({
     meta: [
-      { title: "A chi posso chiedere aiuto? — Nuvola" },
+      { title: "A chi posso chiedere aiuto? — AngyHealth" },
       { name: "description", content: "Contatti utili di emergenza a portata di mano." },
-      { property: "og:title", content: "A chi posso chiedere aiuto? — Nuvola" },
+      { property: "og:title", content: "A chi posso chiedere aiuto? — AngyHealth" },
       { property: "og:description", content: "Contatti utili di emergenza a portata di mano." },
     ],
   }),

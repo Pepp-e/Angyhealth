@@ -5,10 +5,10 @@ import { GlassPanel } from "@/components/GlassPanel";
 export const Route = createFileRoute("/schermata-3")({
   head: () => ({
     meta: [
-      { title: "Schermata 3 — Nuvola" },
-      { name: "description", content: "Terza schermata secondaria dell'app Nuvola." },
-      { property: "og:title", content: "Schermata 3 — Nuvola" },
-      { property: "og:description", content: "Terza schermata secondaria dell'app Nuvola." },
+      { title: "Schermata 3 — AngyHealth" },
+      { name: "description", content: "Terza schermata secondaria dell'app AngyHealth." },
+      { property: "og:title", content: "Schermata 3 — AngyHealth" },
+      { property: "og:description", content: "Terza schermata secondaria dell'app AngyHealth." },
     ],
   }),
   component: () => (

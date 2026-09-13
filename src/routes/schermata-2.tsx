@@ -90,9 +90,9 @@ function Ricordi() {
 export const Route = createFileRoute("/schermata-2")({
   head: () => ({
     meta: [
-      { title: "Rivivi i tuoi ricordi! — Nuvola" },
+      { title: "Rivivi i tuoi ricordi! — AngyHealth" },
       { name: "description", content: "Rivivi i tuoi ricordi con le tue foto più belle." },
-      { property: "og:title", content: "Rivivi i tuoi ricordi! — Nuvola" },
+      { property: "og:title", content: "Rivivi i tuoi ricordi! — AngyHealth" },
       { property: "og:description", content: "Rivivi i tuoi ricordi con le tue foto più belle." },
     ],
   }),
