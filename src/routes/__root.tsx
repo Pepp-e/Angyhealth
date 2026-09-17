@@ -182,6 +182,34 @@ function RootComponent() {
     return () => document.removeEventListener("click", onClick);
   }, []);
 
+  // Tastiera iOS/Android: nasconde la barra inferiore e mantiene visibile il campo attivo.
+  useEffect(() => {
+    const vv = window.visualViewport;
+    const root = document.documentElement;
+
+    const update = () => {
+      const open = vv ? window.innerHeight - vv.height > 140 : false;
+      root.classList.toggle("kb-open", open);
+      if (!open) return;
+      const el = document.activeElement as HTMLElement | null;
+      if (el && /^(TEXTAREA|INPUT)$/.test(el.tagName)) {
+        el.scrollIntoView({ block: "center", behavior: "smooth" });
+      }
+    };
+
+    const onFocusOut = () => root.classList.remove("kb-open");
+
+    vv?.addEventListener("resize", update);
+    vv?.addEventListener("scroll", update);
+    document.addEventListener("focusout", onFocusOut);
+    return () => {
+      vv?.removeEventListener("resize", update);
+      vv?.removeEventListener("scroll", update);
+      document.removeEventListener("focusout", onFocusOut);
+      root.classList.remove("kb-open");
+    };
+  }, []);
+
   return (
     <QueryClientProvider client={queryClient}>
       <DocumentTitle />
