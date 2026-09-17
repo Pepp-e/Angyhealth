@@ -454,3 +454,27 @@ body {
 .animate-note-next { animation: note-next 0.38s cubic-bezier(0.22, 1, 0.36, 1) both; }
 .animate-note-prev { animation: note-prev 0.38s cubic-bezier(0.22, 1, 0.36, 1) both; }
 .animate-note-new { animation: note-new 0.4s cubic-bezier(0.22, 1, 0.36, 1) both; }
+
+/* --- Correzioni mobile --- */
+
+/* Evita il pull-to-refresh accidentale mantenendo lo scroll normale. */
+html,
+body {
+  overscroll-behavior-y: contain;
+}
+
+/* Tastiera aperta (iOS/Android): la barra inferiore non copre il campo attivo. */
+html.kb-open .bottom-nav {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* Riduzione del movimento: solo animazioni decorative continue. */
+@media (prefers-reduced-motion: reduce) {
+  .animate-float,
+  .animate-soft-bounce,
+  .animate-quick-bounce,
+  .animate-arrow-bounce {
+    animation: none !important;
+  }
+}

@@ -18,7 +18,7 @@ export function BottomNav() {
   const t = useT();
 
   return (
-    <nav className="fixed inset-x-0 bottom-0 z-50 px-4 pb-[calc(env(safe-area-inset-bottom)+1rem)]">
+    <nav className="bottom-nav fixed inset-x-0 bottom-0 z-50 px-4 pb-[calc(env(safe-area-inset-bottom)+1rem)]">
       <ul className="glass mx-auto flex max-w-md items-center justify-between gap-1 rounded-3xl px-3 py-2">
         {items.map(({ to, icon: Icon, label, ...rest }) => {
           const center = "center" in rest && rest.center;
