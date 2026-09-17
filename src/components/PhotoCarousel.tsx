@@ -58,6 +58,11 @@ export function PhotoCarousel({
           setDrag(0);
           startX.current = null;
         }}
+        onTouchCancel={() => {
+          // Safari può annullare il gesto: si torna allo stato visivo normale.
+          setDrag(0);
+          startX.current = null;
+        }}
       >
         <GlassPanel
           className="rounded-[1.6rem] p-3 pb-10 shadow-[0_14px_38px_rgba(30,80,140,0.28)]"

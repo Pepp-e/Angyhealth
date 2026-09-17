@@ -385,20 +385,33 @@ function Note() {
               ))}
             </div>
 
-            <textarea
-              value={text}
-              onChange={(e) => onText(e.target.value)}
-              placeholder={text ? "" : t("Scrivi cosa ti passa per la mente.")}
-              spellCheck={false}
-              style={{
-                fontFamily: style.font,
-                fontSize: `${fontRem(style.size)}rem`,
-                lineHeight: 1.6,
-                caretColor: style.color,
-                color: "transparent",
-              }}
-              className="absolute inset-0 size-full resize-none bg-transparent outline-none placeholder:text-[#112942]/40"
-            />
+            {(() => {
+              // Safari iOS ingrandisce la pagina se il font è < 16px: si usa 16px reale
+              // compensato da una scala, così la dimensione visiva resta identica.
+              const px = fontRem(style.size) * 16;
+              const scale = px < 16 ? px / 16 : 1;
+              const pct = `${100 / scale}%`;
+              return (
+                <textarea
+                  value={text}
+                  onChange={(e) => onText(e.target.value)}
+                  placeholder={text ? "" : t("Scrivi cosa ti passa per la mente.")}
+                  spellCheck={false}
+                  style={{
+                    fontFamily: style.font,
+                    fontSize: `${Math.max(px, 16)}px`,
+                    lineHeight: 1.6,
+                    caretColor: style.color,
+                    color: "transparent",
+                    width: pct,
+                    height: pct,
+                    transform: scale === 1 ? undefined : `scale(${scale})`,
+                    transformOrigin: "top left",
+                  }}
+                  className="absolute inset-0 resize-none bg-transparent outline-none placeholder:text-[#112942]/40"
+                />
+              );
+            })()}
 
             <canvas
               ref={canvasRef}

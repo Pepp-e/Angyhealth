@@ -84,7 +84,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
   head: () => ({
     meta: [
       { charSet: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1" },
+      { name: "viewport", content: "width=device-width, initial-scale=1, viewport-fit=cover" },
       { title: "AngyHealth — Una nuvola per la tua salute" },
       {
         name: "description",
@@ -114,7 +114,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         href: appCss,
       },
       { rel: "icon", href: "/favicon.png", type: "image/png" },
-      { rel: "apple-touch-icon", href: "/favicon.png" },
+      { rel: "apple-touch-icon", sizes: "180x180", href: "/apple-touch-icon.png" },
       { rel: "manifest", href: "/manifest.webmanifest" },
     ],
     scripts: [
@@ -180,6 +180,34 @@ function RootComponent() {
     };
     document.addEventListener("click", onClick);
     return () => document.removeEventListener("click", onClick);
+  }, []);
+
+  // Tastiera iOS/Android: nasconde la barra inferiore e mantiene visibile il campo attivo.
+  useEffect(() => {
+    const vv = window.visualViewport;
+    const root = document.documentElement;
+
+    const update = () => {
+      const open = vv ? window.innerHeight - vv.height > 140 : false;
+      root.classList.toggle("kb-open", open);
+      if (!open) return;
+      const el = document.activeElement as HTMLElement | null;
+      if (el && /^(TEXTAREA|INPUT)$/.test(el.tagName)) {
+        el.scrollIntoView({ block: "center", behavior: "smooth" });
+      }
+    };
+
+    const onFocusOut = () => root.classList.remove("kb-open");
+
+    vv?.addEventListener("resize", update);
+    vv?.addEventListener("scroll", update);
+    document.addEventListener("focusout", onFocusOut);
+    return () => {
+      vv?.removeEventListener("resize", update);
+      vv?.removeEventListener("scroll", update);
+      document.removeEventListener("focusout", onFocusOut);
+      root.classList.remove("kb-open");
+    };
   }, []);
 
   return (

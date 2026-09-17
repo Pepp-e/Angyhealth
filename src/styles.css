@@ -227,6 +227,7 @@ body {
   background: var(--glass-bg);
   border: 1px solid var(--glass-border);
   box-shadow: var(--glass-shadow), inset 0 1px 0 oklch(1 0 0 / 0.6);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
   backdrop-filter: blur(20px) saturate(160%);
 }
 
@@ -235,6 +236,7 @@ body {
   background: oklch(0.3 0.06 255 / 0.55);
   border: 1px solid oklch(1 0 0 / 0.35);
   box-shadow: 0 10px 24px oklch(0.25 0.07 255 / 0.35), inset 0 1px 0 oklch(1 0 0 / 0.25);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
   backdrop-filter: blur(18px) saturate(160%);
   color: oklch(1 0 0);
 }
@@ -243,6 +245,7 @@ body {
   background: oklch(1 0 0 / 0.55);
   border: 1px solid oklch(1 0 0 / 0.7);
   box-shadow: 0 10px 24px oklch(0.4 0.09 245 / 0.25), inset 0 1px 0 oklch(1 0 0 / 0.8);
+  -webkit-backdrop-filter: blur(18px) saturate(170%);
   backdrop-filter: blur(18px) saturate(170%);
 }
 
@@ -451,3 +454,27 @@ body {
 .animate-note-next { animation: note-next 0.38s cubic-bezier(0.22, 1, 0.36, 1) both; }
 .animate-note-prev { animation: note-prev 0.38s cubic-bezier(0.22, 1, 0.36, 1) both; }
 .animate-note-new { animation: note-new 0.4s cubic-bezier(0.22, 1, 0.36, 1) both; }
+
+/* --- Correzioni mobile --- */
+
+/* Evita il pull-to-refresh accidentale mantenendo lo scroll normale. */
+html,
+body {
+  overscroll-behavior-y: contain;
+}
+
+/* Tastiera aperta (iOS/Android): la barra inferiore non copre il campo attivo. */
+html.kb-open .bottom-nav {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* Riduzione del movimento: solo animazioni decorative continue. */
+@media (prefers-reduced-motion: reduce) {
+  .animate-float,
+  .animate-soft-bounce,
+  .animate-quick-bounce,
+  .animate-arrow-bounce {
+    animation: none !important;
+  }
+}
