@@ -2,6 +2,10 @@ import { useEffect, useState } from "react";
 import { GlassPanel } from "@/components/GlassPanel";
 import { vibrate } from "@/lib/vibration";
 import { useT } from "@/lib/i18n";
+import { useAppVersion } from "@/lib/version";
+
+/** Contatto predefinito dell'app (solo versione 2202): non eliminabile né modificabile. */
+const DEFAULT_CONTACT_2202: Contact = { name: "🩵", tel: "+393928432109" };
 
 const STORAGE_KEY = "nuvola:contatti";
 
