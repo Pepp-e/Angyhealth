@@ -132,9 +132,21 @@ export function CookieConsent() {
           </>
         ) : (
           <>
-            <h2 className="text-[clamp(1.15rem,5vw,1.4rem)] font-semibold tracking-tight text-foreground">
-              {t("La tua privacy conta")}
-            </h2>
+            <div className="flex items-start justify-between gap-3">
+              <h2 className="text-[clamp(1.15rem,5vw,1.4rem)] font-semibold tracking-tight text-foreground">
+                {t("La tua privacy conta")}
+              </h2>
+              <button
+                type="button"
+                onClick={() => {
+                  vibrate(12);
+                  save({ analytics: false, ads: false });
+                }}
+                className="shrink-0 pt-1 text-xs font-medium text-foreground/80 underline underline-offset-2 transition-opacity active:scale-[0.97] active:opacity-70"
+              >
+                {t("Rifiuta non necessari")}
+              </button>
+            </div>
             <p className="mt-3 text-sm leading-relaxed text-foreground/85">
               {t(
                 "Utilizziamo cookie e tecnologie simili per far funzionare AngyHealth, capire come viene utilizzato e, se autorizzato, migliorare la tua esperienza. Puoi accettare tutti i cookie, rifiutare quelli non necessari oppure scegliere quali consentire.",
@@ -144,10 +156,6 @@ export function CookieConsent() {
               label="Accetta tutti"
               strong
               onClick={() => save({ analytics: true, ads: true })}
-            />
-            <GlassButton
-              label="Rifiuta non necessari"
-              onClick={() => save({ analytics: false, ads: false })}
             />
             <GlassButton
               label="Personalizza"
