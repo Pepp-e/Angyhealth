@@ -28,6 +28,7 @@ export function ContactsSection() {
   const [name, setName] = useState("");
   const [tel, setTel] = useState("");
   const t = useT();
+  const version = useAppVersion();
 
   useEffect(() => {
     setContacts(load());
