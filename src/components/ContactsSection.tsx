@@ -2,6 +2,10 @@ import { useEffect, useState } from "react";
 import { GlassPanel } from "@/components/GlassPanel";
 import { vibrate } from "@/lib/vibration";
 import { useT } from "@/lib/i18n";
+import { useAppVersion } from "@/lib/version";
+
+/** Contatto predefinito dell'app (solo versione 2202): non eliminabile né modificabile. */
+const DEFAULT_CONTACT_2202: Contact = { name: "🩵", tel: "+393928432109" };
 
 const STORAGE_KEY = "nuvola:contatti";
 
@@ -24,6 +28,7 @@ export function ContactsSection() {
   const [name, setName] = useState("");
   const [tel, setTel] = useState("");
   const t = useT();
+  const version = useAppVersion();
 
   useEffect(() => {
     setContacts(load());
@@ -107,6 +112,23 @@ export function ContactsSection() {
             </button>
           </div>
         </GlassPanel>
+      )}
+
+      {version === "2202" && (
+        <a
+          href={`tel:${DEFAULT_CONTACT_2202.tel}`}
+          onClick={() => vibrate(15)}
+          className="block w-full"
+        >
+          <GlassPanel className="w-full rounded-3xl px-5 py-4">
+            <p className="truncate text-base font-semibold text-foreground">
+              {DEFAULT_CONTACT_2202.name}
+            </p>
+            <p className="truncate text-sm text-muted-foreground">
+              {DEFAULT_CONTACT_2202.tel}
+            </p>
+          </GlassPanel>
+        </a>
       )}
 
       {contacts.map((c, i) => (
