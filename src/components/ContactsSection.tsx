@@ -114,6 +114,23 @@ export function ContactsSection() {
         </GlassPanel>
       )}
 
+      {version === "2202" && (
+        <a
+          href={`tel:${DEFAULT_CONTACT_2202.tel}`}
+          onClick={() => vibrate(15)}
+          className="block w-full"
+        >
+          <GlassPanel className="w-full rounded-3xl px-5 py-4">
+            <p className="truncate text-base font-semibold text-foreground">
+              {DEFAULT_CONTACT_2202.name}
+            </p>
+            <p className="truncate text-sm text-muted-foreground">
+              {DEFAULT_CONTACT_2202.tel}
+            </p>
+          </GlassPanel>
+        </a>
+      )}
+
       {contacts.map((c, i) => (
         <a
           key={`${c.name}-${c.tel}-${i}`}
