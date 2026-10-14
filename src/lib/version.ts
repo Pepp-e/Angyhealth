@@ -20,8 +20,12 @@ const LAST_KEY = "nuvola:last-version";
 
 export function getAppVersion(): AppVersion | null {
   if (typeof window === "undefined") return null;
-  const v = window.sessionStorage.getItem(KEY);
-  return v === "2202" || v === "0000" ? v : null;
+  try {
+    const v = window.sessionStorage.getItem(KEY);
+    return v === "2202" || v === "0000" ? v : null;
+  } catch {
+    return null;
+  }
 }
 
 /** Versione memorizzata in modo persistente sul dispositivo. */
@@ -36,7 +40,11 @@ export function getLastAppVersion(): AppVersion | null {
 }
 
 export function setAppVersion(v: AppVersion) {
-  window.sessionStorage.setItem(KEY, v);
+  try {
+    window.sessionStorage.setItem(KEY, v);
+  } catch {
+    /* storage non disponibile */
+  }
   try {
     window.localStorage.setItem(LAST_KEY, v);
   } catch {
@@ -47,7 +55,11 @@ export function setAppVersion(v: AppVersion) {
 /** Esce dalla versione corrente e torna alla schermata PIN iniziale. */
 export function clearAppVersion() {
   const wasV2202 = getAppVersion() === "2202";
-  window.sessionStorage.removeItem(KEY);
+  try {
+    window.sessionStorage.removeItem(KEY);
+  } catch {
+    /* storage non disponibile */
+  }
   try {
     window.localStorage.removeItem(LAST_KEY);
   } catch {
