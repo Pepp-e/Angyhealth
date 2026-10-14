@@ -78,7 +78,7 @@ function Ricordi() {
         <Link
           to="/lettera"
           onClick={() => vibrate(20)}
-          className="glass mt-4 block rounded-3xl px-6 py-4 text-center text-base font-semibold text-white shadow-[0_0_12px_rgba(255,255,255,0.35)] transition-transform active:scale-[0.97]"
+          className="glass mt-4 block rounded-3xl px-6 py-4 text-center text-base font-semibold text-[#112942] shadow-[0_0_12px_rgba(255,255,255,0.35)] transition-transform active:scale-[0.97]"
         >
           {t("Per quando non ti senti abbastanza")}
         </Link>
