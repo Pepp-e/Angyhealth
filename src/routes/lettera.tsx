@@ -131,16 +131,23 @@ function Lettera() {
     <ScreenLayout>
       <ScreenHeader title="Per quando non ti senti abbastanza" />
       <GlassPanel className="mt-2 flex min-h-40 flex-1 flex-col overflow-hidden px-6 py-6">
-        <h2 className="mb-4 text-center text-xl font-bold leading-snug text-[#112942]">
+        <h2 className="mb-4 text-center text-xl font-medium leading-snug text-[#112942]">
           100 cose che Amo di te🩵:
         </h2>
-        <div className="min-h-0 flex-1 space-y-2 overflow-y-auto pr-1 text-base leading-relaxed text-[#112942]">
+        <div className="min-h-0 flex-1 space-y-2 overflow-y-auto pr-1 text-base font-medium leading-relaxed text-[#112942]">
           {COSE.map((cosa, i) => (
             <p key={i}>
               {i + 1}. {cosa}
             </p>
           ))}
           <p className="pt-2">101. {LETTERA_FINALE}</p>
+          <p className="pt-2">- Il tuo bimbo🩵</p>
+          <p
+            className="pt-6 text-center text-[11px] font-normal text-[#112942]/70"
+            aria-hidden="true"
+          >
+            By Giuseppe Miranda
+          </p>
         </div>
         <span className="sr-only">{t("Spazio per la lettera")}</span>
       </GlassPanel>
