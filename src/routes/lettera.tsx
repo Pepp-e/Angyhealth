@@ -142,10 +142,7 @@ function Lettera() {
           ))}
           <p className="pt-2">101. {LETTERA_FINALE}</p>
           <p className="pt-2">- Il tuo bimbo🩵</p>
-          <p
-            className="pt-6 text-center text-[11px] font-normal text-[#112942]/70"
-            aria-hidden="true"
-          >
+          <p className="pt-6 text-center text-[11px] font-normal text-[#112942]">
             By Giuseppe Miranda
           </p>
         </div>
