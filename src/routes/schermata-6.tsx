@@ -15,6 +15,7 @@ import { NightModeToggle } from "@/components/NightModeToggle";
 import { LanguageToggle } from "@/components/LanguageToggle";
 import { useT } from "@/lib/i18n";
 import { openPrivacySettings } from "@/lib/consent";
+import { NotificationsSettings } from "@/components/NotificationsSettings";
 
 function ToggleRow({
   label,
@@ -111,6 +112,8 @@ function Impostazioni() {
       <VibrationToggle />
 
       <HapticsToggle />
+
+      <NotificationsSettings />
 
       <NightModeToggle />
 
