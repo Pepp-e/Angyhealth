@@ -4,6 +4,11 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* Same switch surfaces as existing settings, scoped to the new push control. */
+.notification-switch { background-color: oklch(1 0 0 / 0.2); }
+.notification-switch-on { background-color: oklch(1 0 0 / 0.6); }
+.notification-switch-thumb { background-color: oklch(1 0 0); }
+
 /*
  * Design system definition.
  *
