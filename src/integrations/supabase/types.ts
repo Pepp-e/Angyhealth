@@ -14,13 +14,57 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      push_subscriptions: {
+        Row: {
+          auth: string
+          device_id: string
+          enabled: boolean
+          endpoint: string
+          expiration_time: string | null
+          id: string
+          last_attempt_date: string | null
+          last_status: string | null
+          p256dh: string
+          timezone: string
+          updated_at: string
+        }
+        Insert: {
+          auth: string
+          device_id: string
+          enabled?: boolean
+          endpoint: string
+          expiration_time?: string | null
+          id?: string
+          last_attempt_date?: string | null
+          last_status?: string | null
+          p256dh: string
+          timezone: string
+          updated_at?: string
+        }
+        Update: {
+          auth?: string
+          device_id?: string
+          enabled?: boolean
+          endpoint?: string
+          expiration_time?: string | null
+          id?: string
+          last_attempt_date?: string | null
+          last_status?: string | null
+          p256dh?: string
+          timezone?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      claim_push_reminder: {
+        Args: { local_day: string; subscription_id: string }
+        Returns: boolean
+      }
     }
     Enums: {
       [_ in never]: never
