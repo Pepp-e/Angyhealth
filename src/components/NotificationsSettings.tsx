@@ -33,10 +33,10 @@ export function NotificationsSettings() {
     }
     subscription ??= await registration.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: publicPushKey(key.current) });
     const json = subscription.toJSON();
-    if (!json.endpoint || !json.keys?.p256dh || !json.keys.auth) throw new Error("Registrazione push non disponibile");
+    if (!json.endpoint || !json.keys?.['p256dh'] || !json.keys['auth']) throw new Error("Registrazione push non disponibile");
     await update({ data: { enabled: true, timezone: timezone(), subscription: {
       endpoint: json.endpoint, expirationTime: subscription.expirationTime,
-      keys: { p256dh: json.keys.p256dh, auth: json.keys.auth },
+      keys: { p256dh: json.keys['p256dh'], auth: json.keys['auth'] },
     } } });
     await setWorkerPushPreference(registration, true);
     setMessage("Promemoria attivo alle 16:00 locali. L’orario di consegna dipende dal dispositivo e dalla connessione.");
