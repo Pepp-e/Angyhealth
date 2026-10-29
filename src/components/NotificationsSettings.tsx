@@ -15,6 +15,8 @@ export function NotificationsSettings() {
   const key = useRef("");
   const configured = useRef(false);
   const choiceThisVisit = useRef(false);
+  const preferenceRef = useRef(true);
+  const actionPending = useRef(false);
   const timezone = () => Intl.DateTimeFormat().resolvedOptions().timeZone || "UTC";
 
   const supportMessage = (support: ReturnType<typeof pushSupport>) => {
@@ -34,10 +36,17 @@ export function NotificationsSettings() {
     subscription ??= await registration.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: publicPushKey(key.current) });
     const json = subscription.toJSON();
     if (!json.endpoint || !json.keys?.['p256dh'] || !json.keys['auth']) throw new Error("Registrazione push non disponibile");
+    if (!preferenceRef.current) { await subscription.unsubscribe(); return; }
     await update({ data: { enabled: true, timezone: timezone(), subscription: {
       endpoint: json.endpoint, expirationTime: subscription.expirationTime,
       keys: { p256dh: json.keys['p256dh'], auth: json.keys['auth'] },
     } } });
+    if (!preferenceRef.current) {
+      await update({ data: { enabled: false, timezone: timezone() } });
+      await setWorkerPushPreference(registration, false);
+      await subscription.unsubscribe();
+      return;
+    }
     await setWorkerPushPreference(registration, true);
     setMessage("Promemoria attivo alle 16:00 locali. L’orario di consegna dipende dal dispositivo e dalla connessione.");
   }, [update]);
@@ -45,8 +54,10 @@ export function NotificationsSettings() {
   useEffect(() => {
     let mounted = true;
     const inspect = async () => {
+      if (actionPending.current) return;
       const preference = readPushPreference();
       if (!mounted) return;
+      preferenceRef.current = preference;
       setEnabled(preference);
       try {
         const result = await config();
@@ -70,7 +81,7 @@ export function NotificationsSettings() {
           const existing = await navigator.serviceWorker.getRegistration("/angyhealth-push-sw.js");
           const subscription = await existing?.pushManager.getSubscription();
           if (subscription) await register();
-          else { setAsk(true); setMessage("Il permesso è concesso: conferma per registrare nuovamente questo dispositivo."); }
+          else { if (!hasPushChoice() && !choiceThisVisit.current) setAsk(true); setMessage("Il permesso è concesso: disattiva e riattiva Notifiche per registrare nuovamente questo dispositivo."); }
         } else if (!hasPushChoice() && !choiceThisVisit.current) setAsk(true);
       } catch (error) { if (mounted) setMessage(error instanceof Error ? error.message : "Impossibile verificare le notifiche. Riprova quando sei online."); }
     };
@@ -86,6 +97,7 @@ export function NotificationsSettings() {
     if (support !== "supported") { setMessage(supportMessage(support)); return; }
     if (!configured.current) { setMessage("Il servizio notifiche non è ancora configurato."); return; }
     setBusy(true);
+    actionPending.current = true;
     choiceThisVisit.current = true; savePushChoice(); setAsk(false);
     // Call before any await: Safari requires the original button's user gesture.
     const permission = Notification.permission === "default" ? Notification.requestPermission() : Promise.resolve(Notification.permission);
@@ -97,33 +109,41 @@ export function NotificationsSettings() {
       }
       await register();
     } catch (error) { setMessage(error instanceof Error ? error.message : "Attivazione non riuscita. Riprova."); }
-    finally { setBusy(false); }
+    finally { actionPending.current = false; setBusy(false); }
   };
 
   const toggle = async () => {
     if (busy) return;
     if (!enabled) {
+      preferenceRef.current = true;
       setEnabled(true);
       if (!writePushPreference(true)) setMessage("Preferenza attiva, ma la memoria del dispositivo non è disponibile.");
       // Activation stays on this click gesture, never an automatic native prompt.
-      await activate();
+      if (pushSupport() === "supported" && Notification.permission === "default") setAsk(true);
+      else await activate();
       return;
     }
+    preferenceRef.current = false;
+    actionPending.current = true;
     setEnabled(false); setAsk(false); setBusy(true);
     choiceThisVisit.current = true; savePushChoice();
     const stored = writePushPreference(false);
     try {
-      if ("serviceWorker" in navigator) {
-        const registration = await navigator.serviceWorker.getRegistration("/angyhealth-push-sw.js");
-        if (registration) {
-          await setWorkerPushPreference(registration, false);
-          await (await registration.pushManager.getSubscription())?.unsubscribe();
+      // Attempt both independently: an offline push service must not prevent server disabling.
+      const stopWorker = async () => {
+        if ("serviceWorker" in navigator) {
+          const registration = await navigator.serviceWorker.getRegistration("/angyhealth-push-sw.js");
+          if (registration) {
+            await setWorkerPushPreference(registration, false);
+            await (await registration.pushManager.getSubscription())?.unsubscribe();
+          }
         }
-      }
-      await update({ data: { enabled: false, timezone: timezone() } });
+      };
+      const results = await Promise.allSettled([stopWorker(), update({ data: { enabled: false, timezone: timezone() } })]);
+      if (results.some((result) => result.status === "rejected")) throw new Error("Interruzione non completamente confermata");
       setMessage(stored ? "Notifiche giornaliere disattivate." : "Notifiche disattivate; la preferenza locale non può essere salvata su questo dispositivo.");
     } catch { setMessage("Notifiche disattivate su questo dispositivo. La conferma dell’interruzione lato server richiede una connessione: riapri le Impostazioni quando sei online."); }
-    finally { setBusy(false); }
+    finally { actionPending.current = false; setBusy(false); }
   };
 
   return <>
