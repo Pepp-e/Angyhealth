@@ -22,10 +22,7 @@ describe("Scheduled server dispatcher", () => {
   beforeEach(() => { state.enabled = true; state.claimed = false; state.status = ""; state.claimCalls = 0; vi.unstubAllGlobals(); });
   it("dispatches at local 16:00 only once despite repeated callbacks", async () => {
     const fetch = vi.fn(async () => new Response("", { status: 201 })); vi.stubGlobal("fetch", fetch);
-    const now = new Date();
-    // Find a local-16:00 controlled timestamp on the actual current UTC day.
-    const day = now.toISOString().slice(0, 10);
-    const hour = new Date(`${day}T15:00:00Z`);
+    const hour = new Date("2026-10-28T15:00:00Z");
     vi.useFakeTimers(); vi.setSystemTime(hour);
     try {
       expect(await sendDailyReminders("test-seed", hour)).toEqual({ scanned: 1, accepted: 1 });
