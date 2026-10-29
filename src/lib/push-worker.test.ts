@@ -22,7 +22,7 @@ function harness() {
   });
   const dispatch = async (name: string, data: unknown) => {
     let work: Promise<unknown> = Promise.resolve();
-    listeners[name]?.({ data: name === "push" ? { json: () => data } : data, waitUntil: (promise: Promise<unknown>) => { work = promise; } });
+    listeners[name]?.({ data: name === "push" ? { json: () => data } : data, ports: [], waitUntil: (promise: Promise<unknown>) => { work = promise; } });
     await work;
   };
   return { notifications, dispatch };
