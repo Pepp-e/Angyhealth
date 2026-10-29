@@ -2,10 +2,12 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { GlassPanel } from "./GlassPanel";
 import { Button } from "./ui/button";
+import { useT } from "@/lib/i18n";
 import { pushConfiguration, updatePushDevice } from "@/lib/push.functions";
 import { readPushPreference, writePushPreference, hasPushChoice, savePushChoice, pushSupport, pushRegistration, waitPushWorker, setWorkerPushPreference, publicPushKey } from "@/lib/push-browser";
 
 export function NotificationsSettings() {
+  const t = useT();
   const [enabled, setEnabled] = useState(true);
   const [ask, setAsk] = useState(false);
   const [busy, setBusy] = useState(false);
@@ -83,7 +85,7 @@ export function NotificationsSettings() {
           if (subscription) await register();
           else { if (!hasPushChoice() && !choiceThisVisit.current) setAsk(true); setMessage("Il permesso è concesso: disattiva e riattiva Notifiche per registrare nuovamente questo dispositivo."); }
         } else if (!hasPushChoice() && !choiceThisVisit.current) setAsk(true);
-      } catch (error) { if (mounted) setMessage(error instanceof Error ? error.message : "Impossibile verificare le notifiche. Riprova quando sei online."); }
+      } catch (error) { if (mounted) setMessage(notificationError(error, "Impossibile verificare le notifiche. Riprova quando sei online.")); }
     };
     void inspect();
     const onVisible = () => { if (document.visibilityState === "visible") void inspect(); };
@@ -108,7 +110,7 @@ export function NotificationsSettings() {
         return;
       }
       await register();
-    } catch (error) { setMessage(error instanceof Error ? error.message : "Attivazione non riuscita. Riprova."); }
+    } catch (error) { setMessage(notificationError(error, "Attivazione non riuscita. Riprova.")); }
     finally { actionPending.current = false; setBusy(false); }
   };
 
@@ -146,21 +148,35 @@ export function NotificationsSettings() {
     finally { actionPending.current = false; setBusy(false); }
   };
 
-  return <>
+  return <div className="notification-settings">
     <GlassPanel className="mt-4 flex items-center justify-between px-5 py-4">
-      <span className="text-base font-medium text-foreground">Notifiche</span>
-      <Button type="button" variant="ghost" role="switch" aria-checked={enabled} aria-label="Notifiche" disabled={busy} onClick={() => void toggle()}
+      <span className="text-base font-medium text-foreground">{t("Notifiche")}</span>
+      <Button type="button" variant="ghost" role="switch" aria-checked={enabled} aria-label={t("Notifiche")} disabled={busy} onClick={() => void toggle()}
         className={`glass-center notification-switch box-border flex h-8 w-14 shrink-0 rounded-full p-[3px] transition-colors ${enabled ? "notification-switch-on justify-end" : "justify-start"}`}>
         <span className="notification-switch-thumb block size-6 shrink-0 rounded-full shadow-md transition-all" />
       </Button>
     </GlassPanel>
-    {message && <p role="status" className="mt-2 px-2 text-sm leading-relaxed text-foreground">{message}</p>}
+    {message && <p role="status" className="mt-2 px-2 text-sm leading-relaxed text-foreground">{t(message)}</p>}
     {ask && <div className="fixed inset-0 z-[65] grid place-items-center px-5" role="dialog" aria-modal="true" aria-labelledby="push-question">
       <GlassPanel className="animate-in fade-in zoom-in-95 w-full max-w-md px-5 py-6 duration-300">
-        <h2 id="push-question" className="text-base font-semibold text-foreground">Vuoi ricevere ogni giorno un piccolo promemoria da AngyHealth?</h2>
-        <Button variant="ghost" disabled={busy} onClick={() => void activate()} className="glass mt-4 h-auto w-full whitespace-normal rounded-2xl px-5 py-3 text-base font-semibold text-foreground">Attiva notifiche</Button>
-        <Button variant="ghost" onClick={() => { choiceThisVisit.current = true; savePushChoice(); setAsk(false); }} className="glass mt-3 h-auto w-full rounded-2xl px-5 py-3 text-base font-semibold text-foreground">Non adesso</Button>
+        <h2 id="push-question" className="text-base font-semibold text-foreground">{t("Vuoi ricevere ogni giorno un piccolo promemoria da AngyHealth?")}</h2>
+        <Button variant="ghost" disabled={busy} onClick={() => void activate()} className="glass mt-4 h-auto w-full whitespace-normal rounded-2xl px-5 py-3 text-base font-semibold text-foreground">{t("Attiva notifiche")}</Button>
+        <Button variant="ghost" onClick={() => { choiceThisVisit.current = true; savePushChoice(); setAsk(false); }} className="glass mt-3 h-auto w-full rounded-2xl px-5 py-3 text-base font-semibold text-foreground">{t("Non adesso")}</Button>
       </GlassPanel>
     </div>}
-  </>;
+  </div>;
+}
+
+// Keep canonical Italian keys in state so a language change also updates existing errors.
+function notificationError(error: unknown, fallback: string) {
+  const known = new Set([
+    "Registrazione push non disponibile", "Preferenza push non confermata",
+    "Servizio push non supportato", "Notifiche non configurate",
+    "Apri nuovamente le Impostazioni per registrare questo dispositivo",
+    "Disattivazione non confermata: riprova quando sei online",
+    "Registrazione push necessaria", "Impossibile verificare la registrazione push",
+    "Registrazione appartenente a un’altra sessione: disattiva e riattiva le notifiche",
+    "Impossibile attivare la pianificazione push",
+  ]);
+  return error instanceof Error && known.has(error.message) ? error.message : fallback;
 }
