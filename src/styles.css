@@ -5,9 +5,28 @@
 @custom-variant dark (&:is(.dark *));
 
 /* Same switch surfaces as existing settings, scoped to the new push control. */
-.notification-switch { background-color: oklch(1 0 0 / 0.2); }
-.notification-switch-on { background-color: oklch(1 0 0 / 0.6); }
-.notification-switch-thumb { background-color: oklch(1 0 0); }
+.notification-switch { background-color: color-mix(in oklch, var(--primary-foreground) 20%, transparent); }
+.notification-switch-on { background-color: color-mix(in oklch, var(--primary-foreground) 60%, transparent); }
+.notification-switch-thumb { background-color: var(--primary-foreground); }
+.notification-settings .text-foreground { transition: color var(--sky-transition); }
+.night .notification-settings .text-foreground { color: var(--primary-foreground); }
+.night .notification-settings .glass {
+  background: color-mix(in oklch, var(--sky-top) 78%, var(--glass-bg));
+}
+.night .notification-switch { background-color: color-mix(in oklch, var(--sky-top) 75%, var(--glass-bg)); }
+.night .notification-switch-on { background-color: var(--primary); }
+
+/* Independent viewport decoration, below the unchanged navigation controls. */
+.bottom-nav { isolation: isolate; }
+.bottom-nav-depth {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: linear-gradient(to bottom, transparent, color-mix(in oklch, var(--sky-bottom) 60%, transparent));
+  backdrop-filter: blur(8px);
+  mask-image: linear-gradient(to bottom, transparent, black);
+}
 
 /*
  * Design system definition.

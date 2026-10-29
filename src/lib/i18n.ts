@@ -103,6 +103,41 @@ const EN: Record<string, string> = {
   "Scrivi cosa ti passa per la mente.": "Write whatever comes to mind.",
 
   // Impostazioni
+  // Notifications UI only: the delivered push message remains Italian.
+  Notifiche: "Notifications",
+  "Su iPhone serve iOS 16.4 o successivo: apri AngyHealth in Safari, scegli Condividi → Aggiungi alla schermata Home e attiva le notifiche dall’app installata.":
+    "On iPhone, iOS 16.4 or later is required: open AngyHealth in Safari, choose Share → Add to Home Screen and enable notifications from the installed app.",
+  "Per attivare le notifiche, apri AngyHealth in una scheda separata o usa l’app pubblicata.":
+    "To enable notifications, open AngyHealth in a separate tab or use the published app.",
+  "Questo dispositivo o browser non supporta le notifiche push.": "This device or browser does not support push notifications.",
+  "Promemoria attivo alle 16:00 locali. L’orario di consegna dipende dal dispositivo e dalla connessione.":
+    "Reminder enabled for 4:00 PM local time. Delivery time depends on your device and connection.",
+  "Il servizio notifiche non è ancora configurato.": "The notification service is not configured yet.",
+  "Il permesso notifiche è negato o revocato. Puoi riabilitarlo nelle impostazioni del dispositivo o del browser.":
+    "Notification permission is denied or revoked. You can enable it again in your device or browser settings.",
+  "Il permesso è concesso: disattiva e riattiva Notifiche per registrare nuovamente questo dispositivo.":
+    "Permission is granted: turn Notifications off and on again to register this device again.",
+  "Impossibile verificare le notifiche. Riprova quando sei online.": "Unable to check notifications. Try again when you are online.",
+  "Notifiche non autorizzate. AngyHealth continua a funzionare normalmente.": "Notifications were not permitted. AngyHealth continues to work normally.",
+  "Attivazione non riuscita. Riprova.": "Activation failed. Please try again.",
+  "Preferenza attiva, ma la memoria del dispositivo non è disponibile.": "Preference enabled, but device storage is unavailable.",
+  "Notifiche giornaliere disattivate.": "Daily notifications disabled.",
+  "Notifiche disattivate; la preferenza locale non può essere salvata su questo dispositivo.": "Notifications disabled; the local preference cannot be saved on this device.",
+  "Notifiche disattivate su questo dispositivo. La conferma dell’interruzione lato server richiede una connessione: riapri le Impostazioni quando sei online.":
+    "Notifications disabled on this device. Confirming that delivery has stopped requires a connection: reopen Settings when you are online.",
+  "Vuoi ricevere ogni giorno un piccolo promemoria da AngyHealth?": "Would you like a little reminder from AngyHealth every day?",
+  "Attiva notifiche": "Enable notifications",
+  "Non adesso": "Not now",
+  "Registrazione push non disponibile": "Push registration is unavailable",
+  "Preferenza push non confermata": "Push preference could not be confirmed",
+  "Servizio push non supportato": "Push service is not supported",
+  "Notifiche non configurate": "Notifications are not configured",
+  "Apri nuovamente le Impostazioni per registrare questo dispositivo": "Reopen Settings to register this device",
+  "Disattivazione non confermata: riprova quando sei online": "Disabling could not be confirmed: try again when you are online",
+  "Registrazione push necessaria": "Push registration is required",
+  "Impossibile verificare la registrazione push": "Unable to verify push registration",
+  "Registrazione appartenente a un’altra sessione: disattiva e riattiva le notifiche": "Registration belongs to another session: turn notifications off and on again",
+  "Impossibile attivare la pianificazione push": "Unable to enable scheduled push notifications",
   Impostazioni: "Settings",
   Vibrazione: "Vibration",
   "Feedback tattile": "Haptic feedback",

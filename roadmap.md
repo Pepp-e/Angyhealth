@@ -1,4 +1,5 @@
 # Daily push notifications
+- [ ] Adapt notification text to existing language/theme and verify bottom navigation depth effect.
 - [x] Confirm compatible Web Push implementation and secure device ownership.
 - [x] Add persistent subscriptions, authenticated sender, and daily local-time scheduling.
 - [x] Add Notifications preference and explicit permission request below haptic feedback.
