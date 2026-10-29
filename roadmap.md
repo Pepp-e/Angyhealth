@@ -1,6 +1,7 @@
 # Daily push notifications
-- [ ] Confirm compatible Web Push implementation and secure device ownership.
-- [ ] Add persistent subscriptions, authenticated sender, and daily local-time scheduling.
-- [ ] Add Notifications preference and explicit permission request below haptic feedback.
-- [ ] Test permissions, scheduling, disabling, re-enabling, duplicates, and delivery where possible.
-- [ ] Report remaining publication/device checks.
+- [x] Confirm compatible Web Push implementation and secure device ownership.
+- [x] Add persistent subscriptions, authenticated sender, and daily local-time scheduling.
+- [x] Add Notifications preference and explicit permission request below haptic feedback.
+- [x] Test available UI flows, controlled dispatcher, timezone/DST, duplicates, expiry, and authenticated callback.
+- [x] Report publication/device checks in PUSH_NOTIFICATIONS_REPORT.md.
+- [ ] Verify real push subscription and closed-page delivery after publishing; blocked by sandbox push registration denial and no physical iPhone/Android device.
