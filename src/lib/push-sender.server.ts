@@ -26,11 +26,11 @@ export async function sendDailyReminders(seed: string, now = new Date()) {
       const { data: current, error: currentError } = await supabaseAdmin.from("push_subscriptions").select("enabled").eq("id", row.id).single();
       if (currentError || !current?.enabled) continue;
       const expiresAt = now.getTime() + REMINDER_TTL * 1000;
-      if (Date.now() > expiresAt) continue;
+      if (Date.now() >= expiresAt - 1000) continue;
       try {
         const payload = await buildPushPayload({
           data: JSON.stringify({ ...REMINDER, day: window.day, expiresAt }),
-          options: { ttl: Math.max(0, Math.floor((expiresAt - Date.now()) / 1000)), urgency: "high", topic: "angyhealth-daily" },
+          options: { ttl: Math.max(1, Math.floor((expiresAt - Date.now()) / 1000)), urgency: "high", topic: "angyhealth-daily" },
         }, { endpoint: row.endpoint, expirationTime: row.expiration_time ? Date.parse(row.expiration_time) : null, keys: { p256dh: row.p256dh, auth: row.auth } }, vapid);
         const response = await fetch(row.endpoint, { ...payload, redirect: "error", signal: AbortSignal.timeout(8000) });
         await response.text();
