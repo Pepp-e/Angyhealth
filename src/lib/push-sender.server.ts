@@ -67,3 +67,16 @@ async function deliver(row: PushRow, day: string, expiresAt: number, vapid: Awai
   }
   return outcome;
 }
+/** Diagnostic: immediate send to every enabled device, without claiming the day, so today's 16:00 reminder still goes out. */
+export async function sendTestReminders(seed: string) {
+  const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+  const vapid = await deriveVapidKeys(seed);
+  const { data: rows, error } = await supabaseAdmin.from("push_subscriptions").select("*").eq("enabled", true).limit(20);
+  if (error) throw new Error("Impossibile leggere le sottoscrizioni push");
+  const results: Array<number | string> = [];
+  for (const row of rows ?? []) {
+    if (!allowedPushEndpoint(row.endpoint)) continue;
+    results.push(await deliver(row, `test-${Date.now()}`, Date.now() + REMINDER_TTL * 1000, vapid));
+  }
+  return { scanned: rows?.length ?? 0, results };
+}
