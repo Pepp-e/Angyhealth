@@ -46,4 +46,24 @@ describe("Scheduled server dispatcher", () => {
     try { await sendDailyReminders("test-seed", now); expect(state.enabled).toBe(false); expect(state.status).toBe("410"); }
     finally { vi.useRealTimers(); }
   });
+  it("never uses redirect: error, which the live server runtime rejects", async () => {
+    const now = new Date("2026-10-28T15:00:00Z"); vi.useFakeTimers(); vi.setSystemTime(now);
+    const fetch = vi.fn(async (_url: string, init: RequestInit) => new Response("", { status: init.redirect === "error" ? 599 : 201 }));
+    vi.stubGlobal("fetch", fetch);
+    try { expect(await sendDailyReminders("test-seed", now)).toEqual({ scanned: 1, accepted: 1 }); expect(fetch.mock.calls[0]![1].redirect).toBe("manual"); }
+    finally { vi.useRealTimers(); }
+  });
+  it("retries once immediately on a temporary push service error", async () => {
+    const now = new Date("2026-10-28T15:00:00Z"); vi.useFakeTimers(); vi.setSystemTime(now);
+    const fetch = vi.fn().mockResolvedValueOnce(new Response("", { status: 503 })).mockResolvedValueOnce(new Response("", { status: 201 }));
+    vi.stubGlobal("fetch", fetch);
+    try { expect(await sendDailyReminders("test-seed", now)).toEqual({ scanned: 1, accepted: 1 }); expect(fetch).toHaveBeenCalledTimes(2); }
+    finally { vi.useRealTimers(); }
+  });
+  it("uses Europe/Rome 16:00 in summer time too", async () => {
+    const now = new Date("2026-07-15T14:00:00Z"); vi.useFakeTimers(); vi.setSystemTime(now);
+    vi.stubGlobal("fetch", vi.fn(async () => new Response("", { status: 201 })));
+    try { expect(await sendDailyReminders("test-seed", now)).toEqual({ scanned: 1, accepted: 1 }); }
+    finally { vi.useRealTimers(); }
+  });
 });
