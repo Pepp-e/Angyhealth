@@ -13,4 +13,5 @@
 - Notification UI stores canonical translation keys and scopes theme styling to its own wrapper; navigation depth is a pointer-transparent decoration inside the fixed navigation stacking context, so unrelated screens and navigation geometry remain unchanged.
 - Push device ownership uses its own encrypted HttpOnly session cookie and service-only tables, independent of the existing PIN versions, because both versions must work without new account login.
 - VAPID keys are derived from a Cloud-generated server-only seed using SHA-256 and P-256; only the public key may be returned to the browser.
-- A managed quarter-hour callback checks IANA local time and atomically claims each local day; short TTL, worker expiry checks, and no same-day retries prioritize no stale or duplicate reminders over guaranteed delivery.
+- A managed callback runs at 14:00 and 15:00 UTC and sends only when the reminder timezone (push-rules) reads 16:00, so DST needs no schedule change; each day is atomically claimed, with one immediate retry on transient errors because the worker dedupes per day.
+- Push sends run on workerd: fetch must use redirect "manual" ("error" throws there), and `{"kind":"test"}` on the cron route is the authenticated immediate diagnostic send.
