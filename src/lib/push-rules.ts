@@ -1,5 +1,7 @@
 export const REMINDER = { title: "AngyHealth", body: "Come stai oggi?", icon: "/icon-512.png" } as const;
 export const REMINDER_TTL = 300;
+/** Daily reminder is scheduled at 16:00 Europe/Rome (DST handled by Intl). */
+export const REMINDER_TIMEZONE = "Europe/Rome";
 
 export function localReminderWindow(now: Date, timezone: string) {
   const parts = new Intl.DateTimeFormat("en-CA", {
