@@ -1,5 +1,5 @@
 # Daily push notifications
-- [ ] Adapt notification text to existing language/theme and verify bottom navigation depth effect.
+- [x] Adapt notification text to existing language/theme and verify bottom navigation depth effect (Chromium mobile, translation coverage, 16 existing push tests); physical iOS safe-area/PWA verification unavailable.
 - [x] Confirm compatible Web Push implementation and secure device ownership.
 - [x] Add persistent subscriptions, authenticated sender, and daily local-time scheduling.
 - [x] Add Notifications preference and explicit permission request below haptic feedback.
