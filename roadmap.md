@@ -5,4 +5,5 @@
 - [x] Add Notifications preference and explicit permission request below haptic feedback.
 - [x] Test available UI flows, controlled dispatcher, timezone/DST, duplicates, expiry, and authenticated callback.
 - [x] Report publication/device checks in PUSH_NOTIFICATIONS_REPORT.md.
-- [ ] Verify real push subscription and closed-page delivery after publishing; blocked by sandbox push registration denial and no physical iPhone/Android device.
+- [ ] Verify real push subscription and closed-page delivery after publishing; blocked by sandbox push registration denial and no physical iPhone/Android device.- [x] Fix live send failure (redirect option rejected by server runtime), Rome 16:00 schedule twice daily UTC, retry, immediate test send accepted by push service (201).
+- [ ] Publish so the fix reaches the live site; then confirm on the phone (cannot be done from here).

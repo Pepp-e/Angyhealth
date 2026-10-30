@@ -1,5 +1,14 @@
 # AngyHealth — Notifiche giornaliere
 
+## Correzione 30/10/2026 — causa del mancato invio
+
+- Causa: sul server pubblicato l’invio usava `fetch(..., { redirect: "error" })`, opzione rifiutata dal runtime del sito pubblicato. La pianificazione partiva (risposte 200), il dispositivo veniva prenotato per il giorno, ma l’invio falliva prima di raggiungere il servizio push (`last_status = failed` del 29/10) e non veniva ripetuto.
+- Corretto: `redirect: "manual"`, log dell’errore reale, un nuovo tentativo immediato su errori temporanei (rete, 429, 5xx).
+- Pianificazione: ora due esecuzioni al giorno, 14:00 e 15:00 UTC; invia solo quando a Europe/Rome sono le 16:00 (ora solare e legale).
+- Test immediato (dal sandbox, stessa libreria e chiavi): sottoscrizione recuperata, messaggio cifrato, servizio push Google ha risposto 201 (accettato). La visualizzazione sul telefono non è verificabile da qui.
+- Invio di prova on demand: richiamo autenticato con corpo `{"kind":"test"}`; non consuma l’invio delle 16:00.
+- Da fare: pubblicare il sito, altrimenti il server pubblicato continua a usare la versione difettosa.
+
 ## Stato: implementazione predisposta, consegna reale NON ancora verificata
 
 Il progetto esistente non è stato ricreato. Sono stati aggiunti il controllo “Notifiche” sotto “Feedback tattile”, la richiesta esplicita del consenso e l’infrastruttura Web Push. PIN, navigazione, grafica generale, traduzioni esistenti, cookie di consenso, Google Analytics, SEO e contenuti non sono stati modificati.
