@@ -1,5 +1,5 @@
 import { buildPushPayload } from "@block65/webcrypto-web-push";
-import { REMINDER, REMINDER_TTL, localReminderWindow, allowedPushEndpoint } from "./push-rules";
+import { REMINDER, REMINDER_TTL, REMINDER_TIMEZONE, localReminderWindow, allowedPushEndpoint } from "./push-rules";
 import { deriveVapidKeys } from "./push-keys.server";
 
 export async function sendDailyReminders(seed: string, now = new Date()) {
@@ -17,7 +17,7 @@ export async function sendDailyReminders(seed: string, now = new Date()) {
     if (!rows?.length) break;
     for (const row of rows) {
       scanned++;
-      const window = localReminderWindow(now, row.timezone);
+      const window = localReminderWindow(now, REMINDER_TIMEZONE);
       if (!window.due || !allowedPushEndpoint(row.endpoint)) continue;
       const { data: claimed, error: claimError } = await supabaseAdmin.rpc("claim_push_reminder", { subscription_id: row.id, local_day: window.day });
       if (claimError) throw new Error("Impossibile proteggere l’invio dai duplicati");
