@@ -152,8 +152,8 @@ export function NotificationsSettings() {
     <GlassPanel className="mt-4 flex items-center justify-between px-5 py-4">
       <span className="text-base font-medium text-foreground">{t("Notifiche")}</span>
       <Button type="button" variant="ghost" role="switch" aria-checked={enabled} aria-label={t("Notifiche")} disabled={busy} onClick={() => void toggle()}
-        className={`glass-center notification-switch box-border flex h-8 w-14 shrink-0 rounded-full p-[3px] transition-colors ${enabled ? "notification-switch-on justify-end" : "justify-start"}`}>
-        <span className="notification-switch-thumb block size-6 shrink-0 rounded-full shadow-md transition-all" />
+        className={`glass-center box-border flex h-8 w-14 shrink-0 items-center rounded-full p-[3px] transition-colors ${enabled ? "justify-end bg-white/60" : "justify-start bg-white/20"}`}>
+        <span className="block size-6 shrink-0 rounded-full bg-white shadow-md transition-all" />
       </Button>
     </GlassPanel>
     {message && <p role="status" className="mt-2 px-2 text-sm leading-relaxed text-foreground">{t(message)}</p>}
