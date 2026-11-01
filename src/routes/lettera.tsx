@@ -3,6 +3,7 @@ import { ScreenLayout } from "@/components/ScreenLayout";
 import { ScreenHeader } from "@/components/ScreenHeader";
 import { GlassPanel } from "@/components/GlassPanel";
 import { useT } from "@/lib/i18n";
+import letteraFoto from "@/assets/lettera-foto.jpg.asset.json";
 
 export const Route = createFileRoute("/lettera")({
   head: () => ({
@@ -142,6 +143,14 @@ function Lettera() {
           ))}
           <p className="pt-2">101. {LETTERA_FINALE}</p>
           <p className="pt-2">- Il tuo bimbo🩵</p>
+          <div className="flex justify-center py-4">
+            <img
+              src={letteraFoto.url}
+              alt="Io e te"
+              className="w-4/5 max-w-xs rounded-2xl"
+              loading="lazy"
+            />
+          </div>
           <p className="pt-6 text-center text-[11px] font-normal text-[#112942]">
             By Giuseppe Miranda
           </p>
