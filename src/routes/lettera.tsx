@@ -148,7 +148,6 @@ function Lettera() {
               src={letteraFoto.url}
               alt="Io e te"
               className="w-4/5 max-w-xs rounded-2xl"
-              loading="lazy"
             />
           </div>
           <p className="pt-6 text-center text-[11px] font-normal text-[#112942]">
