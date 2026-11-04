@@ -1,5 +1,5 @@
 # Daily push notifications
-- [ ] Add and verify main-screen swipe navigation without interfering with existing interactions.
+- [x] Add and verify main-screen swipe navigation: both PIN versions, day/night, Chromium 412×915 and WebKit 390×844, route order, navbar, focused fields, populated carousel, secondary games/notes, cancellation and reduced motion; physical Android/iPhone gesture feel remains unverified.
 - [x] Adapt notification text to existing language/theme and verify bottom navigation depth effect (Chromium mobile, translation coverage, 16 existing push tests); physical iOS safe-area/PWA verification unavailable.
 - [x] Confirm compatible Web Push implementation and secure device ownership.
 - [x] Add persistent subscriptions, authenticated sender, and daily local-time scheduling.

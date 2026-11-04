@@ -18,6 +18,19 @@
   mask-image: linear-gradient(to bottom, transparent, black);
 }
 
+/* Only screen contents are composited during gestures; no resting transform
+   or containment that could change fixed dialogs, glass, or page scrolling. */
+.screen-swipe-host { overflow-x: clip; }
+.screen-swipe-moving .screen-swipe-live { will-change: transform; }
+.screen-swipe-preview {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  will-change: transform;
+}
+.screen-swipe-preview [role="dialog"] { display: none; }
+
 /*
  * Design system definition.
  *

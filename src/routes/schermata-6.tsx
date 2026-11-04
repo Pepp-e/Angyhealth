@@ -101,7 +101,7 @@ export const Route = createFileRoute("/schermata-6")({
   component: Impostazioni,
 });
 
-function Impostazioni() {
+export function Impostazioni() {
   const t = useT();
   return (
     <ScreenLayout>
