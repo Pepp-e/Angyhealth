@@ -3,12 +3,19 @@ import { useNavigate, useRouterState } from "@tanstack/react-router";
 import { adjacentMainPath, commitsSwipe, mainNavigation, swipeExcludedSelector, swipeIntent } from "@/lib/main-navigation";
 import { SwipePreviewContext } from "@/lib/swipe-preview";
 
+const loaders = {
+  "/": () => import("@/routes/index").then((m) => ({ default: m.Index })),
+  "/schermata-5": () => import("@/routes/schermata-5").then((m) => ({ default: m.MinigiochiScreen })),
+  "/schermata-2": () => import("@/routes/schermata-2").then((m) => ({ default: m.Ricordi })),
+  "/schermata-4": () => import("@/routes/schermata-4").then((m) => ({ default: m.AiutoScreen })),
+  "/schermata-6": () => import("@/routes/schermata-6").then((m) => ({ default: m.Impostazioni })),
+};
 const screens = {
-  "/": lazy(() => import("@/routes/index").then((m) => ({ default: m.Index }))),
-  "/schermata-5": lazy(() => import("@/routes/schermata-5").then((m) => ({ default: m.MinigiochiScreen }))),
-  "/schermata-2": lazy(() => import("@/routes/schermata-2").then((m) => ({ default: m.Ricordi }))),
-  "/schermata-4": lazy(() => import("@/routes/schermata-4").then((m) => ({ default: m.AiutoScreen }))),
-  "/schermata-6": lazy(() => import("@/routes/schermata-6").then((m) => ({ default: m.Impostazioni }))),
+  "/": lazy(loaders["/"]),
+  "/schermata-5": lazy(loaders["/schermata-5"]),
+  "/schermata-2": lazy(loaders["/schermata-2"]),
+  "/schermata-4": lazy(loaders["/schermata-4"]),
+  "/schermata-6": lazy(loaders["/schermata-6"]),
 };
 type MainPath = keyof typeof screens;
 type Gesture = { x: number; y: number; time: number; dx: number; width: number; horizontal: boolean };
@@ -33,6 +40,11 @@ export function SwipeNavigation({ children }: { children: ReactNode }) {
     const element = host.current;
     if (!element || !mainNavigation.some((item) => item.to === path)) return;
     let disposed = false;
+    // Warm only adjacent code, never mount a speculative screen or its effects.
+    for (const dx of [-1, 1]) {
+      const adjacent = adjacentMainPath(path, dx);
+      if (adjacent) void loaders[adjacent]().catch(() => {});
+    }
     const reduced = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const reset = () => {
       cancelAnimationFrame(frame.current);
