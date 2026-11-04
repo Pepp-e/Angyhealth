@@ -14,6 +14,7 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { SkyBackground } from "@/components/SkyBackground";
 import { BottomNav } from "@/components/BottomNav";
+import { SwipeNavigation } from "@/components/SwipeNavigation";
 import { PinGate } from "@/components/PinGate";
 import { OfflineOverlay } from "@/components/OfflineOverlay";
 import { CookieConsent } from "@/components/CookieConsent";
@@ -218,7 +219,7 @@ function RootComponent() {
       <SkyBackground />
       <PinGate>
         {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-        <Outlet />
+        <SwipeNavigation><Outlet /></SwipeNavigation>
         <BottomNav />
       </PinGate>
       <CookieConsent />
