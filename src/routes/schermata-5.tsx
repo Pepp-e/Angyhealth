@@ -54,7 +54,7 @@ export const Route = createFileRoute("/schermata-5")({
   component: MinigiochiScreen,
 });
 
-function MinigiochiScreen() {
+export function MinigiochiScreen() {
   const version = useAppVersion();
   const list = items.map((item) =>
     version === "0000" && item.title === "Tristezza"

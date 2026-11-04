@@ -1,16 +1,10 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Cloud, Compass, Heart, Settings, User } from "lucide-react";
+import { mainNavigation } from "@/lib/main-navigation";
 import { vibrate } from "@/lib/vibration";
 import { useT } from "@/lib/i18n";
 
 /** Barra di navigazione inferiore con 5 pulsanti (icone provvisorie). */
-const items = [
-  { to: "/schermata-5", icon: Compass, label: "Schermata 5" },
-  { to: "/schermata-2", icon: Heart, label: "Schermata 2" },
-  { to: "/", icon: Cloud, label: "Schermata principale", center: true },
-  { to: "/schermata-4", icon: User, label: "Schermata 4" },
-  { to: "/schermata-6", icon: Settings, label: "Schermata 6" },
-] as const;
+const items = mainNavigation;
 
 
 export function BottomNav() {

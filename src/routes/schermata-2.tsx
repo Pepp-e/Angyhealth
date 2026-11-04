@@ -5,11 +5,13 @@ import { PhotoCarousel } from "@/components/PhotoCarousel";
 import { useAppVersion } from "@/lib/version";
 import { vibrate } from "@/lib/vibration";
 import { useT } from "@/lib/i18n";
+import { useSwipePreview } from "@/lib/swipe-preview";
 
 /** Chiave locale: le foto restano solo sul dispositivo dell'utente. */
 const STORAGE_KEY = "ricordi-photos";
 
-function Ricordi() {
+export function Ricordi() {
+  const preview = useSwipePreview();
   const version = useAppVersion();
   const t = useT();
   const [photos, setPhotos] = useState<string[]>([]);
@@ -27,13 +29,13 @@ function Ricordi() {
   }, []);
 
   useEffect(() => {
-    if (!loaded) return;
+    if (!loaded || preview) return;
     try {
       window.localStorage.setItem(STORAGE_KEY, JSON.stringify(photos));
     } catch {
       /* quota piena */
     }
-  }, [photos, loaded]);
+  }, [photos, loaded, preview]);
 
   const readFiles = async (files: File[]) => {
     const urls = await Promise.all(

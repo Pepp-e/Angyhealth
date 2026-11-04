@@ -3,10 +3,12 @@ import { useServerFn } from "@tanstack/react-start";
 import { GlassPanel } from "./GlassPanel";
 import { Button } from "./ui/button";
 import { useT } from "@/lib/i18n";
+import { useSwipePreview } from "@/lib/swipe-preview";
 import { pushConfiguration, updatePushDevice } from "@/lib/push.functions";
 import { readPushPreference, writePushPreference, hasPushChoice, savePushChoice, pushSupport, pushRegistration, waitPushWorker, setWorkerPushPreference, publicPushKey } from "@/lib/push-browser";
 
 export function NotificationsSettings() {
+  const preview = useSwipePreview();
   const t = useT();
   const [enabled, setEnabled] = useState(true);
   const [ask, setAsk] = useState(false);
@@ -54,6 +56,10 @@ export function NotificationsSettings() {
   }, [update]);
 
   useEffect(() => {
+    if (preview) {
+      setEnabled(readPushPreference());
+      return;
+    }
     let mounted = true;
     const inspect = async () => {
       if (actionPending.current) return;
@@ -92,7 +98,7 @@ export function NotificationsSettings() {
     document.addEventListener("visibilitychange", onVisible);
     window.addEventListener("online", inspect);
     return () => { mounted = false; document.removeEventListener("visibilitychange", onVisible); window.removeEventListener("online", inspect); };
-  }, [config, update, register]);
+  }, [config, update, register, preview]);
 
   const activate = async () => {
     const support = pushSupport();

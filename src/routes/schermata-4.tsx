@@ -18,7 +18,7 @@ export const Route = createFileRoute("/schermata-4")({
   component: AiutoScreen,
 });
 
-function AiutoScreen() {
+export function AiutoScreen() {
   const t = useT();
   return (
     <ScreenLayout>
