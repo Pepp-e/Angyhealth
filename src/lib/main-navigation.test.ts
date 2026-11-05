@@ -26,3 +26,17 @@ describe("main-screen gestures", () => {
     expect(commitsSwipe(-70, 390, 100)).toBe(true);
   });
 });
+import { springFrames } from "./main-navigation";
+describe("swipe spring", () => {
+  for (const [from, to, v] of [[-120, -390, -0.4], [-350, -390, 0], [200, 390, 2.5], [380, 390, 0]] as const) {
+    it(`overshoots past ${to} then settles exactly there (from ${from})`, () => {
+      const { frames, overshoot } = springFrames(from, to, v, 14, 30);
+      const dir = Math.sign(to - from);
+      expect(overshoot).toBeGreaterThanOrEqual(14);
+      expect(overshoot).toBeLessThanOrEqual(30);
+      expect(Math.max(...frames.map((x) => (x - to) * dir))).toBeGreaterThanOrEqual(14);
+      expect(frames.at(-1)).toBe(to);
+      expect(frames[0]).toBe(from);
+    });
+  }
+});
