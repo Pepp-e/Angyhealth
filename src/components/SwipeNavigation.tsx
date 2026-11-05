@@ -1,6 +1,6 @@
-import { lazy, Suspense, useEffect, useRef, useState, type ReactNode } from "react";
+import { lazy, Suspense, useEffect, useLayoutEffect, useRef, useState, type ComponentType, type ReactNode } from "react";
 import { useNavigate, useRouterState } from "@tanstack/react-router";
-import { adjacentMainPath, commitsSwipe, mainNavigation, swipeExcludedSelector, swipeIntent } from "@/lib/main-navigation";
+import { adjacentMainPath, commitsSwipe, mainNavigation, springFrames, swipeExcludedSelector, swipeIntent } from "@/lib/main-navigation";
 import { SwipePreviewContext } from "@/lib/swipe-preview";
 
 const loaders = {
@@ -18,7 +18,10 @@ const screens = {
   "/schermata-6": lazy(loaders["/schermata-6"]),
 };
 type MainPath = keyof typeof screens;
-type Gesture = { x: number; y: number; time: number; dx: number; width: number; horizontal: boolean };
+type Gesture = { x: number; y: number; time: number; dx: number; width: number; horizontal: boolean; samples: { t: number; x: number }[] };
+// Already-loaded screens render synchronously, so the incoming preview never shows a blank frame.
+const resolved: Partial<Record<MainPath, ComponentType>> = {};
+const useIsoLayoutEffect = typeof window === "undefined" ? useEffect : useLayoutEffect;
 
 /** Only the routed surface moves; the existing navigation and sky stay untouched. */
 export function SwipeNavigation({ children }: { children: ReactNode }) {
@@ -36,14 +39,15 @@ export function SwipeNavigation({ children }: { children: ReactNode }) {
   const [neighbor, setNeighbor] = useState<MainPath>();
   const [moving, setMoving] = useState(false);
 
-  useEffect(() => {
+  // Layout effect: the reset after navigation happens before paint, so the hand-off is seamless.
+  useIsoLayoutEffect(() => {
     const element = host.current;
     if (!element || !mainNavigation.some((item) => item.to === path)) return;
     let disposed = false;
     // Warm only adjacent code, never mount a speculative screen or its effects.
     for (const dx of [-1, 1]) {
       const adjacent = adjacentMainPath(path, dx);
-      if (adjacent) void loaders[adjacent]().catch(() => {});
+      if (adjacent && !resolved[adjacent]) void loaders[adjacent]().then((m) => { resolved[adjacent] = m.default; }).catch(() => {});
     }
     const reduced = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const reset = () => {
@@ -61,7 +65,8 @@ export function SwipeNavigation({ children }: { children: ReactNode }) {
     const paint = () => {
       const g = gesture.current;
       if (!g) return;
-      const dx = target.current ? g.dx : g.dx * 0.18;
+      // Rubber band at the ends: progressive resistance instead of a linear slowdown.
+      const dx = target.current ? g.dx : Math.sign(g.dx) * g.width * 0.22 * (1 - Math.exp(-Math.abs(g.dx) / (g.width * 0.6)));
       if (live.current) live.current.style.transform = `translate3d(${dx}px,0,0)`;
       if (preview.current) preview.current.style.transform = `translate3d(${dx + (g.dx < 0 ? g.width : -g.width)}px,0,0)`;
     };
@@ -73,7 +78,7 @@ export function SwipeNavigation({ children }: { children: ReactNode }) {
       if (!origin || origin.closest(swipeExcludedSelector) || focused?.matches('input, textarea, [contenteditable="true"]')) return;
       const touch = event.touches[0];
       if (!touch || touch.clientX < 24 || touch.clientX > window.innerWidth - 24) return; // Keep Safari/Android edge gestures.
-      gesture.current = { x: touch.clientX, y: touch.clientY, time: performance.now(), dx: 0, width: window.innerWidth, horizontal: false };
+      gesture.current = { x: touch.clientX, y: touch.clientY, time: performance.now(), dx: 0, width: window.innerWidth, horizontal: false, samples: [] };
     };
     const move = (event: TouchEvent) => {
       const g = gesture.current;
@@ -87,15 +92,21 @@ export function SwipeNavigation({ children }: { children: ReactNode }) {
         if (intent === "vertical") { gesture.current = null; return; }
         if (intent !== "horizontal") return;
         g.horizontal = true;
+        // Rebase on the intent threshold: the screen starts moving from 0, no 12px jump.
+        g.x = touch.clientX - Math.sign(dx);
         setMoving(true);
       }
       if (event.cancelable) event.preventDefault();
-      g.dx = Math.max(-g.width, Math.min(g.width, dx));
-      const next = adjacentMainPath(path, dx);
+      const moved = touch.clientX - g.x;
+      g.dx = Math.max(-g.width, Math.min(g.width, moved));
+      const now = performance.now();
+      g.samples.push({ t: now, x: g.dx });
+      while (g.samples.length > 2 && now - g.samples[0].t > 90) g.samples.shift();
+      const next = adjacentMainPath(path, g.dx);
       if (next !== target.current) {
         target.current = next;
         setNeighbor(next);
-        if (preview.current) preview.current.style.transform = `translate3d(${dx < 0 ? g.width : -g.width}px,0,0)`;
+        if (preview.current) preview.current.style.transform = `translate3d(${g.dx + (g.dx < 0 ? g.width : -g.width)}px,0,0)`;
       }
       cancelAnimationFrame(frame.current);
       frame.current = requestAnimationFrame(paint);
@@ -111,16 +122,25 @@ export function SwipeNavigation({ children }: { children: ReactNode }) {
       const next = target.current;
       const commit = allowCommit && next && commitsSwipe(g.dx, g.width, performance.now() - g.time);
       const destination = commit ? (g.dx < 0 ? -g.width : g.width) : 0;
-      const initial = next ? g.dx : g.dx * 0.18;
+      const initial = next ? g.dx : Math.sign(g.dx) * g.width * 0.22 * (1 - Math.exp(-Math.abs(g.dx) / (g.width * 0.6)));
       const offset = g.dx < 0 ? g.width : -g.width;
-      const overshoot = reduced() ? 0 : (destination - initial) * 0.025;
+      // Finger speed at release (px/ms) so the spring continues the drag without a jolt.
+      const first = g.samples[0];
+      const last = g.samples[g.samples.length - 1];
+      const velocity = first && last && last.t > first.t ? (last.x - first.x) / (last.t - first.t) : 0;
+      let frames: number[];
+      let duration: number;
+      if (reduced()) { frames = [initial, destination]; duration = 90; }
+      else if (commit) {
+        // Completed change: the new screen overshoots the centre visibly, then settles.
+        ({ frames, duration } = springFrames(initial, destination, velocity, Math.min(18, g.width * 0.045), Math.min(30, g.width * 0.075)));
+      } else {
+        ({ frames, duration } = springFrames(initial, 0, next ? velocity : 0, 0, 14));
+      }
       const animate = (node: HTMLElement | null, shift: number) => {
         if (!node) return;
-        const animation = node.animate([
-          { transform: `translate3d(${initial + shift}px,0,0)`, offset: 0 },
-          { transform: `translate3d(${destination + shift + overshoot}px,0,0)`, offset: 0.76 },
-          { transform: `translate3d(${destination + shift}px,0,0)`, offset: 1 },
-        ], { duration: reduced() ? 70 : 330, easing: "cubic-bezier(0.22,1,0.36,1)", fill: "forwards" });
+        const animation = node.animate(frames.map((x) => ({ transform: `translate3d(${x + shift}px,0,0)` })),
+          { duration, easing: "linear", fill: "forwards" });
         animations.current.push(animation);
       };
       animate(live.current, 0);
