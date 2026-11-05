@@ -181,7 +181,7 @@ export function SwipeNavigation({ children }: { children: ReactNode }) {
     if (g && preview.current) preview.current.style.transform = `translate3d(${g.dx + (g.dx < 0 ? g.width : -g.width)}px,0,0)`;
   }, [neighbor]);
 
-  const Preview = neighbor ? screens[neighbor] : null;
+  const Preview = neighbor ? (resolved[neighbor] ?? screens[neighbor]) : null;
   return (
     <div ref={host} className={`screen-swipe-host${moving ? " screen-swipe-moving" : ""}`}>
       <div ref={live} className="screen-swipe-live">{children}</div>
