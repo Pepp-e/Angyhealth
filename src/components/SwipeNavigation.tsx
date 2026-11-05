@@ -101,7 +101,7 @@ export function SwipeNavigation({ children }: { children: ReactNode }) {
       g.dx = Math.max(-g.width, Math.min(g.width, moved));
       const now = performance.now();
       g.samples.push({ t: now, x: g.dx });
-      while (g.samples.length > 2 && now - g.samples[0].t > 90) g.samples.shift();
+      while (g.samples.length > 2 && now - (g.samples[0]?.t ?? now) > 90) g.samples.shift();
       const next = adjacentMainPath(path, g.dx);
       if (next !== target.current) {
         target.current = next;
