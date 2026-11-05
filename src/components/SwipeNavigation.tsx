@@ -92,8 +92,8 @@ export function SwipeNavigation({ children }: { children: ReactNode }) {
         if (intent === "vertical") { gesture.current = null; return; }
         if (intent !== "horizontal") return;
         g.horizontal = true;
-        // Rebase on the intent threshold: the screen starts moving from 0, no 12px jump.
-        g.x = touch.clientX - Math.sign(dx);
+        // Rebase on the 12px intent threshold: the screen starts from where the slop ended, no jump.
+        g.x += Math.sign(dx) * 12;
         setMoving(true);
       }
       if (event.cancelable) event.preventDefault();
@@ -120,7 +120,7 @@ export function SwipeNavigation({ children }: { children: ReactNode }) {
       cancelAnimationFrame(frame.current);
       paint();
       const next = target.current;
-      const commit = allowCommit && next && commitsSwipe(g.dx, g.width, performance.now() - g.time);
+      const commit = allowCommit && next && commitsSwipe(g.dx + Math.sign(g.dx) * 12, g.width, performance.now() - g.time);
       const destination = commit ? (g.dx < 0 ? -g.width : g.width) : 0;
       const initial = next ? g.dx : Math.sign(g.dx) * g.width * 0.22 * (1 - Math.exp(-Math.abs(g.dx) / (g.width * 0.6)));
       const offset = g.dx < 0 ? g.width : -g.width;
