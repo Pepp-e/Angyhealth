@@ -230,6 +230,19 @@ const EN: Record<string, string> = {
   "Salva preferenze": "Save preferences",
   "Preferenze cookie": "Cookie preferences",
 
+  // Installazione PWA
+  "Installa App AngyHealth": "Install AngyHealth App",
+  "AngyHealth è già installata": "AngyHealth is already installed",
+  "L'app è già installata su questo dispositivo e stai usando la versione installata.":
+    "The app is already installed on this device and you are using the installed version.",
+  "Installa AngyHealth su iPhone": "Install AngyHealth on iPhone",
+  "1. Premi il pulsante Condividi di Safari.": "1. Tap the Safari Share button.",
+  '2. Seleziona "Aggiungi alla schermata Home".': '2. Select "Add to Home Screen".',
+  '3. Conferma premendo "Aggiungi".': '3. Confirm by tapping "Add".',
+  'Per installare AngyHealth, apri il menu del browser e scegli "Installa app" oppure "Aggiungi a schermata Home".':
+    'To install AngyHealth, open the browser menu and choose "Install app" or "Add to Home Screen".',
+  Chiudi: "Close",
+
   "Sei offline": "You are offline",
   "Controlla la tua connessione Internet e riprova.":
     "Check your Internet connection and try again.",

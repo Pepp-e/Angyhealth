@@ -59,10 +59,8 @@ export function InstallAppButton() {
           aria-modal="true"
           onClick={() => setDialog(null)}
         >
-          <GlassPanel
-            className="w-full max-w-sm px-6 py-6"
-            onClick={(e) => e.stopPropagation()}
-          >
+          <div className="w-full max-w-sm" onClick={(e) => e.stopPropagation()}>
+          <GlassPanel className="px-6 py-6">
             {dialog === "installed" ? (
               <>
                 <div className="flex items-center gap-3">
