@@ -16,6 +16,7 @@ import { LanguageToggle } from "@/components/LanguageToggle";
 import { useT } from "@/lib/i18n";
 import { openPrivacySettings } from "@/lib/consent";
 import { NotificationsSettings } from "@/components/NotificationsSettings";
+import { InstallAppButton } from "@/components/InstallAppButton";
 
 function ToggleRow({
   label,
@@ -122,6 +123,8 @@ export function Impostazioni() {
       <div className="mt-6 flex justify-center">
         <div className="h-px w-2/3 rounded-full bg-white/70" />
       </div>
+
+      <InstallAppButton />
 
       <button
         type="button"

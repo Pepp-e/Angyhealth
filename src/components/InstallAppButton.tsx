@@ -115,6 +115,7 @@ export function InstallAppButton() {
               {t("Chiudi")}
             </button>
           </GlassPanel>
+          </div>
         </div>
       )}
     </>
