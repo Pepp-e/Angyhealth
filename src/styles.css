@@ -184,6 +184,28 @@
 }
 
 /* --- Tema cielo / Liquid Glass --- */
+/* Tris-only tokens and styles, without changing the surrounding sky theme. */
+:root {
+  --tris-x: oklch(0.64 0.27 25);
+  --tris-o: oklch(0.84 0.16 195);
+  --tris-x-ink: oklch(0.44 0.19 25);
+  --tris-o-ink: oklch(0.39 0.08 195);
+  --tris-grid: oklch(0.75 0.1 195 / 0.65);
+  --tris-glow-x: drop-shadow(0 0 3px var(--tris-x)) drop-shadow(0 0 8px var(--tris-x));
+  --tris-glow-o: drop-shadow(0 0 3px var(--tris-o)) drop-shadow(0 0 8px var(--tris-o));
+  --tris-win-shadow: inset 0 0 18px var(--tris-grid), 0 0 12px var(--tris-grid);
+}
+.night .tris-game { --tris-x-ink: var(--tris-x); --tris-o-ink: var(--tris-o); }
+.tris-turn-x { color: var(--tris-x-ink); }
+.tris-turn-o { color: var(--tris-o-ink); }
+.tris-board .tris-cell { border-color: var(--tris-grid); }
+.tris-board .tris-cell:disabled { opacity: 1; }
+.tris-board .tris-mark { width: 80%; height: 80%; stroke-width: 8; stroke-linecap: round; animation: pin-zoom-in 180ms ease-out both; }
+.tris-mark-x { stroke: var(--tris-x); filter: var(--tris-glow-x); }
+.tris-mark-o { stroke: var(--tris-o); filter: var(--tris-glow-o); }
+.tris-board .tris-winning { box-shadow: var(--tris-win-shadow); border-color: var(--tris-o); }
+@media (prefers-reduced-motion: reduce) { .tris-board .tris-mark { animation: none; } }
+
 @property --sky-top {
   syntax: "<color>";
   inherits: true;
