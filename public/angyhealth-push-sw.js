@@ -1,4 +1,6 @@
 // Messaging only: no app-shell caching and no navigation interception.
+// Empty fetch listener: required by browsers for PWA installability; no caching.
+self.addEventListener("fetch", () => {});
 self.addEventListener("push", (event) => {
   event.waitUntil((async () => {
     const payload = event.data?.json();

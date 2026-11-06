@@ -21,6 +21,7 @@ import { CookieConsent } from "@/components/CookieConsent";
 import { DocumentTitle } from "@/components/DocumentTitle";
 import { Analytics } from "@/components/Analytics";
 import { haptic } from "@/lib/vibration";
+import "@/lib/install-prompt";
 
 function NotFoundComponent() {
   return (
