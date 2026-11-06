@@ -22,6 +22,7 @@ import { Route as Schermata3RouteImport } from './routes/schermata-3'
 import { Route as Schermata4RouteImport } from './routes/schermata-4'
 import { Route as Schermata5RouteImport } from './routes/schermata-5'
 import { Route as Schermata6RouteImport } from './routes/schermata-6'
+import { Route as TrisRouteImport } from './routes/tris'
 import { Route as ApiPublicJobsDailyRemindersRouteImport } from './routes/api/public/jobs/daily-reminders'
 
 const IndexRoute = IndexRouteImport.update({
@@ -89,6 +90,11 @@ const Schermata6Route = Schermata6RouteImport.update({
   path: '/schermata-6',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TrisRoute = TrisRouteImport.update({
+  id: '/tris',
+  path: '/tris',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicJobsDailyRemindersRoute =
   ApiPublicJobsDailyRemindersRouteImport.update({
     id: '/api/public/jobs/daily-reminders',
@@ -110,6 +116,7 @@ export interface FileRoutesByFullPath {
   '/schermata-4': typeof Schermata4Route
   '/schermata-5': typeof Schermata5Route
   '/schermata-6': typeof Schermata6Route
+  '/tris': typeof TrisRoute
   '/api/public/jobs/daily-reminders': typeof ApiPublicJobsDailyRemindersRoute
 }
 export interface FileRoutesByTo {
@@ -126,6 +133,7 @@ export interface FileRoutesByTo {
   '/schermata-4': typeof Schermata4Route
   '/schermata-5': typeof Schermata5Route
   '/schermata-6': typeof Schermata6Route
+  '/tris': typeof TrisRoute
   '/api/public/jobs/daily-reminders': typeof ApiPublicJobsDailyRemindersRoute
 }
 export interface FileRoutesById {
@@ -143,6 +151,7 @@ export interface FileRoutesById {
   '/schermata-4': typeof Schermata4Route
   '/schermata-5': typeof Schermata5Route
   '/schermata-6': typeof Schermata6Route
+  '/tris': typeof TrisRoute
   '/api/public/jobs/daily-reminders': typeof ApiPublicJobsDailyRemindersRoute
 }
 export interface FileRouteTypes {
@@ -161,6 +170,7 @@ export interface FileRouteTypes {
     | '/schermata-4'
     | '/schermata-5'
     | '/schermata-6'
+    | '/tris'
     | '/api/public/jobs/daily-reminders'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -177,6 +187,7 @@ export interface FileRouteTypes {
     | '/schermata-4'
     | '/schermata-5'
     | '/schermata-6'
+    | '/tris'
     | '/api/public/jobs/daily-reminders'
   id:
     | '__root__'
@@ -193,6 +204,7 @@ export interface FileRouteTypes {
     | '/schermata-4'
     | '/schermata-5'
     | '/schermata-6'
+    | '/tris'
     | '/api/public/jobs/daily-reminders'
   fileRoutesById: FileRoutesById
 }
@@ -210,6 +222,7 @@ export interface RootRouteChildren {
   Schermata4Route: typeof Schermata4Route
   Schermata5Route: typeof Schermata5Route
   Schermata6Route: typeof Schermata6Route
+  TrisRoute: typeof TrisRoute
   ApiPublicJobsDailyRemindersRoute: typeof ApiPublicJobsDailyRemindersRoute
 }
 
@@ -306,6 +319,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof Schermata6RouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/tris': {
+      id: '/tris'
+      path: '/tris'
+      fullPath: '/tris'
+      preLoaderRoute: typeof TrisRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/jobs/daily-reminders': {
       id: '/api/public/jobs/daily-reminders'
       path: '/api/public/jobs/daily-reminders'
@@ -330,6 +350,7 @@ const rootRouteChildren: RootRouteChildren = {
   Schermata4Route: Schermata4Route,
   Schermata5Route: Schermata5Route,
   Schermata6Route: Schermata6Route,
+  TrisRoute: TrisRoute,
   ApiPublicJobsDailyRemindersRoute: ApiPublicJobsDailyRemindersRoute,
 }
 export const routeTree = rootRouteImport
