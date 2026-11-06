@@ -49,6 +49,8 @@ export const Route = createFileRoute("/schermata-5")({
       { name: "description", content: "Raccolta dei minigiochi e dei contenuti delle nuvolette." },
       { property: "og:title", content: "Minigiochi — AngyHealth" },
       { property: "og:description", content: "Raccolta dei minigiochi e dei contenuti delle nuvolette." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: MinigiochiScreen,
@@ -81,6 +83,9 @@ export function MinigiochiScreen() {
           to: "/note",
         }}
       />
+      <div className="mt-4">
+        <Card item={{ title: "Tris", description: "Da solo o in coppia.", to: "/tris" }} />
+      </div>
     </ScreenLayout>
   );
 }

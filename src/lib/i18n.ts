@@ -88,6 +88,23 @@ const EN: Record<string, string> = {
   Contatto: "Contact",
 
   // Minigiochi
+  Tris: "Tic-tac-toe",
+  "Da solo o in coppia.": "Solo or with a friend.",
+  "Da solo": "Solo",
+  "In coppia": "Two players",
+  "Cambia modalità": "Change mode",
+  "Il tuo turno": "Your turn",
+  "Turno del bot": "Bot’s turn",
+  "Turno Utente 1": "Player 1’s turn",
+  "Turno Utente 2": "Player 2’s turn",
+  "Hai vinto!": "You won!",
+  "Ha vinto il bot!": "The bot won!",
+  "Ha vinto Utente 1!": "Player 1 won!",
+  "Ha vinto Utente 2!": "Player 2 won!",
+  "Pareggio!": "It’s a draw!",
+  "Griglia Tris": "Tic-tac-toe board",
+  Casella: "Cell",
+  vuota: "empty",
   Minigiochi: "Mini-games",
   "Minigioco scratchcard: gratta via la rabbia.":
     "Scratchcard mini-game: scratch your anger away.",
