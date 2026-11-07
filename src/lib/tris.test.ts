@@ -5,7 +5,7 @@ describe("Tris rules", () => {
   it("starts empty with nine cells", () => { expect(emptyBoard()).toEqual(Array(9).fill(null)); });
   it("alternates solo starters after the initial human game", () => {
     let starter: Mark = "X";
-    const starts = [starter];
+    const starts: Mark[] = [starter];
     for (let i = 0; i < 4; i++) { starter = nextSoloStarter(starter); starts.push(starter); }
     expect(starts).toEqual(["X", "O", "X", "O", "X"]);
   });

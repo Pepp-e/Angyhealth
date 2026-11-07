@@ -18,6 +18,7 @@ const TITLES: Record<string, { it: string; en: string }> = {
   "/nuvola-3": { it: "Tristezza - AngyHealth", en: "Sadness - AngyHealth" },
   "/nuvola-4": { it: "Ansia - AngyHealth", en: "Anxiety - AngyHealth" },
   "/note": { it: "Note - AngyHealth", en: "Daily Notes - AngyHealth" },
+  "/tris": { it: "Tris - AngyHealth", en: "Tic-tac-toe - AngyHealth" },
 };
 
 export function DocumentTitle() {
