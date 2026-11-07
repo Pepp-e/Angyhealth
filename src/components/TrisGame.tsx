@@ -50,14 +50,14 @@ export function TrisGame() {
   }
 
   if (!mode) return (
-    <div className="mx-auto flex min-h-[55svh] w-full max-w-96 flex-col justify-center gap-7 py-6" role="group" aria-label={t("Scegli la modalità")}>
+    <div className="mx-auto flex min-h-[55svh] w-full max-w-96 flex-1 flex-col justify-center gap-7 py-6" role="group" aria-label={t("Scegli la modalità")}>
       <Button variant="ghost" className={selectionControl} onClick={() => choose("solo")}><UserRound aria-hidden />{t("Da solo")}</Button>
       <Button variant="ghost" className={selectionControl} onClick={() => choose("pair")}><Users aria-hidden />{t("In coppia")}</Button>
     </div>
   );
 
   if (mode === "solo" && !difficulty) return (
-    <div className="mx-auto flex min-h-[55svh] w-full max-w-96 flex-col justify-center gap-5 py-6">
+    <div className="mx-auto flex min-h-[55svh] w-full max-w-96 flex-1 flex-col justify-center gap-5 py-6">
       <p className="text-center text-xl font-semibold text-foreground">{t("Scegli la difficoltà")}</p>
       {difficulties.map(level => <Button key={level.value} variant="ghost" className={selectionControl} onClick={() => { vibrate(10); setDifficulty(level.value); }}>{t(level.label)}</Button>)}
     </div>
