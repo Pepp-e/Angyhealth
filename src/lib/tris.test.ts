@@ -29,12 +29,38 @@ describe("Tris rules", () => {
   });
   it("takes a winning move", () => { expect(botMove(["O","O",null,"X","X",null,null,null,"X"])).toBe(2); });
   it("blocks an immediate human win", () => { expect(botMove(["X","X",null,null,"O",null,null,null,null])).toBe(2); });
+  it("easy can miss an immediate victory", () => {
+    expect(botMove(["O","O",null,"X","X",null,null,null,"X"], "easy", () => 0.3)).toBe(5);
+  });
+  it("easy can miss an immediate block", () => {
+    expect(botMove(["X","X",null,null,"O",null,null,null,null], "easy", () => 0.99)).toBe(8);
+  });
+  it("medium always takes an immediate win, including before blocking", () => {
+    expect(botMove(["O","O",null,"X","X",null,null,null,"X"], "medium", () => 0.99)).toBe(2);
+  });
+  it("medium blocks an immediate human win", () => {
+    expect(botMove(["X","X",null,null,"O",null,null,null,null], "medium", () => 0.99)).toBe(2);
+  });
+  it("medium mixes strategic and random moves outside immediate tactics", () => {
+    expect(botMove(emptyBoard(), "medium", () => 0)).toBe(4);
+    expect(botMove(emptyBoard(), "medium", () => 0.99)).toBe(8);
+  });
+  it("all difficulties only pick empty cells and stop on terminal boards", () => {
+    for (const difficulty of ["easy", "medium", "hard"] as const) {
+      const board: Board = ["X",null,null,null,"O",null,null,null,null];
+      const move = botMove(board, difficulty, () => 0.99);
+      expect(move).not.toBeNull();
+      expect(board[move ?? -1]).toBeNull();
+      expect(botMove(["X","X","X",null,"O",null,null,null,"O"], difficulty)).toBeNull();
+      expect(botMove(["X","O","X","X","O","O","O","X","X"], difficulty)).toBeNull();
+    }
+  });
   it("does not lose against any sequence of human moves, with either starter", () => {
     function walk(board: Board, turn: Mark) {
       const outcome = result(board);
       expect(outcome.winner).not.toBe("X");
       if (outcome.winner || outcome.draw) return;
-      if (turn === "O") { const move = botMove(board); if (move === null) throw Error("Missing bot move"); walk(play(board, move, "O"), "X"); }
+      if (turn === "O") { const move = botMove(board, "hard"); if (move === null) throw Error("Missing bot move"); walk(play(board, move, "O"), "X"); }
       else board.forEach((cell, i) => { if (!cell) walk(play(board, i, "X"), "O"); });
     }
     walk(emptyBoard(), "X"); walk(emptyBoard(), "O");

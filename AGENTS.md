@@ -10,7 +10,7 @@
 <!-- LOVABLE:END -->
 
 - Daily notifications use native Web Push and a messaging-only worker, never app-shell caching, to preserve the existing PWA behavior.
-- Tris is a separate secondary route with a pure tested rules module and local React game state; standard minimax selects bot moves without adding dependencies or altering other games.
+- Tris is a separate secondary route with local React game state and a pure tested rules module; bot difficulty selects random, immediate-tactics/mixed, or optimal minimax moves with injectable randomness for deterministic tests, without new dependencies or changes to other games.
 - Main-screen swipes share the bottom-navigation destination list and move only the stable Outlet surface; adjacent inert previews reuse existing screen markup with a preview context that disables photo writes and notification effects, so speculative rendering cannot mutate device state.
 - Notification UI stores canonical translation keys and scopes theme styling to its own wrapper; navigation depth is a pointer-transparent decoration inside the fixed navigation stacking context, so unrelated screens and navigation geometry remain unchanged.
 - Push device ownership uses its own encrypted HttpOnly session cookie and service-only tables, independent of the existing PIN versions, because both versions must work without new account login.

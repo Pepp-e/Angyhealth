@@ -3,49 +3,63 @@ import { RotateCcw, Users, UserRound, ArrowLeftRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useT } from "@/lib/i18n";
 import { vibrate } from "@/lib/vibration";
-import { botMove, emptyBoard, nextSoloStarter, play, result, type Board, type Mark } from "@/lib/tris";
+import { botMove, emptyBoard, nextSoloStarter, play, result, type Board, type Mark, type Difficulty } from "@/lib/tris";
 
 type Mode = "solo" | "pair";
 const control = "glass h-auto min-h-12 rounded-3xl px-4 py-3 text-base font-semibold text-foreground transition-transform active:scale-[0.96] hover:bg-transparent whitespace-normal";
+const selectionControl = `${control} min-h-24 w-full px-6 py-6 text-2xl [&_svg]:size-7`;
+const difficulties: { value: Difficulty; label: string }[] = [
+  { value: "easy", label: "Facile" },
+  { value: "medium", label: "Medio" },
+  { value: "hard", label: "Difficile" },
+];
 
 export function TrisGame() {
   const t = useT();
   const [mode, setMode] = useState<Mode | null>(null);
+  const [difficulty, setDifficulty] = useState<Difficulty | null>(null);
   const [board, setBoard] = useState<Board>(emptyBoard);
   const [turn, setTurn] = useState<Mark>("X");
   const [starter, setStarter] = useState<Mark>("X");
   const outcome = result(board);
 
   useEffect(() => {
-    if (mode !== "solo" || turn !== "O" || outcome.winner || outcome.draw) return;
+    if (mode !== "solo" || !difficulty || turn !== "O" || outcome.winner || outcome.draw) return;
     const timer = window.setTimeout(() => {
-      const move = botMove(board);
+      const move = botMove(board, difficulty);
       if (move === null) return;
       setBoard(play(board, move, "O"));
       setTurn("X");
       vibrate(10);
     }, 420);
     return () => window.clearTimeout(timer);
-  }, [mode, turn, board, outcome.winner, outcome.draw]);
+  }, [mode, difficulty, turn, board, outcome.winner, outcome.draw]);
 
   function choose(next: Mode) {
-    vibrate(10); setMode(next); setBoard(emptyBoard()); setStarter("X"); setTurn("X");
+    vibrate(10); setMode(next); setDifficulty(null); setBoard(emptyBoard()); setStarter("X"); setTurn("X");
   }
   function restart() {
     const next = mode === "solo" ? nextSoloStarter(starter) : "X";
     vibrate(10); setBoard(emptyBoard()); setStarter(next); setTurn(next);
   }
   function pick(index: number) {
-    if (!mode || (mode === "solo" && turn === "O")) return;
+    if (!mode || (mode === "solo" && (!difficulty || turn === "O"))) return;
     const next = play(board, index, turn);
     if (next === board) return;
     vibrate(10); setBoard(next); setTurn(turn === "X" ? "O" : "X");
   }
 
   if (!mode) return (
-    <div className="mt-8 flex flex-col gap-4">
-      <Button variant="ghost" className={control} onClick={() => choose("solo")}><UserRound aria-hidden />{t("Da solo")}</Button>
-      <Button variant="ghost" className={control} onClick={() => choose("pair")}><Users aria-hidden />{t("In coppia")}</Button>
+    <div className="mx-auto flex min-h-[55svh] w-full max-w-96 flex-1 flex-col justify-center gap-7 py-6" role="group" aria-label={t("Scegli la modalità")}>
+      <Button variant="ghost" className={selectionControl} onClick={() => choose("solo")}><UserRound aria-hidden />{t("Da solo")}</Button>
+      <Button variant="ghost" className={selectionControl} onClick={() => choose("pair")}><Users aria-hidden />{t("In coppia")}</Button>
+    </div>
+  );
+
+  if (mode === "solo" && !difficulty) return (
+    <div className="mx-auto flex min-h-[55svh] w-full max-w-96 flex-1 flex-col justify-center gap-5 py-6">
+      <p className="text-center text-xl font-semibold text-foreground">{t("Scegli la difficoltà")}</p>
+      {difficulties.map(level => <Button key={level.value} variant="ghost" className={selectionControl} onClick={() => { vibrate(10); setDifficulty(level.value); }}>{t(level.label)}</Button>)}
     </div>
   );
 
