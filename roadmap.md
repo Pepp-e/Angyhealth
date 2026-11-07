@@ -1,5 +1,5 @@
 # Daily push notifications
-- [ ] Add Tris below Notes; verify solo/pair rules, results, restart, mode changes, and mobile themes/languages.
+- [x] Add Tris below Notes; 8 rules tests and Chromium/WebKit mobile checks passed for solo/pair wins, draw, turns, alternating restart, mode cancellation, both PIN versions, day/night and IT/EN.
 - [x] Add and verify main-screen swipe navigation: both PIN versions, day/night, Chromium 412×915 and WebKit 390×844, route order, navbar, focused fields, populated carousel, secondary games/notes, cancellation and reduced motion; physical Android/iPhone gesture feel remains unverified.
 - [x] Adapt notification text to existing language/theme and verify bottom navigation depth effect (Chromium mobile, translation coverage, 16 existing push tests); physical iOS safe-area/PWA verification unavailable.
 - [x] Confirm compatible Web Push implementation and secure device ownership.
