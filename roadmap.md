@@ -1,5 +1,5 @@
 # Daily push notifications
-- [ ] Update only Tris mode selection, three bot difficulties, solid symbols and matching turn colors; verify rules and mobile day/night IT/EN.
+- [x] Update only Tris mode selection, three bot difficulties, solid symbols and matching turn colors; 14 rules tests and Chromium/WebKit 384×753 day/night IT/EN checks passed for all levels, pair wins/draw, turn colors and alternating restart. Physical devices not tested.
 - [x] Add Tris below Notes; 8 rules tests and Chromium/WebKit mobile checks passed for solo/pair wins, draw, turns, alternating restart, mode cancellation, both PIN versions, day/night and IT/EN.
 - [x] Add and verify main-screen swipe navigation: both PIN versions, day/night, Chromium 412×915 and WebKit 390×844, route order, navbar, focused fields, populated carousel, secondary games/notes, cancellation and reduced motion; physical Android/iPhone gesture feel remains unverified.
 - [x] Adapt notification text to existing language/theme and verify bottom navigation depth effect (Chromium mobile, translation coverage, 16 existing push tests); physical iOS safe-area/PWA verification unavailable.
